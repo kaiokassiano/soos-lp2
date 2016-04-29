@@ -12,6 +12,7 @@ public class Medico extends Funcionario {
 	@Override
 	public HashSet<PermissaoFuncionario> definePermissoes() {
 		HashSet<PermissaoFuncionario> permissoes = new HashSet<PermissaoFuncionario>();
+		
 		permissoes.add(PermissaoFuncionario.leitura);
 		permissoes.add(PermissaoFuncionario.escrita);
 		
