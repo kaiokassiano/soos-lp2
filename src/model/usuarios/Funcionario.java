@@ -11,7 +11,14 @@ public abstract class Funcionario {
 	private String matricula;
 	private String senha;
 
-	public Funcionario(String nome, LocalDate data) {
+	public Funcionario(String nome, LocalDate data) /* throws Exception */ {
+		if (nome == null) {
+			// throw new Exception();
+		}
+		if (data == null) {
+			// throw new Exception();
+		}
+		
 		this.permissoes = definePermissoes(); // chamada polimorfica
 		this.nome = nome;
 		this.data = data;
