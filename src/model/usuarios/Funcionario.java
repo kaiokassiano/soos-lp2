@@ -3,10 +3,10 @@ package model.usuarios;
 import java.time.LocalDate;
 import java.util.HashSet;
 
-public abstract class Funcionario {
+public abstract class Funcionario implements Usuario {
 
 	private String nome;
-	private HashSet<PermissaoFuncionario> permissoes;
+	private HashSet<PermissaoUsuario> permissoes;
 	private LocalDate data;
 	private String matricula;
 	private String senha;
@@ -20,13 +20,27 @@ public abstract class Funcionario {
 		}
 		
 		this.permissoes = definePermissoes(); // chamada polimorfica
+		gerarMatricula(); // chamada polimorfica
 		this.nome = nome;
 		this.data = data;
 	}
 
-	public abstract HashSet<PermissaoFuncionario> definePermissoes();
-
-	public boolean temPermissao(PermissaoFuncionario permissao) {
+	@Override
+	public boolean temPermissao(PermissaoUsuario permissao) {
 		return permissoes.contains(permissao);
+	}
+	
+	private void gerarMatricula() {
+		this.matricula = getPrefixo() + LocalDate.now().getYear() + "001";
+	}
+	
+	@Override
+	public String getMatricula() {
+		return matricula;
+	}
+	
+	@Override
+	public String getSenha() {
+		return senha;
 	}
 }

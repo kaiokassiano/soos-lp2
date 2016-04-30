@@ -5,18 +5,27 @@ import java.util.HashSet;
 
 public class TecnicoAdministrativo extends Funcionario {
 
+	private static final int PREFIXO = 3;
+	private String matricula;
+	private String senha;
+	
 	public TecnicoAdministrativo(String nome, LocalDate data) {
 		super(nome, data);
 	}
 
 	@Override
-	public HashSet<PermissaoFuncionario> definePermissoes() {
-		HashSet<PermissaoFuncionario> permissoes = new HashSet<PermissaoFuncionario>();
+	public HashSet<PermissaoUsuario> definePermissoes() {
+		HashSet<PermissaoUsuario> permissoes = new HashSet<PermissaoUsuario>();
 		
-		permissoes.add(PermissaoFuncionario.leitura);
-		permissoes.add(PermissaoFuncionario.escrita);
+		permissoes.add(PermissaoUsuario.leitura);
+		permissoes.add(PermissaoUsuario.escrita);
 		
 		return permissoes;
+	}
+
+	@Override
+	public int getPrefixo() {
+		return PREFIXO;
 	}
 
 }

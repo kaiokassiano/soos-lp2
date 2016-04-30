@@ -1,6 +1,6 @@
 package model.usuarios;
 
-public enum PermissaoFuncionario {
+public enum PermissaoUsuario {
 
 	leitura, escrita, criacaoUsuarios, criacaoDiretor;
 }
