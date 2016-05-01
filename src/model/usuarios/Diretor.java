@@ -3,36 +3,25 @@ package model.usuarios;
 import java.time.LocalDate;
 import java.util.HashSet;
 
-public class Diretor implements Usuario {
+import exceptions.*;
+import exceptions.dado.DadoInvalidoException;
+import exceptions.logica.LogicaException;
+
+public class Diretor extends Funcionario {
 	
 	private final static int PREFIXO = 1;
-	private static Diretor instance = null;
 	
-	private HashSet<PermissaoUsuario> permissoes;
-	private String matricula;
-	private String senha;
-	
-	private Diretor(String senha) {
-		this.senha = senha;
-		gerarMatricula();
-		
-		permissoes = definePermissoes();
-	}
-	
-	public Diretor getInstance() {
-		if (instance == null) {
-			instance = new Diretor("c041ebf8");
-		}
-		return instance;
+	public Diretor(String nome, LocalDate data) throws DadoInvalidoException, LogicaException {
+		super(nome, data);
 	}
 	
 	@Override
-	public HashSet<PermissaoUsuario> definePermissoes() {
-		HashSet<PermissaoUsuario> permissoes = new HashSet<PermissaoUsuario>();
+	public HashSet<PermissaoFuncionario> definePermissoes() {
+		HashSet<PermissaoFuncionario> permissoes = new HashSet<PermissaoFuncionario>();
 
-		permissoes.add(PermissaoUsuario.criacaoUsuarios);
-		permissoes.add(PermissaoUsuario.leitura);
-		permissoes.add(PermissaoUsuario.escrita);
+		permissoes.add(PermissaoFuncionario.criacaoUsuarios);
+		permissoes.add(PermissaoFuncionario.criacaoPacientes);
+		permissoes.add(PermissaoFuncionario.lerSenhas);
 
 		return permissoes;
 	}
@@ -43,22 +32,11 @@ public class Diretor implements Usuario {
 	}
 
 	@Override
-	public String getMatricula() {
-		return matricula;
+	public String getCargo() {
+		return "Diretor Geral";
 	}
 
-	@Override
-	public String getSenha() {
-		return senha;
+	public String toString() {
+		return getMatricula() + " - " + getNome();
 	}
-	
-	private void gerarMatricula() {
-		this.matricula = getPrefixo() + LocalDate.now().getYear() + "001";
-	}
-	
-	@Override
-	public boolean temPermissao(PermissaoUsuario permissao) {
-		return permissoes.contains(permissao);
-	}
-
 }

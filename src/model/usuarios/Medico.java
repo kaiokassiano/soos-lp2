@@ -3,22 +3,20 @@ package model.usuarios;
 import java.time.LocalDate;
 import java.util.HashSet;
 
+import exceptions.dado.DadoInvalidoException;
+import exceptions.logica.LogicaException;
+
 public class Medico extends Funcionario {
 
 	private static final int PREFIXO = 2;
-	private String matricula;
-	private String senha;
-	
-	public Medico(String nome, LocalDate data) {
+
+	public Medico(String nome, LocalDate data) throws DadoInvalidoException, LogicaException {
 		super(nome, data);
 	}
 
 	@Override
-	public HashSet<PermissaoUsuario> definePermissoes() {
-		HashSet<PermissaoUsuario> permissoes = new HashSet<PermissaoUsuario>();
-		
-		permissoes.add(PermissaoUsuario.leitura);
-		permissoes.add(PermissaoUsuario.escrita);
+	public HashSet<PermissaoFuncionario> definePermissoes() {
+		HashSet<PermissaoFuncionario> permissoes = new HashSet<PermissaoFuncionario>();
 		
 		return permissoes;
 	}
@@ -26,6 +24,11 @@ public class Medico extends Funcionario {
 	@Override
 	public int getPrefixo() {
 		return PREFIXO;
+	}
+
+	@Override
+	public String getCargo() {
+		return "Medico";
 	}
 
 }
