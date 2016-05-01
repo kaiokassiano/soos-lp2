@@ -9,7 +9,8 @@ public class BancoDeDados {
 	// Arquivo e streams do numero de cadastros
 	private DataOutputStream qtdCadastrosOutput;
 	private DataInputStream qtdCadastrosInput;
-	private String qtdCadastrosFile = "cadastros.txt";
+	private final String qtdCadastrosFile = "cadastros.dat";
+	private int qtdCadastros = 0;
 
 	private BancoDeDados() {
 	}
@@ -22,18 +23,44 @@ public class BancoDeDados {
 	}
 	
 	public void init() {
-		try {
-			qtdCadastrosInput = new DataInputStream(new FileInputStream(qtdCadastrosFile));
-			qtdCadastrosOutput = new DataOutputStream(new FileOutputStream(qtdCadastrosFile));
-		} catch (FileNotFoundException e) {
-			System.err.println("Arquivo nao encontrado: " + qtdCadastrosFile);
-		}
+		initQtdCadastros();
 	}
 	
 	public void fechar() {
+		fecharQtdCadastros();
+	}
+	
+	private void initQtdCadastros() {
 		try {
+			qtdCadastrosInput = new DataInputStream(new FileInputStream(qtdCadastrosFile));
+			
+			try {
+				qtdCadastros = qtdCadastrosInput.readInt();
+			}
+			catch (EOFException e) {
+				qtdCadastros = 1;
+			}
+			
 			qtdCadastrosInput.close();
+		}
+		catch (FileNotFoundException e) {
+			System.err.println("Arquivo nao encontrado: " + qtdCadastrosFile);
+		}
+		catch (IOException e) {
+			System.err.println("IOException: " + e.getMessage());
+		}
+	}
+	
+	private void fecharQtdCadastros() {
+		try {
+			qtdCadastrosOutput = new DataOutputStream(new FileOutputStream(qtdCadastrosFile));
+			
+			qtdCadastrosOutput.writeInt(qtdCadastros);
+			
 			qtdCadastrosOutput.close();
+		}
+		catch (FileNotFoundException e) {
+			System.err.println("Arquivo nao encontrado: " + qtdCadastrosFile);
 		}
 		catch (IOException e) {
 			System.err.println("IOException: " + e.getMessage());
@@ -41,28 +68,7 @@ public class BancoDeDados {
 	}
 	
 	public int getProximoId() {
-		int cadastros = 0;
-		
-		try {
-			cadastros = qtdCadastrosInput.readInt();
-		}
-		catch (IOException e) {
-			if (cadastros == 0) {
-				cadastros = 1;
-			}
-		}
-		
-		aumentaQtdCadastros(cadastros + 1);
-		
-		return cadastros;
+		return qtdCadastros++;
 	}
-	
-	private void aumentaQtdCadastros(int quantidade) {
-		try {
-			qtdCadastrosOutput.writeInt(quantidade);
-		}
-		catch (IOException e) {
-			System.err.println("IOException: " + e.getMessage());
-		}
-	}
+
 }
