@@ -181,5 +181,9 @@ public class HospitalController {
 		
 		return attr;
 	}
+	
+	public void cadastraMedicamento(String nome, String tipo, double preco, int quantidade, String categorias) throws StringVaziaException, NumeroNegativoException, DadoInvalidoException {
+		medicamentoFactory.criaMedicamento(nome, tipo, preco, quantidade, categorias);
+	}
 
 }
