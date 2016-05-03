@@ -13,25 +13,25 @@ public class ValidacaoMedicamentos {
 			throw new NullStringException("Nome nao pode ser nulo");
 		
 		} else if (nome.trim().isEmpty()) {
-			throw new StringVaziaException("Erro no cadastro de medicamento. Nome do medicamento nao pode ser vazio.");
+			throw new StringVaziaException("Nome do medicamento nao pode ser vazio.");
 		
 		} else if (tipo == null) {
 			throw new NullStringException("Nome nao pode ser nulo");
 		
 		} else if (tipo.trim().isEmpty()) {
-			throw new StringVaziaException("Erro no cadastro de medicamento. Tipo do medicamento nao pode ser vazio.");
+			throw new StringVaziaException("Tipo do medicamento nao pode ser vazio.");
 		
-		} else if (!tipo.equals("generico") && tipo.equals("referencia")) {
-			throw new LogicaException("Erro no cadastro de medicamento. Tipo de medicamento invalido");
+		} else if (!tipo.equals("generico") && !tipo.equals("referencia")) {
+			throw new LogicaException("Tipo de medicamento invalido");
 		}
 		
 		else if (preco < 0.0) {
 			throw new NumeroNegativoException(
-					"Erro no cadastro de medicamento. Preco do medicamento nao pode ser negativo.");
+					"Preco do medicamento nao pode ser negativo.");
 		
 		} else if (quantidade < 0) {
 			throw new NumeroNegativoException(
-					"Erro no cadastro de medicamento. Quantidade do medicamento nao pode ser negativo.");
+					"Quantidade do medicamento nao pode ser negativo.");
 		}
 
 		return true;

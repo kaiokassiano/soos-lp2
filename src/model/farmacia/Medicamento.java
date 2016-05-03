@@ -12,9 +12,9 @@ public class Medicamento {
 	private String tipo;
 	private double preco;
 	private int quantidade;
-	private HashSet<CategoriaMedicamento> categoriasMedicamento;
+	private HashSet<CategoriaMedicamento> categorias;
 
-	public Medicamento(String nome, String tipo, double preco, int quantidade, String categorias)
+	public Medicamento(String nome, String tipo, double preco, int quantidade, String categoriasRecebidas)
 			throws NullStringException, LogicaException {
 
 		ValidacaoMedicamentos.validaDadosMedicamento(nome, tipo, preco, quantidade);
@@ -23,38 +23,61 @@ public class Medicamento {
 		this.tipo = tipo;
 		this.preco = preco;
 		this.quantidade = quantidade;
-		categoriasMedicamento = new HashSet<CategoriaMedicamento>();
-		
-		defineCategoriasMedicamento(categorias);
+		categorias = new HashSet<CategoriaMedicamento>();
+
+		defineCategoriasMedicamento(categoriasRecebidas);
 		defineDesconto();
 
 	}
 
-	private void defineCategoriasMedicamento(String categorias) throws NullStringException {
-		String[] arrayCategorias = categorias.split(",");
+	private void defineCategoriasMedicamento(String categoriasAnalisar) throws NullStringException {
+		String[] arrayCategorias = categoriasAnalisar.split(",");
 
 		for (int i = 0; i < arrayCategorias.length; i++) {
 			CategoriaMedicamento categoria = CategoriaMedicamento.converteString(arrayCategorias[i]);
 
 			if (ValidacaoMedicamentos.validaCategoriasMedicamento(arrayCategorias)) {
-				categoriasMedicamento.add(categoria);
+				categorias.add(categoria);
 			}
 		}
 	}
 
-	public String getNome() {
+	public Object getInfoMedicamento(String requisicao) {
+
+		Object objeto = null;
+
+		switch (requisicao) {
+
+		case "nome":
+			return getNome();
+
+		case "tipo":
+			return getTipo();
+
+		case "preco":
+			return getPreco();
+
+		case "quantidade":
+			return getQuantidade();
+
+		case "categorias":
+			return getCategorias();
+
+		}
+
+		return objeto;
+
+	}
+
+	private String getNome() {
 		return nome;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public double getPreco() {
+	private double getPreco() {
 		return preco;
 	}
 
-	public void setPreco(double preco) {
+	private void setPreco(double preco) {
 		this.preco = preco;
 	}
 
@@ -64,20 +87,27 @@ public class Medicamento {
 		}
 	}
 
-	public String getTipo() {
+	private String getTipo() {
 		return this.tipo;
 	}
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
-	public int getQuantidade() {
+	private int getQuantidade() {
 		return quantidade;
 	}
 
 	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
+	}
+
+	private String getCategorias() {
+		String stringRetorno = "";
+
+		for (CategoriaMedicamento categoria : categorias) {
+			stringRetorno = stringRetorno + categoria.toString();
+		}
+
+		return stringRetorno;
+
 	}
 
 }
