@@ -6,12 +6,21 @@ import java.util.HashSet;
 import exceptions.dado.DadoInvalidoException;
 import exceptions.logica.LogicaException;
 
+/**
+ * Classe de médico do sistema, possui todas as permissões relacionadas
+ * ao corpo clínico
+ */
 public class Medico extends Funcionario {
 
-	private static final int PREFIXO = 2;
-
-	public Medico(String nome, LocalDate data) throws DadoInvalidoException, LogicaException {
-		super(nome, data);
+	/**
+	 * Construtor de Medico
+	 * 
+	 * @param nome           Nome do médico
+	 * @param matricula      Matrícula do médico
+	 * @param dataNascimento Data de nascimento do médico
+	 */
+	public Medico(String nome, String matricula, LocalDate dataNascimento) {
+		super(nome, matricula, dataNascimento);
 	}
 
 	@Override
@@ -19,11 +28,6 @@ public class Medico extends Funcionario {
 		HashSet<PermissaoFuncionario> permissoes = new HashSet<PermissaoFuncionario>();
 		
 		return permissoes;
-	}
-
-	@Override
-	public int getPrefixo() {
-		return PREFIXO;
 	}
 
 	@Override

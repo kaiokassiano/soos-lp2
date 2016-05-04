@@ -10,6 +10,9 @@ import exceptions.dado.NullStringException;
 import exceptions.logica.LogicaException;
 import exceptions.logica.StringVaziaException;
 
+/**
+ * Model que representa todos os funcionários do sistema
+ */
 public abstract class Funcionario implements Serializable {
 
 	private String nome;
@@ -18,7 +21,14 @@ public abstract class Funcionario implements Serializable {
 	private String matricula;
 	private String senha;
 
-	public Funcionario(String nome, LocalDate dataNascimento) throws DadoInvalidoException, LogicaException {
+	/**
+	 * Construtor de um objeto do tipo funcionário
+	 * 
+	 * @param nome           Nome do funcionário
+	 * @param matricula      Matrícula do funcionário
+	 * @param dataNascimento Data de nascimento do funcionário
+	 */
+	public Funcionario(String nome, String matricula, LocalDate dataNascimento) {
 		if (nome == null) {
 			throw new NullStringException("Nome nao pode ser nulo");
 		}
@@ -32,32 +42,40 @@ public abstract class Funcionario implements Serializable {
 		this.permissoes = definePermissoes(); // chamada polimorfica
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;
-		gerarMatricula(); // chamada polimorfica
+		this.matricula = matricula;
 		gerarSenha();
 	}
 
+	/**
+	 * Define as permissões que o funcionário atual possui
+	 * 
+	 * @return Conjunto contendo todas as permissões que o usuário possui
+	 */
 	public abstract HashSet<PermissaoFuncionario> definePermissoes();
 	
-	public boolean temPermissao(PermissaoFuncionario permissao) throws DadoInvalidoException {
+	/**
+	 * Verifica se o usuário possui uma determinada permissão
+	 * 
+	 * @param permissao Permissão a ser checada
+	 * @return          Boleano indicando se o usuário possui a permissão
+	 */
+	public boolean temPermissao(PermissaoFuncionario permissao) {
 		if (permissao == null) {
 			throw new DadoInvalidoException("Permissao nao pode ser nulo.");
 		}
 		return permissoes.contains(permissao);
 	}
 	
-	public abstract int getPrefixo();
-	
-	private void gerarMatricula() {
-		this.matricula = getPrefixo() + (LocalDate.now().getYear() + String.format("%03d", BancoDeDados.getInstance().getProximoId()));
-	}
-	
 	public String getMatricula() {
 		return matricula;
 	}
 	
-	public void setNome(String nome) throws NullStringException {
+	public void setNome(String nome) {
 		if (nome == null) {
 			throw new NullStringException("Nome nao pode ser nulo.");
+		}
+		else if (nome.trim().isEmpty()) {
+			throw new StringVaziaException("Nome nao pode ser vazio.");
 		}
 		this.nome = nome;
 	}
@@ -66,6 +84,12 @@ public abstract class Funcionario implements Serializable {
 		return nome;
 	}
 	
+	/**
+	 * Gera uma senha automática para o usuário, seguindo o padrão de
+	 * que os 4 primeiros digitos correspondem ao ano de nascimento do
+	 * usuário, e os 4 últimos correspondem aos 4 primeiros digitos de sua
+	 * matrícula
+	 */
 	private void gerarSenha() {
 		this.senha = dataNascimento.getYear() + getMatricula().substring(0, 4);
 	}
@@ -85,5 +109,10 @@ public abstract class Funcionario implements Serializable {
 		return dataNascimento.toString();
 	}
 	
+	/**
+	 * Retorna a representação do cargo do funcionário em forma de String
+	 * 
+	 * @return Cargo do funcionário
+	 */
 	public abstract String getCargo();
 }

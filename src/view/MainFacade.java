@@ -5,10 +5,16 @@ import data.BancoDeDados;
 import exceptions.dado.*;
 import exceptions.logica.*;
 
+/**
+ * View principal para a aplicação
+ */
 public class MainFacade {
 
 	private HospitalController hospitalController;
 	
+	/**
+	 * Construtor da Facade
+	 */
 	public MainFacade() {
 		hospitalController = new HospitalController();
 	}
@@ -26,7 +32,7 @@ public class MainFacade {
 		}
 	}
 	
-	public String liberaSistema(String chave, String nome, String dataNascimento) throws LogicaException {
+	public String liberaSistema(String chave, String nome, String dataNascimento) {
 		try {
 			return hospitalController.liberaSistema(chave, nome, dataNascimento);
 		}
@@ -35,7 +41,7 @@ public class MainFacade {
 		}
 	}
 	
-	public void login(String matricula, String senha) throws LogicaException {
+	public void login(String matricula, String senha) {
 		try {
 			hospitalController.login(matricula, senha);
 		} catch (LogicaException | DadoInvalidoException e) {
@@ -51,7 +57,7 @@ public class MainFacade {
 		}
 	}
 	
-	public String getInfoFuncionario(String matricula, String atributo) throws LogicaException {
+	public String getInfoFuncionario(String matricula, String atributo) {
 		try {
 			return hospitalController.getInfoFuncionario(matricula, atributo);
 		}
@@ -60,7 +66,7 @@ public class MainFacade {
 		}
 	}
 	
-	public String cadastraFuncionario(String nome, String cargo, String dataNascimento) throws LogicaException {
+	public String cadastraFuncionario(String nome, String cargo, String dataNascimento) {
 		try {
 			return hospitalController.cadastraFuncionario(nome, cargo, dataNascimento);
 		} catch (LogicaException | DadoInvalidoException e) {
