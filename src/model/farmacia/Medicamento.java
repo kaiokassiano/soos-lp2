@@ -72,25 +72,25 @@ public class Medicamento {
 
 	}
 
-	public void atualizaMedicamento(String atributo, String novoValor) {
+	public void atualizaMedicamento(String atributo, Double novoValor) {
 		
-		double valorDouble = Double.parseDouble(novoValor);
-		int valorInteiro = Integer.parseInt(novoValor);
+		int valorInteiro = novoValor.intValue();
 		
 		switch (atributo) {
 		
 			case "preco":
 				
 				if (this.tipo.equals("Generico")) {
-					setPreco(valorDouble * 0.6);
+					setPreco(novoValor * 0.6);
 					break;
 				}
-				setPreco(valorDouble);
+				setPreco(novoValor);
 				break;
 			
 			case "quantidade":
 				setQuantidade(valorInteiro);
 				break;
+				
 		}
 		
 	}

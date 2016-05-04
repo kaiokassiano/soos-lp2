@@ -198,7 +198,7 @@ public class HospitalController {
 		return medicamento.getInfoMedicamento(requisicao);
 	}
 	
-	public void atualizaMedicamento(String nome, String atributo, String novoValor) throws ObjetoInexistenteException {
+	public void atualizaMedicamento(String nome, String atributo, Double novoValor) throws ObjetoInexistenteException {
 		getMedicamentoPeloNome(nome).atualizaMedicamento(atributo, novoValor);
 	}
 

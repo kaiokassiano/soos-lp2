@@ -83,7 +83,7 @@ public class MainFacade {
 		}
 	}
 	
-	public void atualizaMedicamento(String nome, String atributo, String novoValor) throws LogicaException {
+	public void atualizaMedicamento(String nome, String atributo, Double novoValor) throws LogicaException {
 		try {
 			hospitalController.atualizaMedicamento(nome, atributo, novoValor);
 		} catch (LogicaException e) {
