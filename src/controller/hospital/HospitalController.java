@@ -192,7 +192,7 @@ public class HospitalController {
 		return nome;
 	}
 
-	public Object getInfoMedicamento(String requisicao, String nome) throws ObjetoInexistenteException {
+	public String getInfoMedicamento(String requisicao, String nome) throws ObjetoInexistenteException {
 		Medicamento medicamento = getMedicamentoPeloNome(nome);
 		
 		return medicamento.getInfoMedicamento(requisicao);

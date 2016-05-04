@@ -75,7 +75,7 @@ public class MainFacade {
 		}
 	}
 	
-	public Object getInfoMedicamento(String requisicao, String nome) throws LogicaException {
+	public String getInfoMedicamento(String requisicao, String nome) throws LogicaException {
 		try {
 			return hospitalController.getInfoMedicamento(requisicao, nome);
 		} catch (LogicaException e) {
