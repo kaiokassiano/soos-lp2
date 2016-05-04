@@ -46,7 +46,7 @@ public class Medicamento {
 		}
 	}
 
-	public Object getInfoMedicamento(String requisicao) {
+	public String getInfoMedicamento(String requisicao) {
 
 		Object objeto = null;
 
@@ -59,17 +59,19 @@ public class Medicamento {
 				return getTipo();
 	
 			case "preco":
-				return getPreco();
+				objeto = getPreco();
+				return objeto.toString();
 	
 			case "quantidade":
-				return getQuantidade();
+				objeto = getQuantidade();
+				return objeto.toString();
 	
 			case "categorias":
 				return getCategorias();
 
 		}
 
-		return objeto;
+		return objeto.toString();
 
 	}
 
