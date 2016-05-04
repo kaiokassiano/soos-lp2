@@ -115,10 +115,15 @@ public class HospitalController {
 		usuarioLogado = null;
 	}
 
+	// acha fncionario
 	public Funcionario getFuncionarioPorMatricula(String matricula)
 			throws DadoInvalidoException, ObjetoInexistenteException {
+		ValidaMatricula validaMatricula = new ValidaMatricula();
 		Funcionario funcionario = funcionarios.get(matricula);
 
+		if (!validaMatricula.validaMatricula(matricula).find()) {
+			throw new DadoInvalidoException("Erro na consulta de funcionario. A matricula nao segue o padrao.");
+		}
 		if (funcionario == null) {
 			throw new ObjetoInexistenteException("Funcionario nao cadastrado.");
 		}
@@ -126,29 +131,85 @@ public class HospitalController {
 		return funcionario;
 	}
 
-	public Medicamento getMedicamentoPeloNome(String nome) throws ObjetoInexistenteException {
-		Medicamento medicamento = medicamentos.get(nome);
-
-		ValidacaoMedicamentos.validaObjetoMedicamento(medicamento);
-
-		return medicamento;
-	}
-	
-	public String getMedicamentosPelaCategoria(String categoria) {
-		
-		Iterator it = medicamentos.entrySet().iterator();
-		
-		ArrayList<String> arrayCategorias = new ArrayList<String>();
-
-		for (Map.Entry<String, Medicamento> entry : medicamentos.entrySet()) {
-
-			if (entry.getValue().getInfoMedicamento("categorias").contains(categoria)){
-				arrayCategorias.add(entry.getKey());
-			}
-			
+	// valida operacao de atualizacao de dados
+	public boolean validaOperacao(String matricula) {
+		if (usuarioLogado instanceof Diretor) {
+			return true; // se o usuario for diretor pode atualizar
+		} // qualquer coisa
+		else {
+			if (matricula.equals(usuarioLogado.getMatricula()))
+				return true;
+			return false;
 		}
-		
-		return String.join(",", arrayCategorias);
+	}
+
+	// atualizacao de nomes
+	public void atualizaNome(String matricula, String newNome)
+			throws DadoInvalidoException, ObjetoInexistenteException, PermissaoException {
+		Funcionario funcionario = getFuncionarioPorMatricula(matricula);
+		ValidaNomes validaNome = new ValidaNomes();
+
+		if (validaOperacao(matricula)) {
+			if (!validaNome.validaNovoNome(newNome).find()) {
+				throw new DadoInvalidoException(
+						"Erro ao atualizar funcionario. Nome do funcionario nao pode ser vazio.");
+			}
+			funcionario.setNome(newNome);
+		}
+		throw new PermissaoException("Voce nao possui permissao para concluir a acao.");
+	}
+
+	// atualizacao de senhas
+	public void atualizaSenha(String matricula, String senha, String newSenha)
+			throws DadoInvalidoException, ObjetoInexistenteException, SenhaIncorretaException, PermissaoException {
+		Funcionario funcionario = getFuncionarioPorMatricula(matricula);
+		ValidaSenhas validaSenha = new ValidaSenhas(newSenha);
+
+		if (!senha.equals(funcionario.getSenha())) {
+			throw new SenhaIncorretaException("Erro ao atualizar funcionario. Senha invalida.");
+		}
+
+		if (validaOperacao(matricula)) {
+			if (!validaSenha.validaNovaSenha(newSenha).find()) {
+				throw new DadoInvalidoException(
+						"Erro ao atualizar funcionario. A nova senha deve ter entre 8 - 12 caracteres alfanumericos.");
+			}
+			funcionario.setSenha(newSenha);
+		}
+
+		throw new PermissaoException("Voce nao possui permissao para concluir a acao.");
+	}
+
+	// atualiza data de nascimento
+	public void atualizaDataNascimento(String matricula, String newDataNascimento)
+			throws DadoInvalidoException, ObjetoInexistenteException, PermissaoException {
+		Funcionario funcionario = getFuncionarioPorMatricula(matricula);
+
+		if (!validaOperacao(matricula)) {
+			throw new PermissaoException("Voce nao possui permissao para concluir a acao.");
+		}
+
+	}
+
+	// remove usuarios
+	public boolean removeUsuario(String matricula, String senha)
+			throws PermissaoException, DadoInvalidoException, ObjetoInexistenteException, SenhaIncorretaException {
+
+		Funcionario funcionario = getFuncionarioPorMatricula(matricula);
+
+		if (!validaOperacao(usuarioLogado.getMatricula())) {
+			throw new PermissaoException("Voce nao possui permissao para concluir a acao.");
+		}
+
+		if (!(usuarioLogado instanceof Diretor)) {
+			throw new PermissaoException("Voce nao possui permissao para concluir a acoa.");
+		}
+
+		// if(){
+
+		// }
+
+		return true;
 	}
 
 	public String cadastraFuncionario(String nome, String cargo, String dataNascimento)
@@ -213,24 +274,50 @@ public class HospitalController {
 		return attr;
 	}
 
+	public Medicamento getMedicamentoPeloNome(String nome) throws ObjetoInexistenteException {
+		Medicamento medicamento = medicamentos.get(nome);
+
+		ValidacaoMedicamentos.validaObjetoMedicamento(medicamento);
+
+		return medicamento;
+	}
+
+	public String getMedicamentosPelaCategoria(String categoria) {
+
+		Iterator it = medicamentos.entrySet().iterator();
+
+		ArrayList<String> arrayCategorias = new ArrayList<String>();
+
+		for (Map.Entry<String, Medicamento> entry : medicamentos.entrySet()) {
+
+			if (entry.getValue().getInfoMedicamento("categorias").contains(categoria)) {
+				arrayCategorias.add(entry.getKey());
+			}
+
+		}
+
+		return String.join(",", arrayCategorias);
+	}
+
 	public String cadastraMedicamento(String nome, String tipo, double preco, int quantidade, String categorias)
 			throws DadoInvalidoException, LogicaException {
 		Medicamento medicamento = medicamentoFactory.criaMedicamento(nome, tipo, preco, quantidade, categorias);
 		medicamentos.put(nome, medicamento);
-		
+
 		return nome;
 	}
 
 	public String getInfoMedicamento(String requisicao, String nome) throws ObjetoInexistenteException {
 		Medicamento medicamento = getMedicamentoPeloNome(nome);
-		
+
 		return medicamento.getInfoMedicamento(requisicao);
 	}
-	
-	public void atualizaMedicamento(String nome, String atributo, String novoValor) throws ObjetoInexistenteException, OperacaoInvalidaException {
+
+	public void atualizaMedicamento(String nome, String atributo, String novoValor)
+			throws ObjetoInexistenteException, OperacaoInvalidaException {
 		getMedicamentoPeloNome(nome).atualizaMedicamento(atributo, novoValor);
 	}
-	
+
 	public String consultaMedCategoria(String categoria) {
 		return getMedicamentosPelaCategoria(categoria);
 	}

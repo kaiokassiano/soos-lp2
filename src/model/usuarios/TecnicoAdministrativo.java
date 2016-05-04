@@ -8,6 +8,10 @@ import exceptions.logica.LogicaException;
 
 public class TecnicoAdministrativo extends Funcionario {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final int PREFIXO = 3;
 	
 	public TecnicoAdministrativo(String nome, LocalDate data) throws DadoInvalidoException, LogicaException {
@@ -31,6 +35,17 @@ public class TecnicoAdministrativo extends Funcionario {
 	@Override
 	public String getCargo() {
 		return "Tecnico Administrativo";
+	}
+	
+	@Override
+	public boolean equals(Object obj){
+	  if (this == obj)
+	    return true;
+	  if (obj == null)
+	    return false;
+	  if (getClass() != obj.getClass())
+	    return false;
+	  return true;
 	}
 
 }

@@ -6,21 +6,23 @@ import java.util.HashSet;
 import exceptions.dado.DadoInvalidoException;
 import exceptions.logica.LogicaException;
 
-public class Medico extends Funcionario {
+public class TecnicoAdministrativo extends Funcionario {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final int PREFIXO = 2;
+	private static final int PREFIXO = 3;
 
-	public Medico(String nome, LocalDate data) throws DadoInvalidoException, LogicaException {
+	public TecnicoAdministrativo(String nome, LocalDate data) throws DadoInvalidoException, LogicaException {
 		super(nome, data);
 	}
 
 	@Override
 	public HashSet<PermissaoFuncionario> definePermissoes() {
 		HashSet<PermissaoFuncionario> permissoes = new HashSet<PermissaoFuncionario>();
+		
+		permissoes.add(PermissaoFuncionario.criacaoPacientes);
 		
 		return permissoes;
 	}
@@ -32,7 +34,7 @@ public class Medico extends Funcionario {
 
 	@Override
 	public String getCargo() {
-		return "Medico";
+		return "Tecnico Administrativo";
 	}
 	
 	@Override
