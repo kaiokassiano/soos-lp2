@@ -22,6 +22,9 @@ import model.farmacia.Medicamento;
 import model.usuarios.Diretor;
 import model.usuarios.Funcionario;
 import model.usuarios.PermissaoFuncionario;
+import valida.dados.ValidaMatricula;
+import valida.dados.ValidaNomes;
+import valida.dados.ValidaSenhas;
 import validacao.medicamentos.ValidacaoMedicamentos;
 
 public class HospitalController {
