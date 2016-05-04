@@ -9,9 +9,8 @@ import exceptions.logica.*;
 import factory.funcionarios.FuncionarioFactory;
 import factory.medicamentos.MedicamentoFactory;
 import model.farmacia.Medicamento;
-import model.usuarios.Diretor;
-import model.usuarios.Funcionario;
-import model.usuarios.PermissaoFuncionario;
+import model.usuarios.*;
+import validacao.medicamentos.ValidacaoMedicamentos;
 
 public class HospitalController {
 
@@ -33,7 +32,7 @@ public class HospitalController {
 
 		funcionarios = new HashMap<String, Funcionario>();
 		medicamentos = new HashMap<String, Medicamento>();
-		
+
 		bancoDeDados = BancoDeDados.getInstance();
 	}
 
@@ -114,14 +113,12 @@ public class HospitalController {
 
 		return funcionario;
 	}
-	
+
 	public Medicamento getMedicamentoPeloNome(String nome) throws ObjetoInexistenteException {
 		Medicamento medicamento = medicamentos.get(nome);
-		
-		if (medicamento == null) {
-			throw new ObjetoInexistenteException("Medicamento nao cadastrado.");
-		}
-		
+
+		ValidacaoMedicamentos.validaObjetoMedicamento(medicamento);
+
 		return medicamento;
 	}
 
@@ -189,8 +186,20 @@ public class HospitalController {
 
 	public String cadastraMedicamento(String nome, String tipo, double preco, int quantidade, String categorias)
 			throws DadoInvalidoException, LogicaException {
-		medicamentoFactory.criaMedicamento(nome, tipo, preco, quantidade, categorias);
+		Medicamento medicamento = medicamentoFactory.criaMedicamento(nome, tipo, preco, quantidade, categorias);
+		medicamentos.put(nome, medicamento);
+		
 		return nome;
+	}
+
+	public Object getInfoMedicamento(String requisicao, String nome) throws ObjetoInexistenteException {
+		Medicamento medicamento = getMedicamentoPeloNome(nome);
+		
+		return medicamento.getInfoMedicamento(requisicao);
+	}
+	
+	public void atualizaMedicamento(String nome, String atributo, String novoValor) throws ObjetoInexistenteException {
+		getMedicamentoPeloNome(nome).atualizaMedicamento(atributo, novoValor);
 	}
 
 }

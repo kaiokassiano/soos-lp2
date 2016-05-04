@@ -1,7 +1,6 @@
 package view;
 
 import controller.hospital.HospitalController;
-import data.BancoDeDados;
 import exceptions.dado.*;
 import exceptions.logica.*;
 
@@ -76,6 +75,19 @@ public class MainFacade {
 		}
 	}
 	
+	public Object getInfoMedicamento(String requisicao, String nome) throws LogicaException {
+		try {
+			return hospitalController.getInfoMedicamento(requisicao, nome);
+		} catch (LogicaException e) {
+			throw new LogicaException("Erro no cadastro de medicamento. " + e.getMessage());
+		}
+	}
 	
-	
+	public void atualizaMedicamento(String nome, String atributo, String novoValor) throws LogicaException {
+		try {
+			hospitalController.atualizaMedicamento(nome, atributo, novoValor);
+		} catch (LogicaException e) {
+			throw new LogicaException("Erro ao atualizar medicamento. " + e.getMessage());
+		}
+	}
 }

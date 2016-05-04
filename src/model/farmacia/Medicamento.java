@@ -1,10 +1,13 @@
 package model.farmacia;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.HashSet;
+import java.util.TreeSet;
 
 import exceptions.dado.NullStringException;
 import exceptions.logica.LogicaException;
-import validacao.medicamentos.*;
+import validacao.medicamentos.ValidacaoMedicamentos;
 
 public class Medicamento {
 
@@ -20,7 +23,7 @@ public class Medicamento {
 		ValidacaoMedicamentos.validaDadosMedicamento(nome, tipo, preco, quantidade);
 
 		this.nome = nome;
-		this.tipo = tipo;
+		defineTipo(tipo);
 		this.preco = preco;
 		this.quantidade = quantidade;
 		categorias = new HashSet<CategoriaMedicamento>();
@@ -48,20 +51,20 @@ public class Medicamento {
 
 		switch (requisicao) {
 
-		case "nome":
-			return getNome();
-
-		case "tipo":
-			return getTipo();
-
-		case "preco":
-			return getPreco();
-
-		case "quantidade":
-			return getQuantidade();
-
-		case "categorias":
-			return getCategorias();
+			case "nome":
+				return getNome();
+	
+			case "tipo":
+				return getTipo();
+	
+			case "preco":
+				return getPreco();
+	
+			case "quantidade":
+				return getQuantidade();
+	
+			case "categorias":
+				return getCategorias();
 
 		}
 
@@ -69,6 +72,29 @@ public class Medicamento {
 
 	}
 
+	public void atualizaMedicamento(String atributo, String novoValor) {
+		
+		double valorDouble = Double.parseDouble(novoValor);
+		int valorInteiro = Integer.parseInt(novoValor);
+		
+		switch (atributo) {
+		
+			case "preco":
+				
+				if (this.tipo.equals("Generico")) {
+					setPreco(valorDouble * 0.6);
+					break;
+				}
+				setPreco(valorDouble);
+				break;
+			
+			case "quantidade":
+				setQuantidade(valorInteiro);
+				break;
+		}
+		
+	}
+	
 	private String getNome() {
 		return nome;
 	}
@@ -82,8 +108,8 @@ public class Medicamento {
 	}
 
 	public void defineDesconto() {
-		if (this.tipo.equals("generico")) {
-			setPreco(this.preco * 0.6);
+		if (this.tipo.equals("Generico")) {
+			setPreco((this.preco * 60) / 100);
 		}
 	}
 
@@ -91,6 +117,14 @@ public class Medicamento {
 		return this.tipo;
 	}
 
+	private void defineTipo(String tipo) {
+		if (tipo.equals("generico")) {
+			this.tipo = "Generico";
+		} else {
+			this.tipo = "de Referencia";
+		}
+	}
+	
 	private int getQuantidade() {
 		return quantidade;
 	}
@@ -100,14 +134,15 @@ public class Medicamento {
 	}
 
 	private String getCategorias() {
-		String stringRetorno = "";
-
-		for (CategoriaMedicamento categoria : categorias) {
-			stringRetorno = stringRetorno + categoria.toString();
+		
+		TreeSet<String> treeset = new TreeSet<String>();
+		
+		for (CategoriaMedicamento categoriaMedicamento : categorias) {
+			treeset.add(categoriaMedicamento.toString());
 		}
-
-		return stringRetorno;
-
+		
+		return String.join(",", treeset);
+		
 	}
 
 }

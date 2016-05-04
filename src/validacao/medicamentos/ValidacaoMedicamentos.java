@@ -3,7 +3,9 @@ package validacao.medicamentos;
 import exceptions.dado.NullStringException;
 import exceptions.logica.LogicaException;
 import exceptions.logica.NumeroNegativoException;
+import exceptions.logica.ObjetoInexistenteException;
 import exceptions.logica.StringVaziaException;
+import model.farmacia.Medicamento;
 
 public class ValidacaoMedicamentos {
 
@@ -23,9 +25,8 @@ public class ValidacaoMedicamentos {
 		
 		} else if (!tipo.equals("generico") && !tipo.equals("referencia")) {
 			throw new LogicaException("Tipo de medicamento invalido");
-		}
 		
-		else if (preco < 0.0) {
+		} else if (preco < 0.0) {
 			throw new NumeroNegativoException(
 					"Preco do medicamento nao pode ser negativo.");
 		
@@ -45,6 +46,13 @@ public class ValidacaoMedicamentos {
 			}
 		}
 
+		return true;
+	}
+	
+	public static boolean validaObjetoMedicamento(Medicamento medicamento) throws ObjetoInexistenteException {
+		if (medicamento == null) {
+			throw new ObjetoInexistenteException("Medicamento nao cadastrado.");
+		}
 		return true;
 	}
 

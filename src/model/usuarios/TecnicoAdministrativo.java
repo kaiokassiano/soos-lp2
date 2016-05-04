@@ -9,7 +9,7 @@ import exceptions.logica.LogicaException;
 public class TecnicoAdministrativo extends Funcionario {
 
 	private static final int PREFIXO = 3;
-
+	
 	public TecnicoAdministrativo(String nome, LocalDate data) throws DadoInvalidoException, LogicaException {
 		super(nome, data);
 	}
