@@ -7,6 +7,7 @@ import java.util.TreeSet;
 
 import exceptions.dado.NullStringException;
 import exceptions.logica.LogicaException;
+import exceptions.logica.OperacaoInvalidaException;
 import validacao.medicamentos.ValidacaoMedicamentos;
 
 public class Medicamento {
@@ -72,25 +73,33 @@ public class Medicamento {
 
 	}
 
-	public void atualizaMedicamento(String atributo, Double novoValor) {
+	public void atualizaMedicamento(String atributo, String novoValor) throws OperacaoInvalidaException {
 		
-		int valorInteiro = novoValor.intValue();
+		
 		
 		switch (atributo) {
 		
 			case "preco":
 				
+				double valorDouble = Double.parseDouble(novoValor);
+				
 				if (this.tipo.equals("Generico")) {
-					setPreco(novoValor * 0.6);
+					setPreco(valorDouble * 0.6);
 					break;
 				}
-				setPreco(novoValor);
+				setPreco(valorDouble);
 				break;
 			
 			case "quantidade":
+				int valorInteiro = Integer.valueOf(novoValor);
 				setQuantidade(valorInteiro);
 				break;
 				
+			case "nome":
+				throw new OperacaoInvalidaException("Nome do medicamento nao pode ser alterado.");
+				
+			case "tipo":
+				throw new OperacaoInvalidaException("Tipo do medicamento nao pode ser alterado.");
 		}
 		
 	}
