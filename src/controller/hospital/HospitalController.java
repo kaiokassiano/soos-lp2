@@ -1,15 +1,27 @@
 package controller.hospital;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import data.BancoDeDados;
 import exceptions.dado.DadoInvalidoException;
 import exceptions.dado.NullStringException;
-import exceptions.logica.*;
+import exceptions.logica.AtributoInvalidoException;
+import exceptions.logica.ChaveIncorretaException;
+import exceptions.logica.LogicaException;
+import exceptions.logica.ObjetoInexistenteException;
+import exceptions.logica.OperacaoInvalidaException;
+import exceptions.logica.PermissaoException;
+import exceptions.logica.SenhaIncorretaException;
+import exceptions.logica.StringVaziaException;
 import factory.funcionarios.FuncionarioFactory;
 import factory.medicamentos.MedicamentoFactory;
 import model.farmacia.Medicamento;
-import model.usuarios.*;
+import model.usuarios.Diretor;
+import model.usuarios.Funcionario;
+import model.usuarios.PermissaoFuncionario;
 import validacao.medicamentos.ValidacaoMedicamentos;
 
 public class HospitalController {
@@ -121,6 +133,23 @@ public class HospitalController {
 
 		return medicamento;
 	}
+	
+	public String getMedicamentosPelaCategoria(String categoria) {
+		
+		Iterator it = medicamentos.entrySet().iterator();
+		
+		ArrayList<String> arrayCategorias = new ArrayList<String>();
+
+		for (Map.Entry<String, Medicamento> entry : medicamentos.entrySet()) {
+
+			if (entry.getValue().getInfoMedicamento("categorias").contains(categoria)){
+				arrayCategorias.add(entry.getKey());
+			}
+			
+		}
+		
+		return String.join(",", arrayCategorias);
+	}
 
 	public String cadastraFuncionario(String nome, String cargo, String dataNascimento)
 			throws LogicaException, DadoInvalidoException {
@@ -200,6 +229,10 @@ public class HospitalController {
 	
 	public void atualizaMedicamento(String nome, String atributo, String novoValor) throws ObjetoInexistenteException, OperacaoInvalidaException {
 		getMedicamentoPeloNome(nome).atualizaMedicamento(atributo, novoValor);
+	}
+	
+	public String consultaMedCategoria(String categoria) {
+		return getMedicamentosPelaCategoria(categoria);
 	}
 
 }

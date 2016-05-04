@@ -90,4 +90,9 @@ public class MainFacade {
 			throw new LogicaException("Erro ao atualizar medicamento. " + e.getMessage());
 		}
 	}
+	
+	public String consultaMedCategoria(String categoria) {
+		return hospitalController.consultaMedCategoria(categoria);
+	}
+	
 }
