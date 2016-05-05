@@ -26,7 +26,7 @@ expectError "Nao foi possivel realizar o login. Senha incorreta." login matricul
 
 expectError "Nao foi possivel realizar o login. Funcionario nao cadastrado." login matricula="0214587" senha="qlqrsenha123"
 
-login matricula=${id1} senha="19671201" 
+login matricula=${id1} senha="19671201"
 expect "Marie Curie" getInfoFuncionario matricula=${id1} atributo="Nome"
 expect "Diretor Geral" getInfoFuncionario matricula=${id1} atributo="Cargo"
 expect "1967-11-07" getInfoFuncionario matricula=${id1} atributo="Data"

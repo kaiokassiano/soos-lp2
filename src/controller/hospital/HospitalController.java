@@ -110,11 +110,12 @@ public class HospitalController {
 	
 	//acha fncionario
 	public Funcionario getFuncionarioPorMatricula(String matricula) throws DadoInvalidoException, ObjetoInexistenteException {
+//		if (!validaMatricula.validar(matricula)) {
+//			throw new DadoInvalidoException("A matricula nao segue o padrao.");
+//		}
+
 		Funcionario funcionario = funcionarios.get(matricula);
-		
-		if (!validaMatricula.validaMatricula(matricula)) {
-			throw new DadoInvalidoException("A matricula nao segue o padrao.");
-		}
+
 		if (funcionario == null) {
 			throw new ObjetoInexistenteException("Funcionario nao cadastrado.");
 		}
@@ -137,10 +138,10 @@ public class HospitalController {
 	public void atualizaNome(String matricula, String novoNome) throws DadoInvalidoException, LogicaException {
 		Funcionario funcionario = getFuncionarioPorMatricula(matricula);
 		
-		if (!funcionario.temPermissao(PermissaoFuncionario.atualizarNomes) && !usuarioLogado.getMatricula().equals(matricula)){
+		if (!funcionario.temPermissao(PermissaoFuncionario.atualizarNomes) && !usuarioLogado.getMatricula().equals(matricula)) {
 			throw new PermissaoException("Voce nao possui permissao para concluir a acao.");
 		}
-		else if (!validaNome.validaNovoNome(novoNome)){
+		else if (!validaNome.validar(novoNome)) {
 			throw new DadoInvalidoException("Nome do funcionario nao pode ser vazio.");
 		}
 		
@@ -223,7 +224,7 @@ public class HospitalController {
 	}
 	
 	public String getInfoFuncionario(String matricula, String atributo) throws DadoInvalidoException, LogicaException {
-		if(!validaMatricula.validaMatricula(matricula)){
+		if(!validaMatricula.validar(matricula)){
 			throw new DadoInvalidoException("A matricula nao segue o padrao.");
 		}
 		if (!isUsuarioLogado()) {
