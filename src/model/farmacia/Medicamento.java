@@ -10,7 +10,7 @@ import exceptions.logica.LogicaException;
 import exceptions.logica.OperacaoInvalidaException;
 import validacao.medicamentos.ValidacaoMedicamentos;
 
-public class Medicamento {
+public class Medicamento implements Comparable{
 
 	private String nome;
 	private String tipo;
@@ -154,6 +154,26 @@ public class Medicamento {
 		
 		return String.join(",", treeset);
 		
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("Medicamento %s: %s - Preco: R$ %.2f - Disponivel: %d - Categorias: %s", this.getTipo(),this.getNome(), this.getPreco(), this.getQuantidade(), this.getCategorias());
+	}
+
+	@Override
+	public int compareTo(Object objeto) {
+		if (objeto instanceof Medicamento) {
+			Medicamento novoMedicamento = (Medicamento) objeto;
+			if (this.getPreco() < novoMedicamento.getPreco()) {
+				return -1;
+			} else if (this.getPreco() > novoMedicamento.getPreco()) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+		return -1;
 	}
 
 }

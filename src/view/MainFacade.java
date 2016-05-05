@@ -94,5 +94,21 @@ public class MainFacade {
 	public String consultaMedCategoria(String categoria) {
 		return hospitalController.consultaMedCategoria(categoria);
 	}
+	
+	public String consultaMedNome(String nome) throws LogicaException {
+		try {
+			return hospitalController.consultaMedNome(nome);
+		} catch (LogicaException e) {
+			throw new LogicaException("Erro na consulta de medicamentos. " + e.getMessage());
+		}
+	}
+	
+	public String getEstoqueFarmacia(String tipoOrdenacao) throws LogicaException{
+		try {
+			return hospitalController.getEstoqueFarmacia(tipoOrdenacao);
+		} catch (LogicaException e) {
+			throw new LogicaException("Erro na consulta de medicamentos. " + e.getMessage());
+		}
+	}
 
 }
