@@ -20,6 +20,10 @@ public class HospitalController {
 	private HashMap<String, Funcionario> funcionarios;
 	private BancoDeDados bancoDeDados;
 	
+	private ValidaMatricula validaMatricula;
+	private ValidaNome validaNome;
+	private ValidaSenha validaSenha;
+	
 	private boolean sistemaLiberado;
 	
 	public HospitalController() {
@@ -29,6 +33,10 @@ public class HospitalController {
 		funcionarios = new HashMap<String, Funcionario>();
 		
 		bancoDeDados = BancoDeDados.getInstance();
+		
+		validaMatricula = new ValidaMatricula();
+		validaNome = new ValidaNome();
+		validaSenha = new ValidaSenha();
 	}
 	
 	public void iniciaSistema() {
@@ -102,11 +110,10 @@ public class HospitalController {
 	
 	//acha fncionario
 	public Funcionario getFuncionarioPorMatricula(String matricula) throws DadoInvalidoException, ObjetoInexistenteException {
-		ValidaMatricula validaMatricula = new ValidaMatricula();
 		Funcionario funcionario = funcionarios.get(matricula);
 		
-		if(!validaMatricula.validaMatricula(matricula).find()){
-			throw new DadoInvalidoException("Erro na consulta de funcionario. A matricula nao segue o padrao.");
+		if (!validaMatricula.validaMatricula(matricula)) {
+			throw new DadoInvalidoException("A matricula nao segue o padrao.");
 		}
 		if (funcionario == null) {
 			throw new ObjetoInexistenteException("Funcionario nao cadastrado.");
@@ -116,7 +123,7 @@ public class HospitalController {
 	}
 	
 	//valida operacao de atualizacao de dados
-	public boolean validaOperacao(String matricula){
+	/*public boolean validaOperacao(String matricula){
 		if (usuarioLogado instanceof Diretor){
 			return true;								//se o usuario for diretor pode atualizar 
 		}												//qualquer coisa
@@ -124,76 +131,61 @@ public class HospitalController {
 			if (matricula.equals(usuarioLogado.getMatricula())) return true;
 			return false;
 		}
-	}
+	}*/
 	
 	//atualizacao de nomes
-	public void atualizaNome(String matricula, String newNome) throws DadoInvalidoException, ObjetoInexistenteException,
-				PermissaoException{
+	public void atualizaNome(String matricula, String novoNome) throws DadoInvalidoException, LogicaException {
 		Funcionario funcionario = getFuncionarioPorMatricula(matricula);
-		ValidaNomes validaNome = new ValidaNomes();
 		
-		if(validaOperacao(matricula)){
-			if(!validaNome.validaNovoNome(newNome).find()){
-				throw new DadoInvalidoException("Erro ao atualizar funcionario. Nome do funcionario nao pode ser vazio.");
-			}
-			funcionario.setNome(newNome);
+		if (!funcionario.temPermissao(PermissaoFuncionario.atualizarNomes) && !usuarioLogado.getMatricula().equals(matricula)){
+			throw new PermissaoException("Voce nao possui permissao para concluir a acao.");
 		}
-		throw new PermissaoException("Voce nao possui permissao para concluir a acao.");
+		else if (!validaNome.validaNovoNome(novoNome)){
+			throw new DadoInvalidoException("Nome do funcionario nao pode ser vazio.");
+		}
+		
+		funcionario.setNome(novoNome);
 	}
 	
 	//atualizacao de senhas
-	public void atualizaSenha(String matricula, String senha, String newSenha)throws DadoInvalidoException, ObjetoInexistenteException,
-				SenhaIncorretaException, PermissaoException{
+	public void atualizaSenha(String matricula, String senha, String novaSenha) throws DadoInvalidoException, LogicaException {
 		Funcionario funcionario = getFuncionarioPorMatricula(matricula);
-		ValidaSenhas validaSenha = new ValidaSenhas(newSenha);
 		
-		if(!senha.equals(funcionario.getSenha())){
-			throw new SenhaIncorretaException("Erro ao atualizar funcionario. Senha invalida.");
+		if (!usuarioLogado.temPermissao(PermissaoFuncionario.atualizarSenha)) {
+			throw new PermissaoException("Voce nao possui permissao para concluir a acao.");
 		}
 		
-		if(validaOperacao(matricula)){
-			if(!validaSenha.validaNovaSenha(newSenha).find()){
-				throw new DadoInvalidoException("Erro ao atualizar funcionario. A nova senha deve ter entre 8 - 12 caracteres alfanumericos." );
-			}
-			funcionario.setSenha(newSenha);
+		else if (!senha.equals(funcionario.getSenha())) {
+			throw new SenhaIncorretaException("Senha invalida.");
+		}
+
+		else if(!validaSenha.validar(novaSenha)){
+			throw new DadoInvalidoException("A nova senha deve ter entre 8 - 12 caracteres alfanumericos." );
 		}
 		
-		throw new PermissaoException("Voce nao possui permissao para concluir a acao.");
+		funcionario.setSenha(novaSenha);
 	}
 	
 	//atualiza data de nascimento
-	public void atualizaDataNascimento(String matricula, String newDataNascimento) throws DadoInvalidoException, ObjetoInexistenteException,
-				PermissaoException{
+	public void atualizaDataNascimento(String matricula, String newDataNascimento) throws DadoInvalidoException, LogicaException {
 		Funcionario funcionario = getFuncionarioPorMatricula(matricula);
 		
-		if(!validaOperacao(matricula)){
+		if (!usuarioLogado.temPermissao(PermissaoFuncionario.atualizarNascimento)) {
 			throw new PermissaoException("Voce nao possui permissao para concluir a acao.");
 		}
 		
-		
-		
+		// atualizar data de nascimento
 	}
 	
 	//remove usuarios
-	public boolean removeUsuario(String matricula, String senha)throws PermissaoException, DadoInvalidoException, ObjetoInexistenteException,
-					SenhaIncorretaException{
-		
+	public void removeUsuario(String matricula, String senha) throws DadoInvalidoException, LogicaException {
 		Funcionario funcionario = getFuncionarioPorMatricula(matricula);
 		
-		if(!validaOperacao(usuarioLogado.getMatricula())){
+		if (!usuarioLogado.temPermissao(PermissaoFuncionario.removerUsuario)) {
 			throw new PermissaoException("Voce nao possui permissao para concluir a acao.");
 		}
 		
-		if(!(usuarioLogado instanceof Diretor)){
-			throw new PermissaoException("Voce nao possui permissao para concluir a acoa.");
-		}
-		
-		//if(){
-			
-		//}
-		
-		
-		return true;
+		// remover usuario
 	}
 	
 	
@@ -231,6 +223,9 @@ public class HospitalController {
 	}
 	
 	public String getInfoFuncionario(String matricula, String atributo) throws DadoInvalidoException, LogicaException {
+		if(!validaMatricula.validaMatricula(matricula)){
+			throw new DadoInvalidoException("A matricula nao segue o padrao.");
+		}
 		if (!isUsuarioLogado()) {
 			throw new LogicaException("Usuario nao esta logado.");
 		}
