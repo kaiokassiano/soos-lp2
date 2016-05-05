@@ -4,6 +4,8 @@ import controller.hospital.HospitalController;
 import data.BancoDeDados;
 import exceptions.dado.*;
 import exceptions.logica.*;
+import model.usuarios.Paciente;
+import model.usuarios.Prontuario;
 
 public class MainFacade {
 
@@ -67,5 +69,15 @@ public class MainFacade {
 			throw new LogicaException("Erro no cadastro de funcionario. " + e.getMessage());
 		}
 	}
+	
 
+
+	public String getInfoPaciente(String paciente, String atributo) throws Exception {
+			return hospitalController.getInfoPaciente(paciente, atributo);
+	}
+
+	public void cadastraPaciente(String nome, String data, double peso, String sexo, 
+			String genero, String tipoSanguineo) throws Exception {
+		hospitalController.cadastraPaciente(nome, data, peso, sexo, genero, tipoSanguineo);
+	}
 }
