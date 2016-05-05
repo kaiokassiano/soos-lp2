@@ -12,7 +12,7 @@ import exceptions.logica.LogicaException;
 import exceptions.logica.StringVaziaException;
 
 /**
- * Model que representa todos os funcionários do sistema
+ * Model que representa todos os funcionï¿½rios do sistema
  */
 public abstract class Funcionario implements Serializable {
 
@@ -27,13 +27,15 @@ public abstract class Funcionario implements Serializable {
 	private String senha;
 
 	/**
-	 * Construtor de um objeto do tipo funcionário
+	 * Construtor de um objeto do tipo funcionï¿½rio
 	 * 
-	 * @param nome           Nome do funcionário
-	 * @param matricula      Matrícula do funcionário
-	 * @param dataNascimento Data de nascimento do funcionário
+	 * @param nome           Nome do funcionï¿½rio
+	 * @param matricula      Matrï¿½cula do funcionï¿½rio
+	 * @param dataNascimento Data de nascimento do funcionï¿½rio
+	 * @throws DadoInvalidoException
+	 * @throws LogicaException
 	 */
-	public Funcionario(String nome, String matricula, LocalDate dataNascimento) {
+	public Funcionario(String nome, String matricula, LocalDate dataNascimento) throws DadoInvalidoException, LogicaException {
 		if (nome == null) {
 			throw new NullStringException("Nome nao pode ser nulo");
 		}
@@ -52,19 +54,20 @@ public abstract class Funcionario implements Serializable {
 	}
 
 	/**
-	 * Define as permissões que o funcionário atual possui
+	 * Define as permissï¿½es que o funcionï¿½rio atual possui
 	 * 
-	 * @return Conjunto contendo todas as permissões que o usuário possui
+	 * @return Conjunto contendo todas as permissï¿½es que o usuï¿½rio possui
 	 */
 	public abstract HashSet<PermissaoFuncionario> definePermissoes();
 	
 	/**
-	 * Verifica se o usuário possui uma determinada permissão
+	 * Verifica se o usuï¿½rio possui uma determinada permissï¿½o
 	 * 
-	 * @param permissao Permissão a ser checada
-	 * @return          Boleano indicando se o usuário possui a permissão
+	 * @param permissao Permissï¿½o a ser checada
+	 * @return          Boleano indicando se o usuï¿½rio possui a permissï¿½o
+	 * @throws DadoInvalidoException 
 	 */
-	public boolean temPermissao(PermissaoFuncionario permissao) {
+	public boolean temPermissao(PermissaoFuncionario permissao) throws DadoInvalidoException {
 		if (permissao == null) {
 			throw new DadoInvalidoException("Permissao nao pode ser nulo.");
 		}
@@ -81,7 +84,7 @@ public abstract class Funcionario implements Serializable {
 		return matricula;
 	}
 	
-	public void setNome(String nome) {
+	public void setNome(String nome) throws NullStringException, StringVaziaException {
 		if (nome == null) {
 			throw new NullStringException("Nome nao pode ser nulo.");
 		}
@@ -96,10 +99,10 @@ public abstract class Funcionario implements Serializable {
 	}
 	
 	/**
-	 * Gera uma senha automática para o usuário, seguindo o padrão de
+	 * Gera uma senha automï¿½tica para o usuï¿½rio, seguindo o padrï¿½o de
 	 * que os 4 primeiros digitos correspondem ao ano de nascimento do
-	 * usuário, e os 4 últimos correspondem aos 4 primeiros digitos de sua
-	 * matrícula
+	 * usuï¿½rio, e os 4 ï¿½ltimos correspondem aos 4 primeiros digitos de sua
+	 * matrï¿½cula
 	 */
 	private void gerarSenha() {
 		this.senha = dataNascimento.getYear() + getMatricula().substring(0, 4);
@@ -121,9 +124,9 @@ public abstract class Funcionario implements Serializable {
 	}
 	
 	/**
-	 * Retorna a representação do cargo do funcionário em forma de String
+	 * Retorna a representaï¿½ï¿½o do cargo do funcionï¿½rio em forma de String
 	 * 
-	 * @return Cargo do funcionário
+	 * @return Cargo do funcionï¿½rio
 	 */
 	public abstract String getCargo();
 }

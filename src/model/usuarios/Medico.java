@@ -7,8 +7,8 @@ import exceptions.dado.DadoInvalidoException;
 import exceptions.logica.LogicaException;
 
 /**
- * Classe de médico do sistema, possui todas as permissões relacionadas
- * ao corpo clínico
+ * Classe de mï¿½dico do sistema, possui todas as permissï¿½es relacionadas
+ * ao corpo clï¿½nico
  */
 public class Medico extends Funcionario {
 
@@ -24,11 +24,13 @@ public class Medico extends Funcionario {
 =======
 	 * Construtor de Medico
 	 * 
-	 * @param nome           Nome do médico
-	 * @param matricula      Matrícula do médico
-	 * @param dataNascimento Data de nascimento do médico
+	 * @param nome           Nome do mï¿½dico
+	 * @param matricula      Matrï¿½cula do mï¿½dico
+	 * @param dataNascimento Data de nascimento do mï¿½dico
+	 * @throws LogicaException 
+	 * @throws DadoInvalidoException 
 	 */
-	public Medico(String nome, String matricula, LocalDate dataNascimento) {
+	public Medico(String nome, String matricula, LocalDate dataNascimento) throws DadoInvalidoException, LogicaException {
 		super(nome, matricula, dataNascimento);
 >>>>>>> 6b2ac5fd4269c96360d0732c87a71c1badb1554a
 	}
