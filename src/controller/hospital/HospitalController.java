@@ -351,7 +351,59 @@ public class HospitalController {
 		}
 		
 		return saida;
-		
+	}
+	
+	public String getInfoPaciente(String nomePaciente, String atributo) throws Exception {
+
+		Paciente paciente = retornaPacientePeloNome(nomePaciente);
+
+		String saida = "";
+
+		switch (atributo) {
+		case "Nome":
+			saida = paciente.getNome();
+		case "Data":
+			saida = paciente.getData();
+		case "Sexo":
+			saida = paciente.getSexo();
+		case "Genero":
+			saida = paciente.getGenero();
+		case "TipoSanguineo":
+			saida = paciente.getTipoSanguineo();
+		case "Peso":
+			saida = paciente.getPeso();
+		}
+		return saida;
+	}
+	
+	public void cadastraPaciente(String nome, String data, double peso, String sexo, String genero,
+			String tipoSanguineo) throws Exception {
+
+		Paciente p = retornaPacientePeloNome(nome);
+		if (p != null) {
+			throw new Exception("Nao foi possivel cadastrar o paciente. Paciente ja cadastrado.");
+		}
+
+		try {
+			Paciente paciente = new Paciente(nome, data, peso, sexo, genero, tipoSanguineo);
+			Prontuario prontuario = new Prontuario(paciente);
+			this.prontuarios.add(prontuario);
+		} catch (Exception e) {
+			throw new Exception("Nao foi possivel cadastrar o paciente." + e.getMessage());
+		}
+	}
+
+	public Paciente retornaPacientePeloNome(String nome) throws Exception {
+		try {
+			for (int i = 0; i < prontuarios.size(); i++) {
+				if (prontuarios.get(i).getPaciente().getNome().equals(nome) && prontuarios.get(i).getPaciente() != null) {
+					return prontuarios.get(i).getPaciente();
+				}
+			}
+		} catch (Exception e) {
+			throw new Exception("Paciente nao encontrado.");
+		}
+		return null;
 	}
 	
 }
