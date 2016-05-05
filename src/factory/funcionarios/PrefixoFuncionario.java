@@ -1,7 +1,7 @@
 package factory.funcionarios;
 
 /**
- * Enum representando o prefixo de cada tipo de funcion·rio
+ * Enum representando o prefixo de cada tipo de funcion√°rio
  */
 public enum PrefixoFuncionario {
 	
@@ -11,7 +11,7 @@ public enum PrefixoFuncionario {
 	
 	/**
 	 * Construtor do enum
-	 * @param prefixo Prefixo dado ao funcion·rio
+	 * @param prefixo Prefixo dado ao funcion√°rio
 	 */
 	private PrefixoFuncionario(int prefixo) {
 		this.prefixo = prefixo;

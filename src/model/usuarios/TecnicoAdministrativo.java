@@ -7,19 +7,21 @@ import exceptions.dado.DadoInvalidoException;
 import exceptions.logica.LogicaException;
 
 /**
- * Classe de técnico administrativo do sistema, possui
- * todas as permissões relacionadas ao corpo profissional
+ * Classe de tï¿½cnico administrativo do sistema, possui
+ * todas as permissï¿½es relacionadas ao corpo profissional
  */
 public class TecnicoAdministrativo extends Funcionario {
 
 	/**
 	 * Construtor de TecnicoAdministrativo
 	 * 
-	 * @param nome           Nome do técnico administrativo
-	 * @param matricula      Matrícula do técnico administrativo
-	 * @param dataNascimento Data de nascimento do técnico administrativo
+	 * @param nome           Nome do tï¿½cnico administrativo
+	 * @param matricula      Matrï¿½cula do tï¿½cnico administrativo
+	 * @param dataNascimento Data de nascimento do tï¿½cnico administrativo
+	 * @throws LogicaException 
+	 * @throws DadoInvalidoException 
 	 */
-	public TecnicoAdministrativo(String nome, String matricula, LocalDate dataNascimento) {
+	public TecnicoAdministrativo(String nome, String matricula, LocalDate dataNascimento) throws DadoInvalidoException, LogicaException {
 		super(nome, matricula, dataNascimento);
 	}
 

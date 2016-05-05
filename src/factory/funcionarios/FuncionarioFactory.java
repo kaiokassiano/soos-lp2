@@ -12,17 +12,17 @@ import model.usuarios.Medico;
 import model.usuarios.TecnicoAdministrativo;
 
 /**
- * Factory de funcionários
+ * Factory de funcionÃ¡rios
  */
 public class FuncionarioFactory {
 	
 	/**
-	 * Cria um funcionário dado suas informações
+	 * Cria um funcionÃ¡rio dado suas informaÃ§Ãµes
 	 * 
-	 * @param nome           Nome do funcionário
-	 * @param cargo          Cargo do funcionário
-	 * @param dataNascimento Data de nascimento do funcionário
-	 * @return               Instância do objeto Funcionario
+	 * @param nome           Nome do funcionÃ¡rio
+	 * @param cargo          Cargo do funcionÃ¡rio
+	 * @param dataNascimento Data de nascimento do funcionÃ¡rio
+	 * @return               InstÃ¢ncia do objeto Funcionario
 	 */
 	public Funcionario criaFuncionario(String nome, String cargo, String dataNascimento) {
 		Funcionario funcionario = null;
@@ -46,10 +46,10 @@ public class FuncionarioFactory {
 	}
 	
 	/**
-	 * Gera uma matrícula para um funcionário com o prefixo dado
+	 * Gera uma matrÃ­cula para um funcionÃ¡rio com o prefixo dado
 	 * 
-	 * @param prefixo Prefixo do funcionário
-	 * @return        Matrícula do funcionário
+	 * @param prefixo Prefixo do funcionÃ¡rio
+	 * @return        MatrÃ­cula do funcionÃ¡rio
 	 */
 	private String geraMatriculaFuncionario(PrefixoFuncionario prefixo) {
 		return prefixo.getPrefixo() + LocalDate.now().getYear() + String.format("%03d", BancoDeDados.getInstance().getProximoId());
