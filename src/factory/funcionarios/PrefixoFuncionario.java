@@ -11,6 +11,7 @@ public enum PrefixoFuncionario {
 	
 	/**
 	 * Construtor do enum
+	 * 
 	 * @param prefixo Prefixo dado ao funcionário
 	 */
 	private PrefixoFuncionario(int prefixo) {

@@ -6,23 +6,12 @@ import java.util.HashSet;
 import exceptions.dado.DadoInvalidoException;
 import exceptions.logica.LogicaException;
 
-/**
- * Classe de t�cnico administrativo do sistema, possui
- * todas as permiss�es relacionadas ao corpo profissional
- */
 public class TecnicoAdministrativo extends Funcionario {
 
-	/**
-	 * Construtor de TecnicoAdministrativo
-	 * 
-	 * @param nome           Nome do t�cnico administrativo
-	 * @param matricula      Matr�cula do t�cnico administrativo
-	 * @param dataNascimento Data de nascimento do t�cnico administrativo
-	 * @throws LogicaException 
-	 * @throws DadoInvalidoException 
-	 */
-	public TecnicoAdministrativo(String nome, String matricula, LocalDate dataNascimento) throws DadoInvalidoException, LogicaException {
-		super(nome, matricula, dataNascimento);
+	private static final int PREFIXO = 3;
+
+	public TecnicoAdministrativo(String nome, LocalDate data) throws DadoInvalidoException, LogicaException {
+		super(nome, data);
 	}
 
 	@Override
@@ -32,6 +21,11 @@ public class TecnicoAdministrativo extends Funcionario {
 		permissoes.add(PermissaoFuncionario.criacaoPacientes);
 		
 		return permissoes;
+	}
+
+	@Override
+	public int getPrefixo() {
+		return PREFIXO;
 	}
 
 	@Override

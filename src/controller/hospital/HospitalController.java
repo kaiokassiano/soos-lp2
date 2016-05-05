@@ -1,19 +1,43 @@
 package controller.hospital;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 import data.BancoDeDados;
-import exceptions.dado.*;
-import exceptions.logica.*;
-import factory.funcionarios.*;
-import factory.medicamentos.*;
-import model.usuarios.*;
+import exceptions.dado.DadoInvalidoException;
+import exceptions.dado.NullStringException;
+import exceptions.logica.AtributoInvalidoException;
+import exceptions.logica.CategoriaInexistenteException;
+import exceptions.logica.CategoriaInvalidaException;
+import exceptions.logica.ChaveIncorretaException;
+import exceptions.logica.ComparacaoInvalidaException;
+import exceptions.logica.LogicaException;
+import exceptions.logica.ObjetoInexistenteException;
+import exceptions.logica.OperacaoInvalidaException;
+import exceptions.logica.PermissaoException;
+import exceptions.logica.SenhaIncorretaException;
+import exceptions.logica.StringVaziaException;
+import factory.funcionarios.FuncionarioFactory;
+import factory.medicamentos.MedicamentoFactory;
+import model.farmacia.Comparador;
+import model.farmacia.Medicamento;
+import model.usuarios.Diretor;
+import model.usuarios.Funcionario;
+import model.usuarios.PermissaoFuncionario;
+import valida.dados.ValidaMatricula;
+import valida.dados.ValidaNomes;
+import valida.dados.ValidaSenhas;
+import validacao.medicamentos.ValidacaoMedicamentos;
 
+<<<<<<< HEAD
+=======
 /**
  * Controller principal da aplicação, faz o gerenciamento de todas as áreas
  * e assim como o do sistema
  */
+>>>>>>> e96f5d0eb62013b40892405089b1980559cb9cf7
 public class HospitalController {
 
 	private static final String chaveSistema = "c041ebf8";
@@ -28,9 +52,6 @@ public class HospitalController {
 	
 	private boolean sistemaLiberado;
 	
-	/**
-	 * Construtor do HospitalController
-	 */
 	public HospitalController() {
 		funcionarioFactory = new FuncionarioFactory();
 		medicamentoFactory = new MedicamentoFactory();
@@ -41,17 +62,17 @@ public class HospitalController {
 		bancoDeDados = BancoDeDados.getInstance();
 	}
 	
-	/**
-	 * Inicia o sistema, juntamente com o banco de dados
-	 */
 	public void iniciaSistema() {
 		bancoDeDados.init();
 	}
 	
+<<<<<<< HEAD
+=======
 	/**
 	 * Fecha o sistema, junto com o banco de dados, verificando 
 	 * se alguém ainda está logado e, caso esteja, joga um erro
 	 */
+>>>>>>> e96f5d0eb62013b40892405089b1980559cb9cf7
 	public void fechaSistema() {
 		if (isUsuarioLogado()) {
 			throw new LogicaException("Um funcionario ainda esta logado: " + usuarioLogado.getNome() + ".");
@@ -59,6 +80,8 @@ public class HospitalController {
 		bancoDeDados.fechar();
 	}
 	
+<<<<<<< HEAD
+=======
 	/**
 	 * Libera o sistema, criando um usuário com privilégios de Diretor
 	 * e retornando o seu numero de matrícula
@@ -68,6 +91,7 @@ public class HospitalController {
 	 * @param dataNascimento Data de nascimento do diretor conforme o padrão dd/MM/yyyy
 	 * @return               Matrícula do diretor
 	 */
+>>>>>>> e96f5d0eb62013b40892405089b1980559cb9cf7
 	public String liberaSistema(String chave, String nome, String dataNascimento) {
 		if (chave == null) {
 			throw new NullStringException("Chave nao pode ser nulo.");
@@ -92,21 +116,27 @@ public class HospitalController {
 		return diretor.getMatricula();
 	}
 	
+<<<<<<< HEAD
+=======
 	/**
 	 * Verifica se tem algum usuário logado
 	 * 
 	 * @return Boleano indicando se tem algum usuário logado
 	 */
+>>>>>>> e96f5d0eb62013b40892405089b1980559cb9cf7
 	public boolean isUsuarioLogado() {
 		return usuarioLogado != null;
 	}
 	
+<<<<<<< HEAD
+=======
 	/**
 	 * Realiza o login de um usuário
 	 * 
 	 * @param matricula Matrícula do usuário
 	 * @param senha     Senha do usuário
 	 */
+>>>>>>> e96f5d0eb62013b40892405089b1980559cb9cf7
 	public void login(String matricula, String senha) {
 		if (!sistemaLiberado) {
 			throw new LogicaException("Sistema nao liberado.");
@@ -130,10 +160,13 @@ public class HospitalController {
 		usuarioLogado = funcionario;
 	}
 	
+<<<<<<< HEAD
+=======
 	/**
 	 * Realiza o logout de um usuário, e joga um erro caso não
 	 * tenha usuários logados
 	 */
+>>>>>>> e96f5d0eb62013b40892405089b1980559cb9cf7
 	public void logout() {
 		if (!isUsuarioLogado()) {
 			throw new LogicaException("Nao ha um funcionario logado.");
@@ -141,6 +174,8 @@ public class HospitalController {
 		usuarioLogado = null;
 	}
 	
+<<<<<<< HEAD
+=======
 	/**
 	 * Retorna um funcionário dado seu numero de matrícula, e joga um erro
 	 * caso não exista um funcionário com aquela matrícula
@@ -148,6 +183,7 @@ public class HospitalController {
 	 * @param matricula Matrícula do usuário
 	 * @return          Instância de um objeto Funcionario
 	 */
+>>>>>>> e96f5d0eb62013b40892405089b1980559cb9cf7
 	public Funcionario getFuncionarioPorMatricula(String matricula) {
 		Funcionario funcionario = funcionarios.get(matricula);
 		
@@ -158,6 +194,9 @@ public class HospitalController {
 		return funcionario;
 	}
 	
+<<<<<<< HEAD
+	
+=======
 	/**
 	 * Cadastra um funcionário, retornando seu número de matrícula
 	 * 
@@ -166,6 +205,7 @@ public class HospitalController {
 	 * @param dataNascimento Data de nascimento do funcionário
 	 * @return               Matrícula do funcionário criado
 	 */
+>>>>>>> e96f5d0eb62013b40892405089b1980559cb9cf7
 	public String cadastraFuncionario(String nome, String cargo, String dataNascimento) {
 		if (nome == null) {
 			throw new NullStringException("Nome do funcionario nao pode ser nulo.");
@@ -199,6 +239,8 @@ public class HospitalController {
 		return funcionario.getMatricula();
 	}
 	
+<<<<<<< HEAD
+=======
 	/**
 	 * Pega o atributo do funcionário requisitado
 	 * 
@@ -206,6 +248,7 @@ public class HospitalController {
 	 * @param atributo  Atributo a ser requisitado
 	 * @return          Valor do atributo do funcionário
 	 */
+>>>>>>> e96f5d0eb62013b40892405089b1980559cb9cf7
 	public String getInfoFuncionario(String matricula, String atributo) {
 		if (!isUsuarioLogado()) {
 			throw new LogicaException("Usuario nao esta logado.");
@@ -405,5 +448,4 @@ public class HospitalController {
 		}
 		return null;
 	}
-	
 }
