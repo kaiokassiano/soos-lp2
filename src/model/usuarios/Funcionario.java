@@ -20,7 +20,7 @@ public abstract class Funcionario implements Serializable {
 	private String nome;
 	private HashSet<PermissaoFuncionario> permissoes;
 	private LocalDate dataNascimento;
-	private static String matricula;
+	private String matricula;
 	private String senha;
 
 	public Funcionario(String nome, LocalDate dataNascimento) throws DadoInvalidoException, LogicaException {
@@ -53,7 +53,7 @@ public abstract class Funcionario implements Serializable {
 	public abstract int getPrefixo();
 	
 	private void gerarMatricula() {
-		Funcionario.matricula = getPrefixo() + (LocalDate.now().getYear() + String.format("%03d", BancoDeDados.getInstance().getProximoId()));
+		matricula = getPrefixo() + (LocalDate.now().getYear() + String.format("%03d", BancoDeDados.getInstance().getProximoId()));
 	}
 	
 	public String getMatricula() {
