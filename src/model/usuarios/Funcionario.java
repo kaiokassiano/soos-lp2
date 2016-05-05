@@ -1,7 +1,6 @@
 package model.usuarios;
 
 import java.io.Serializable;
-
 import java.time.LocalDate;
 import java.util.HashSet;
 
@@ -11,26 +10,15 @@ import exceptions.dado.NullStringException;
 import exceptions.logica.LogicaException;
 import exceptions.logica.StringVaziaException;
 
-/**
- * Model que representa todos os funcion�rios do sistema
- */
 public abstract class Funcionario implements Serializable {
 
-	private static final long serialVersionUID = 1L;
 	private String nome;
 	private HashSet<PermissaoFuncionario> permissoes;
 	private LocalDate dataNascimento;
 	private String matricula;
 	private String senha;
 
-	/**
-	 * Construtor de um objeto do tipo funcion�rio
-	 * 
-	 * @param nome           Nome do funcion�rio
-	 * @param matricula      Matr�cula do funcion�rio
-	 * @param dataNascimento Data de nascimento do funcion�rio
-	 */
-	public Funcionario(String nome, String matricula, LocalDate dataNascimento) {
+	public Funcionario(String nome, LocalDate dataNascimento) throws DadoInvalidoException, LogicaException {
 		if (nome == null) {
 			throw new NullStringException("Nome nao pode ser nulo");
 		}
@@ -44,50 +32,32 @@ public abstract class Funcionario implements Serializable {
 		this.permissoes = definePermissoes(); // chamada polimorfica
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;
-		this.matricula = matricula;
+		gerarMatricula(); // chamada polimorfica
 		gerarSenha();
 	}
 
-	/**
-	 * Define as permiss�es que o funcion�rio atual possui
-	 * 
-	 * @return Conjunto contendo todas as permiss�es que o usu�rio possui
-	 */
 	public abstract HashSet<PermissaoFuncionario> definePermissoes();
 	
-	/**
-	 * Verifica se o usu�rio possui uma determinada permiss�o
-	 * 
-	 * @param permissao Permiss�o a ser checada
-	 * @return          Boleano indicando se o usu�rio possui a permiss�o
-	 */
-	public boolean temPermissao(PermissaoFuncionario permissao) {
+	public boolean temPermissao(PermissaoFuncionario permissao) throws DadoInvalidoException {
 		if (permissao == null) {
 			throw new DadoInvalidoException("Permissao nao pode ser nulo.");
 		}
 		return permissoes.contains(permissao);
 	}
-<<<<<<< HEAD
 	
 	public abstract int getPrefixo();
 	
 	private void gerarMatricula() {
-		matricula = getPrefixo() + (LocalDate.now().getYear() + String.format("%03d", BancoDeDados.getInstance().getProximoId()));
+		this.matricula = getPrefixo() + (LocalDate.now().getYear() + String.format("%03d", BancoDeDados.getInstance().getProximoId()));
 	}
 	
-=======
-
->>>>>>> e96f5d0eb62013b40892405089b1980559cb9cf7
 	public String getMatricula() {
 		return matricula;
 	}
 	
-	public void setNome(String nome) {
+	public void setNome(String nome) throws NullStringException {
 		if (nome == null) {
 			throw new NullStringException("Nome nao pode ser nulo.");
-		}
-		else if (nome.trim().isEmpty()) {
-			throw new StringVaziaException("Nome nao pode ser vazio.");
 		}
 		this.nome = nome;
 	}
@@ -96,12 +66,6 @@ public abstract class Funcionario implements Serializable {
 		return nome;
 	}
 	
-	/**
-	 * Gera uma senha autom�tica para o usu�rio, seguindo o padr�o de
-	 * que os 4 primeiros digitos correspondem ao ano de nascimento do
-	 * usu�rio, e os 4 �ltimos correspondem aos 4 primeiros digitos de sua
-	 * matr�cula
-	 */
 	private void gerarSenha() {
 		this.senha = dataNascimento.getYear() + getMatricula().substring(0, 4);
 	}
@@ -121,10 +85,5 @@ public abstract class Funcionario implements Serializable {
 		return dataNascimento.toString();
 	}
 	
-	/**
-	 * Retorna a representa��o do cargo do funcion�rio em forma de String
-	 * 
-	 * @return Cargo do funcion�rio
-	 */
 	public abstract String getCargo();
 }
