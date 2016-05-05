@@ -248,24 +248,27 @@ public class HospitalController {
 		
 		String attr = null;
 		
-		if (atributo.equalsIgnoreCase("Nome")) {
+		switch (atributo) {
+		
+		case "Nome":
 			attr = funcionario.getNome();
-		}
-		else if (atributo.equalsIgnoreCase("Cargo")) {
+			
+		case "Cargo":
 			attr = funcionario.getCargo();
-		}
-		else if (atributo.equalsIgnoreCase("Data")) {
+			
+		case "Data":
 			attr = funcionario.getDataNascimento();
-		}
-		else if (atributo.equalsIgnoreCase("Senha")) {
+			
+		case "Senha":
 			if (usuarioLogado.getMatricula().equals(funcionario.getMatricula())) {
 				attr = funcionario.getSenha();
 			}
 			else {
 				throw new PermissaoException("A senha do funcionario eh protegida.");
 			}
-		}
-		else {
+			break;
+			
+		default:
 			throw new AtributoInvalidoException("Atributo invalido.");
 		}
 		
