@@ -11,30 +11,20 @@ import exceptions.logica.LogicaException;
  * Classe de diretor do sistema, possui todas as permiss�es
  */
 public class Diretor extends Funcionario {
+
+	private static final long serialVersionUID = 1L;
 	
 	/**
-<<<<<<< HEAD
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private final static int PREFIXO = 1;
-	
-	public Diretor(String nome, LocalDate data) throws DadoInvalidoException, LogicaException {
-		super(nome, data);
-=======
 	 * Construtor de Diretor
 	 * 
 	 * @param nome           Nome do diretor
 	 * @param matricula      Matr�cula do diretor
 	 * @param dataNascimento Data de nascimento do diretor 
-	 * @throws LogicaException 
-	 * @throws DadoInvalidoException 
 	 */
-	public Diretor(String nome, String matricula, LocalDate dataNascimento) throws DadoInvalidoException, LogicaException {
+	public Diretor(String nome, String matricula, LocalDate dataNascimento) {
 		super(nome, matricula, dataNascimento);
->>>>>>> 6b2ac5fd4269c96360d0732c87a71c1badb1554a
 	}
-	
+
 	/**
 	 * Define todas as permiss�es que um funcion�rio com privil�gios de
 	 * diretor possui
@@ -56,7 +46,6 @@ public class Diretor extends Funcionario {
 	public String getCargo() {
 		return "Diretor Geral";
 	}
-<<<<<<< HEAD
 	
 	@Override
 	public String toString() {
@@ -64,7 +53,7 @@ public class Diretor extends Funcionario {
 	}
 	
 	@Override
-	public boolean equals(Object obj){
+	public boolean equals(Object obj) {
 	  if (this == obj)
 	    return true;
 	  if (obj == null)
@@ -73,6 +62,4 @@ public class Diretor extends Funcionario {
 	    return false;
 	  return true;
 	}
-=======
->>>>>>> 6b2ac5fd4269c96360d0732c87a71c1badb1554a
 }

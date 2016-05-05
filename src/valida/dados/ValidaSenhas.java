@@ -4,14 +4,10 @@ import java.util.regex.*;
 
 public class ValidaSenhas {
 	
-	public ValidaSenhas(String newSenha){
-		
-	}
-	
 	//valida senha
-	public Matcher validaNovaSenha(String newSenha){
+	public boolean validar(String senha){
 		String pattern = "^([a-zA-Z0-9]){8,12}$";
-		Pattern p = Pattern.compile(pattern);
-		return p.matcher(newSenha);
+		
+		return Pattern.matches(pattern, senha);
 	}
 }

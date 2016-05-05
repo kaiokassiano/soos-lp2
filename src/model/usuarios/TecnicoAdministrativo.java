@@ -12,27 +12,17 @@ import exceptions.logica.LogicaException;
  */
 public class TecnicoAdministrativo extends Funcionario {
 
-	/**
-<<<<<<< HEAD
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private static final int PREFIXO = 3;
 	
-	public TecnicoAdministrativo(String nome, LocalDate data) throws DadoInvalidoException, LogicaException {
-		super(nome, data);
-=======
+	/**
 	 * Construtor de TecnicoAdministrativo
 	 * 
 	 * @param nome           Nome do t�cnico administrativo
 	 * @param matricula      Matr�cula do t�cnico administrativo
 	 * @param dataNascimento Data de nascimento do t�cnico administrativo
-	 * @throws LogicaException 
-	 * @throws DadoInvalidoException 
 	 */
-	public TecnicoAdministrativo(String nome, String matricula, LocalDate dataNascimento) throws DadoInvalidoException, LogicaException {
-		super(nome, matricula, dataNascimento);
->>>>>>> 6b2ac5fd4269c96360d0732c87a71c1badb1554a
+	public TecnicoAdministrativo(String nome, String matricula, LocalDate data) throws DadoInvalidoException, LogicaException {
+		super(nome, matricula, data);
 	}
 
 	@Override

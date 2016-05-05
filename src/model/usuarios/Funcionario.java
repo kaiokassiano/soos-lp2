@@ -16,9 +16,6 @@ import exceptions.logica.StringVaziaException;
  */
 public abstract class Funcionario implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String nome;
 	private HashSet<PermissaoFuncionario> permissoes;
@@ -32,10 +29,8 @@ public abstract class Funcionario implements Serializable {
 	 * @param nome           Nome do funcion�rio
 	 * @param matricula      Matr�cula do funcion�rio
 	 * @param dataNascimento Data de nascimento do funcion�rio
-	 * @throws DadoInvalidoException
-	 * @throws LogicaException
 	 */
-	public Funcionario(String nome, String matricula, LocalDate dataNascimento) throws DadoInvalidoException, LogicaException {
+	public Funcionario(String nome, String matricula, LocalDate dataNascimento) {
 		if (nome == null) {
 			throw new NullStringException("Nome nao pode ser nulo");
 		}
@@ -65,14 +60,14 @@ public abstract class Funcionario implements Serializable {
 	 * 
 	 * @param permissao Permiss�o a ser checada
 	 * @return          Boleano indicando se o usu�rio possui a permiss�o
-	 * @throws DadoInvalidoException 
 	 */
-	public boolean temPermissao(PermissaoFuncionario permissao) throws DadoInvalidoException {
+	public boolean temPermissao(PermissaoFuncionario permissao) {
 		if (permissao == null) {
 			throw new DadoInvalidoException("Permissao nao pode ser nulo.");
 		}
 		return permissoes.contains(permissao);
 	}
+<<<<<<< HEAD
 	
 	public abstract int getPrefixo();
 	
@@ -80,11 +75,14 @@ public abstract class Funcionario implements Serializable {
 		matricula = getPrefixo() + (LocalDate.now().getYear() + String.format("%03d", BancoDeDados.getInstance().getProximoId()));
 	}
 	
+=======
+
+>>>>>>> e96f5d0eb62013b40892405089b1980559cb9cf7
 	public String getMatricula() {
 		return matricula;
 	}
 	
-	public void setNome(String nome) throws NullStringException, StringVaziaException {
+	public void setNome(String nome) {
 		if (nome == null) {
 			throw new NullStringException("Nome nao pode ser nulo.");
 		}
