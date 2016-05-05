@@ -12,17 +12,30 @@ import model.usuarios.Medico;
 import model.usuarios.TecnicoAdministrativo;
 
 /**
+<<<<<<< HEAD
  * Factory de funcionÃ¡rios
+=======
+ * Factory de funcionários
+>>>>>>> 6b2ac5fd4269c96360d0732c87a71c1badb1554a
  */
 public class FuncionarioFactory {
 	
 	/**
+<<<<<<< HEAD
 	 * Cria um funcionÃ¡rio dado suas informaÃ§Ãµes
 	 * 
 	 * @param nome           Nome do funcionÃ¡rio
 	 * @param cargo          Cargo do funcionÃ¡rio
 	 * @param dataNascimento Data de nascimento do funcionÃ¡rio
 	 * @return               InstÃ¢ncia do objeto Funcionario
+=======
+	 * Cria um funcionário dado suas informações
+	 * 
+	 * @param nome           Nome do funcionário
+	 * @param cargo          Cargo do funcionário
+	 * @param dataNascimento Data de nascimento do funcionário
+	 * @return               Instância do objeto Funcionario
+>>>>>>> 6b2ac5fd4269c96360d0732c87a71c1badb1554a
 	 */
 	public Funcionario criaFuncionario(String nome, String cargo, String dataNascimento) {
 		Funcionario funcionario = null;
@@ -46,10 +59,17 @@ public class FuncionarioFactory {
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * Gera uma matrÃ­cula para um funcionÃ¡rio com o prefixo dado
 	 * 
 	 * @param prefixo Prefixo do funcionÃ¡rio
 	 * @return        MatrÃ­cula do funcionÃ¡rio
+=======
+	 * Gera uma matrícula para um funcionário com o prefixo dado
+	 * 
+	 * @param prefixo Prefixo do funcionário
+	 * @return        Matrícula do funcionário
+>>>>>>> 6b2ac5fd4269c96360d0732c87a71c1badb1554a
 	 */
 	private String geraMatriculaFuncionario(PrefixoFuncionario prefixo) {
 		return prefixo.getPrefixo() + LocalDate.now().getYear() + String.format("%03d", BancoDeDados.getInstance().getProximoId());

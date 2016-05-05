@@ -7,9 +7,13 @@ import exceptions.*;
 import exceptions.dado.DadoInvalidoException;
 import exceptions.logica.LogicaException;
 
+/**
+ * Classe de diretor do sistema, possui todas as permissões
+ */
 public class Diretor extends Funcionario {
 	
 	/**
+<<<<<<< HEAD
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
@@ -17,8 +21,24 @@ public class Diretor extends Funcionario {
 	
 	public Diretor(String nome, LocalDate data) throws DadoInvalidoException, LogicaException {
 		super(nome, data);
+=======
+	 * Construtor de Diretor
+	 * 
+	 * @param nome           Nome do diretor
+	 * @param matricula      Matrícula do diretor
+	 * @param dataNascimento Data de nascimento do diretor 
+	 */
+	public Diretor(String nome, String matricula, LocalDate dataNascimento) {
+		super(nome, matricula, dataNascimento);
+>>>>>>> 6b2ac5fd4269c96360d0732c87a71c1badb1554a
 	}
 	
+	/**
+	 * Define todas as permissões que um funcionário com privilégios de
+	 * diretor possui
+	 * 
+	 * @return Conjunto com as permissões de Diretor
+	 */
 	@Override
 	public HashSet<PermissaoFuncionario> definePermissoes() {
 		HashSet<PermissaoFuncionario> permissoes = new HashSet<PermissaoFuncionario>();
@@ -29,16 +49,12 @@ public class Diretor extends Funcionario {
 
 		return permissoes;
 	}
-	
-	@Override
-	public int getPrefixo() {
-		return PREFIXO;
-	}
 
 	@Override
 	public String getCargo() {
 		return "Diretor Geral";
 	}
+<<<<<<< HEAD
 	
 	@Override
 	public String toString() {
@@ -55,4 +71,6 @@ public class Diretor extends Funcionario {
 	    return false;
 	  return true;
 	}
+=======
+>>>>>>> 6b2ac5fd4269c96360d0732c87a71c1badb1554a
 }

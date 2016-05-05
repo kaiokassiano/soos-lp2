@@ -6,10 +6,21 @@ import data.BancoDeDados;
 import exceptions.dado.*;
 import exceptions.logica.*;
 
+/**
+ * View principal para a aplicação
+ */
 public class MainFacade {
 
+<<<<<<< HEAD
 	private HospitalController hospitalController; // composicao
 
+=======
+	private HospitalController hospitalController;
+	
+	/**
+	 * Construtor da Facade
+	 */
+>>>>>>> 6b2ac5fd4269c96360d0732c87a71c1badb1554a
 	public MainFacade() {
 		hospitalController = new HospitalController();
 	}
@@ -25,16 +36,26 @@ public class MainFacade {
 			throw new LogicaException("Nao foi possivel fechar o sistema. " + e.getMessage());
 		}
 	}
+<<<<<<< HEAD
 
 	public String liberaSistema(String chave, String nome, String dataNascimento) throws LogicaException {
+=======
+	
+	public String liberaSistema(String chave, String nome, String dataNascimento) {
+>>>>>>> 6b2ac5fd4269c96360d0732c87a71c1badb1554a
 		try {
 			return hospitalController.liberaSistema(chave, nome, dataNascimento);
 		} catch (LogicaException | DadoInvalidoException e) {
 			throw new LogicaException("Erro ao liberar o sistema. " + e.getMessage());
 		}
 	}
+<<<<<<< HEAD
 
 	public void login(String matricula, String senha) throws LogicaException {
+=======
+	
+	public void login(String matricula, String senha) {
+>>>>>>> 6b2ac5fd4269c96360d0732c87a71c1badb1554a
 		try {
 			hospitalController.login(matricula, senha);
 		} catch (LogicaException | DadoInvalidoException e) {
@@ -49,16 +70,26 @@ public class MainFacade {
 			throw new LogicaException("Nao foi possivel realizar o logout. " + e.getMessage());
 		}
 	}
+<<<<<<< HEAD
 
 	public String getInfoFuncionario(String matricula, String atributo) throws LogicaException {
+=======
+	
+	public String getInfoFuncionario(String matricula, String atributo) {
+>>>>>>> 6b2ac5fd4269c96360d0732c87a71c1badb1554a
 		try {
 			return hospitalController.getInfoFuncionario(matricula, atributo);
 		} catch (LogicaException | DadoInvalidoException e) {
 			throw new LogicaException("Erro na consulta de funcionario. " + e.getMessage());
 		}
 	}
+<<<<<<< HEAD
 
 	public String cadastraFuncionario(String nome, String cargo, String dataNascimento) throws LogicaException {
+=======
+	
+	public String cadastraFuncionario(String nome, String cargo, String dataNascimento) {
+>>>>>>> 6b2ac5fd4269c96360d0732c87a71c1badb1554a
 		try {
 			return hospitalController.cadastraFuncionario(nome, cargo, dataNascimento);
 		} catch (LogicaException | DadoInvalidoException e) {

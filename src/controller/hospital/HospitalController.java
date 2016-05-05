@@ -31,6 +31,10 @@ import valida.dados.ValidaNomes;
 import valida.dados.ValidaSenhas;
 import validacao.medicamentos.ValidacaoMedicamentos;
 
+/**
+ * Controller principal da aplicação, faz o gerenciamento de todas as áreas
+ * e assim como o do sistema
+ */
 public class HospitalController {
 
 	private static final String chaveSistema = "c041ebf8";
@@ -45,6 +49,9 @@ public class HospitalController {
 	
 	private boolean sistemaLiberado;
 	
+	/**
+	 * Construtor do HospitalController
+	 */
 	public HospitalController() {
 		funcionarioFactory = new FuncionarioFactory();
 		medicamentoFactory = new MedicamentoFactory();
@@ -55,10 +62,20 @@ public class HospitalController {
 		bancoDeDados = BancoDeDados.getInstance();
 	}
 	
+	/**
+	 * Inicia o sistema, juntamente com o banco de dados
+	 */
 	public void iniciaSistema() {
 		bancoDeDados.init();
 	}
 	
+<<<<<<< HEAD
+=======
+	/**
+	 * Fecha o sistema, junto com o banco de dados, verificando 
+	 * se alguém ainda está logado e, caso esteja, joga um erro
+	 */
+>>>>>>> 6b2ac5fd4269c96360d0732c87a71c1badb1554a
 	public void fechaSistema() {
 		if (isUsuarioLogado()) {
 			throw new LogicaException("Um funcionario ainda esta logado: " + usuarioLogado.getNome() + ".");
@@ -66,6 +83,18 @@ public class HospitalController {
 		bancoDeDados.fechar();
 	}
 	
+<<<<<<< HEAD
+=======
+	/**
+	 * Libera o sistema, criando um usuário com privilégios de Diretor
+	 * e retornando o seu numero de matrícula
+	 * 
+	 * @param chave          Chave para liberar o sistema
+	 * @param nome           Nome do diretor
+	 * @param dataNascimento Data de nascimento do diretor conforme o padrão dd/MM/yyyy
+	 * @return               Matrícula do diretor
+	 */
+>>>>>>> 6b2ac5fd4269c96360d0732c87a71c1badb1554a
 	public String liberaSistema(String chave, String nome, String dataNascimento) {
 		if (chave == null) {
 			throw new NullStringException("Chave nao pode ser nulo.");
@@ -90,6 +119,11 @@ public class HospitalController {
 		return diretor.getMatricula();
 	}
 	
+	/**
+	 * Verifica se tem algum usuário logado
+	 * 
+	 * @return Boleano indicando se tem algum usuário logado
+	 */
 	public boolean isUsuarioLogado() {
 		return usuarioLogado != null;
 	}
@@ -133,7 +167,6 @@ public class HospitalController {
 		
 		return funcionario;
 	}
-	
 	
 	public String cadastraFuncionario(String nome, String cargo, String dataNascimento) {
 		if (nome == null) {
