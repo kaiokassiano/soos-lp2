@@ -25,19 +25,15 @@ import model.farmacia.Comparador;
 import model.farmacia.Medicamento;
 import model.usuarios.Diretor;
 import model.usuarios.Funcionario;
+import model.usuarios.Paciente;
 import model.usuarios.PermissaoFuncionario;
-import valida.dados.ValidaMatricula;
-import valida.dados.ValidaNomes;
-import valida.dados.ValidaSenhas;
+import model.usuarios.Prontuario;
 import validacao.medicamentos.ValidacaoMedicamentos;
 
-<<<<<<< HEAD
-=======
 /**
  * Controller principal da aplicação, faz o gerenciamento de todas as áreas
  * e assim como o do sistema
  */
->>>>>>> e96f5d0eb62013b40892405089b1980559cb9cf7
 public class HospitalController {
 
 	private static final String chaveSistema = "c041ebf8";
@@ -48,6 +44,7 @@ public class HospitalController {
 	private Funcionario usuarioLogado;
 	private HashMap<String, Funcionario> funcionarios;
 	private HashMap<String, Medicamento> medicamentos;
+	private ArrayList<Prontuario> prontuarios;
 	private BancoDeDados bancoDeDados;
 	
 	private boolean sistemaLiberado;
@@ -58,6 +55,7 @@ public class HospitalController {
 		
 		funcionarios = new HashMap<String, Funcionario>();
 		medicamentos = new HashMap<String, Medicamento>();
+		prontuarios = new ArrayList<Prontuario>();
 		
 		bancoDeDados = BancoDeDados.getInstance();
 	}
@@ -66,22 +64,17 @@ public class HospitalController {
 		bancoDeDados.init();
 	}
 	
-<<<<<<< HEAD
-=======
 	/**
 	 * Fecha o sistema, junto com o banco de dados, verificando 
 	 * se alguém ainda está logado e, caso esteja, joga um erro
 	 */
->>>>>>> e96f5d0eb62013b40892405089b1980559cb9cf7
-	public void fechaSistema() {
+	public void fechaSistema() throws LogicaException {
 		if (isUsuarioLogado()) {
 			throw new LogicaException("Um funcionario ainda esta logado: " + usuarioLogado.getNome() + ".");
 		}
 		bancoDeDados.fechar();
 	}
 	
-<<<<<<< HEAD
-=======
 	/**
 	 * Libera o sistema, criando um usuário com privilégios de Diretor
 	 * e retornando o seu numero de matrícula
@@ -90,9 +83,10 @@ public class HospitalController {
 	 * @param nome           Nome do diretor
 	 * @param dataNascimento Data de nascimento do diretor conforme o padrão dd/MM/yyyy
 	 * @return               Matrícula do diretor
+	 * @throws LogicaException 
+	 * @throws DadoInvalidoException 
 	 */
->>>>>>> e96f5d0eb62013b40892405089b1980559cb9cf7
-	public String liberaSistema(String chave, String nome, String dataNascimento) {
+	public String liberaSistema(String chave, String nome, String dataNascimento) throws LogicaException, DadoInvalidoException {
 		if (chave == null) {
 			throw new NullStringException("Chave nao pode ser nulo.");
 		}
@@ -116,28 +110,24 @@ public class HospitalController {
 		return diretor.getMatricula();
 	}
 	
-<<<<<<< HEAD
-=======
 	/**
 	 * Verifica se tem algum usuário logado
 	 * 
 	 * @return Boleano indicando se tem algum usuário logado
 	 */
->>>>>>> e96f5d0eb62013b40892405089b1980559cb9cf7
 	public boolean isUsuarioLogado() {
 		return usuarioLogado != null;
 	}
 	
-<<<<<<< HEAD
-=======
 	/**
 	 * Realiza o login de um usuário
 	 * 
 	 * @param matricula Matrícula do usuário
 	 * @param senha     Senha do usuário
+	 * @throws LogicaException 
+	 * @throws NullStringException 
 	 */
->>>>>>> e96f5d0eb62013b40892405089b1980559cb9cf7
-	public void login(String matricula, String senha) {
+	public void login(String matricula, String senha) throws LogicaException, NullStringException {
 		if (!sistemaLiberado) {
 			throw new LogicaException("Sistema nao liberado.");
 		}
@@ -160,31 +150,27 @@ public class HospitalController {
 		usuarioLogado = funcionario;
 	}
 	
-<<<<<<< HEAD
-=======
 	/**
 	 * Realiza o logout de um usuário, e joga um erro caso não
 	 * tenha usuários logados
+	 * @throws LogicaException 
 	 */
->>>>>>> e96f5d0eb62013b40892405089b1980559cb9cf7
-	public void logout() {
+	public void logout() throws LogicaException {
 		if (!isUsuarioLogado()) {
 			throw new LogicaException("Nao ha um funcionario logado.");
 		}
 		usuarioLogado = null;
 	}
 	
-<<<<<<< HEAD
-=======
 	/**
 	 * Retorna um funcionário dado seu numero de matrícula, e joga um erro
 	 * caso não exista um funcionário com aquela matrícula
 	 * 
 	 * @param matricula Matrícula do usuário
 	 * @return          Instância de um objeto Funcionario
+	 * @throws ObjetoInexistenteException 
 	 */
->>>>>>> e96f5d0eb62013b40892405089b1980559cb9cf7
-	public Funcionario getFuncionarioPorMatricula(String matricula) {
+	public Funcionario getFuncionarioPorMatricula(String matricula) throws ObjetoInexistenteException {
 		Funcionario funcionario = funcionarios.get(matricula);
 		
 		if (funcionario == null) {
@@ -194,9 +180,7 @@ public class HospitalController {
 		return funcionario;
 	}
 	
-<<<<<<< HEAD
-	
-=======
+
 	/**
 	 * Cadastra um funcionário, retornando seu número de matrícula
 	 * 
@@ -204,9 +188,10 @@ public class HospitalController {
 	 * @param cargo          Cargo do funcionário
 	 * @param dataNascimento Data de nascimento do funcionário
 	 * @return               Matrícula do funcionário criado
+	 * @throws LogicaException 
+	 * @throws DadoInvalidoException 
 	 */
->>>>>>> e96f5d0eb62013b40892405089b1980559cb9cf7
-	public String cadastraFuncionario(String nome, String cargo, String dataNascimento) {
+	public String cadastraFuncionario(String nome, String cargo, String dataNascimento) throws LogicaException, DadoInvalidoException {
 		if (nome == null) {
 			throw new NullStringException("Nome do funcionario nao pode ser nulo.");
 		}
@@ -239,17 +224,16 @@ public class HospitalController {
 		return funcionario.getMatricula();
 	}
 	
-<<<<<<< HEAD
-=======
 	/**
 	 * Pega o atributo do funcionário requisitado
 	 * 
 	 * @param matricula Matrícula do funcionário
 	 * @param atributo  Atributo a ser requisitado
 	 * @return          Valor do atributo do funcionário
+	 * @throws LogicaException 
+	 * @throws NullStringException 
 	 */
->>>>>>> e96f5d0eb62013b40892405089b1980559cb9cf7
-	public String getInfoFuncionario(String matricula, String atributo) {
+	public String getInfoFuncionario(String matricula, String atributo) throws LogicaException, NullStringException {
 		if (!isUsuarioLogado()) {
 			throw new LogicaException("Usuario nao esta logado.");
 		}
@@ -350,7 +334,7 @@ public class HospitalController {
 		getMedicamentoPeloNome(nome).atualizaMedicamento(atributo, novoValor);
 	}
 
-	public String consultaMedCategoria(String categoria) throws CategoriaInexistenteException, CategoriaInvalidaException{
+	public String consultaMedCategoria(String categoria) throws LogicaException {
 		try {
 			return getMedicamentosPelaCategoria(categoria);		
 		} catch (CategoriaInexistenteException | CategoriaInvalidaException e) {

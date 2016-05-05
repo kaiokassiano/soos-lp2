@@ -7,7 +7,7 @@ import exceptions.dado.*;
 import exceptions.logica.*;
 
 /**
- * View principal para a aplica��o
+ * View principal para a aplicação
  */
 public class MainFacade {
 
@@ -97,7 +97,7 @@ public class MainFacade {
 		}
 	}
 
-	public String consultaMedCategoria(String categoria) {
+	public String consultaMedCategoria(String categoria) throws LogicaException {
 		return hospitalController.consultaMedCategoria(categoria);
 	}
 	
