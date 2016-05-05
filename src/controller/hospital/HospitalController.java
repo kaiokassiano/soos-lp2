@@ -1,16 +1,38 @@
 package controller.hospital;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 import data.BancoDeDados;
-import exceptions.dado.*;
-import exceptions.logica.*;
-import factory.funcionarios.*;
-import factory.medicamentos.*;
-import model.usuarios.*;
+import exceptions.dado.DadoInvalidoException;
+import exceptions.dado.NullStringException;
+import exceptions.logica.AtributoInvalidoException;
+import exceptions.logica.CategoriaInexistenteException;
+import exceptions.logica.CategoriaInvalidaException;
+import exceptions.logica.ChaveIncorretaException;
+import exceptions.logica.ComparacaoInvalidaException;
+import exceptions.logica.LogicaException;
+import exceptions.logica.ObjetoInexistenteException;
+import exceptions.logica.OperacaoInvalidaException;
+import exceptions.logica.PermissaoException;
+import exceptions.logica.SenhaIncorretaException;
+import exceptions.logica.StringVaziaException;
+import factory.funcionarios.FuncionarioFactory;
+import factory.medicamentos.MedicamentoFactory;
+import model.farmacia.Comparador;
+import model.farmacia.Medicamento;
+import model.usuarios.Diretor;
+import model.usuarios.Funcionario;
+import model.usuarios.PermissaoFuncionario;
+import valida.dados.ValidaMatricula;
+import valida.dados.ValidaNomes;
+import valida.dados.ValidaSenhas;
+import validacao.medicamentos.ValidacaoMedicamentos;
 
 /**
- * Controller principal da aplicaÁ„o, faz o gerenciamento de todas as ·reas
+ * Controller principal da aplica√ß√£o, faz o gerenciamento de todas as √°reas
  * e assim como o do sistema
  */
 public class HospitalController {
@@ -22,6 +44,7 @@ public class HospitalController {
 	
 	private Funcionario usuarioLogado;
 	private HashMap<String, Funcionario> funcionarios;
+	private HashMap<String, Medicamento> medicamentos;
 	private BancoDeDados bancoDeDados;
 	
 	private boolean sistemaLiberado;
@@ -34,6 +57,7 @@ public class HospitalController {
 		medicamentoFactory = new MedicamentoFactory();
 		
 		funcionarios = new HashMap<String, Funcionario>();
+		medicamentos = new HashMap<String, Medicamento>();
 		
 		bancoDeDados = BancoDeDados.getInstance();
 	}
@@ -47,7 +71,7 @@ public class HospitalController {
 	
 	/**
 	 * Fecha o sistema, junto com o banco de dados, verificando 
-	 * se alguÈm ainda est· logado e, caso esteja, joga um erro
+	 * se algu√©m ainda est√° logado e, caso esteja, joga um erro
 	 */
 	public void fechaSistema() {
 		if (isUsuarioLogado()) {
@@ -57,13 +81,13 @@ public class HospitalController {
 	}
 	
 	/**
-	 * Libera o sistema, criando um usu·rio com privilÈgios de Diretor
-	 * e retornando o seu numero de matrÌcula
+	 * Libera o sistema, criando um usu√°rio com privil√©gios de Diretor
+	 * e retornando o seu numero de matr√≠cula
 	 * 
 	 * @param chave          Chave para liberar o sistema
 	 * @param nome           Nome do diretor
-	 * @param dataNascimento Data de nascimento do diretor conforme o padr„o dd/MM/yyyy
-	 * @return               MatrÌcula do diretor
+	 * @param dataNascimento Data de nascimento do diretor conforme o padr√£o dd/MM/yyyy
+	 * @return               Matr√≠cula do diretor
 	 */
 	public String liberaSistema(String chave, String nome, String dataNascimento) {
 		if (chave == null) {
@@ -90,19 +114,19 @@ public class HospitalController {
 	}
 	
 	/**
-	 * Verifica se tem algum usu·rio logado
+	 * Verifica se tem algum usu√°rio logado
 	 * 
-	 * @return Boleano indicando se tem algum usu·rio logado
+	 * @return Boleano indicando se tem algum usu√°rio logado
 	 */
 	public boolean isUsuarioLogado() {
 		return usuarioLogado != null;
 	}
 	
 	/**
-	 * Realiza o login de um usu·rio
+	 * Realiza o login de um usu√°rio
 	 * 
-	 * @param matricula MatrÌcula do usu·rio
-	 * @param senha     Senha do usu·rio
+	 * @param matricula Matr√≠cula do usu√°rio
+	 * @param senha     Senha do usu√°rio
 	 */
 	public void login(String matricula, String senha) {
 		if (!sistemaLiberado) {
@@ -128,8 +152,8 @@ public class HospitalController {
 	}
 	
 	/**
-	 * Realiza o logout de um usu·rio, e joga um erro caso n„o
-	 * tenha usu·rios logados
+	 * Realiza o logout de um usu√°rio, e joga um erro caso n√£o
+	 * tenha usu√°rios logados
 	 */
 	public void logout() {
 		if (!isUsuarioLogado()) {
@@ -139,11 +163,11 @@ public class HospitalController {
 	}
 	
 	/**
-	 * Retorna um funcion·rio dado seu numero de matrÌcula, e joga um erro
-	 * caso n„o exista um funcion·rio com aquela matrÌcula
+	 * Retorna um funcion√°rio dado seu numero de matr√≠cula, e joga um erro
+	 * caso n√£o exista um funcion√°rio com aquela matr√≠cula
 	 * 
-	 * @param matricula MatrÌcula do usu·rio
-	 * @return          Inst‚ncia de um objeto Funcion·rio
+	 * @param matricula Matr√≠cula do usu√°rio
+	 * @return          Inst√¢ncia de um objeto Funcionario
 	 */
 	public Funcionario getFuncionarioPorMatricula(String matricula) {
 		Funcionario funcionario = funcionarios.get(matricula);
@@ -156,12 +180,12 @@ public class HospitalController {
 	}
 	
 	/**
-	 * Cadastra um funcion·rio, retornando seu n˙mero de matrÌcula
+	 * Cadastra um funcion√°rio, retornando seu n√∫mero de matr√≠cula
 	 * 
-	 * @param nome           Nome do funcion·rio
-	 * @param cargo          Cargo do funcion·rio
-	 * @param dataNascimento Data de nascimento do funcion·rio
-	 * @return               MatrÌcula do funcion·rio criado
+	 * @param nome           Nome do funcion√°rio
+	 * @param cargo          Cargo do funcion√°rio
+	 * @param dataNascimento Data de nascimento do funcion√°rio
+	 * @return               Matr√≠cula do funcion√°rio criado
 	 */
 	public String cadastraFuncionario(String nome, String cargo, String dataNascimento) {
 		if (nome == null) {
@@ -197,11 +221,11 @@ public class HospitalController {
 	}
 	
 	/**
-	 * Pega o atributo do funcion·rio requisitado
+	 * Pega o atributo do funcion√°rio requisitado
 	 * 
-	 * @param matricula MatrÌcula do funcion·rio
+	 * @param matricula Matr√≠cula do funcion√°rio
 	 * @param atributo  Atributo a ser requisitado
-	 * @return          Valor do atributo do funcion·rio
+	 * @return          Valor do atributo do funcion√°rio
 	 */
 	public String getInfoFuncionario(String matricula, String atributo) {
 		if (!isUsuarioLogado()) {
@@ -242,4 +266,113 @@ public class HospitalController {
 		return attr;
 	}
 
+	public Medicamento getMedicamentoPeloNome(String nome) throws ObjetoInexistenteException {
+		Medicamento medicamento = medicamentos.get(nome);
+
+		ValidacaoMedicamentos.validaObjetoMedicamento(medicamento);
+		
+		return medicamento;
+	}
+	
+	public String getMedicamentosPelaCategoria(String categoria) throws CategoriaInexistenteException, CategoriaInvalidaException{
+
+		if (!"analgesico,antibiotico,antiemetico,antiinflamatorio,antitermico,hormonal".contains(categoria)) {
+			throw new CategoriaInvalidaException("Categoria invalida.");
+		}
+		
+		ArrayList<Medicamento> arrayCategorias = new ArrayList<Medicamento>();
+
+		for (Map.Entry<String, Medicamento> entry : medicamentos.entrySet()) {
+
+			if (entry.getValue().getInfoMedicamento("categorias").contains(categoria)) {
+				arrayCategorias.add(entry.getValue());
+			}
+
+		}
+		
+		if (arrayCategorias.isEmpty()) {
+			throw new CategoriaInexistenteException("Nao ha remedios cadastrados nessa categoria.");
+		}
+		
+		Collections.sort(arrayCategorias);
+		String saida = "";
+		
+		for (int i = 0; i < arrayCategorias.size(); i++) {
+			if (i == arrayCategorias.size() -1) {
+				saida += arrayCategorias.get(i).getInfoMedicamento("nome");
+			} else {
+				saida += arrayCategorias.get(i).getInfoMedicamento("nome") + ",";
+			}
+		}
+		
+		return saida;
+		
+	}
+	
+	public String cadastraMedicamento(String nome, String tipo, double preco, int quantidade, String categorias)
+			throws DadoInvalidoException, LogicaException {
+		Medicamento medicamento = medicamentoFactory.criaMedicamento(nome, tipo, preco, quantidade, categorias);
+		medicamentos.put(nome, medicamento);
+
+		return nome;
+	}
+
+	public String getInfoMedicamento(String requisicao, String nome) throws ObjetoInexistenteException {
+		Medicamento medicamento = getMedicamentoPeloNome(nome);
+
+		return medicamento.getInfoMedicamento(requisicao);
+	}
+
+	public void atualizaMedicamento(String nome, String atributo, String novoValor)
+			throws ObjetoInexistenteException, OperacaoInvalidaException {
+		getMedicamentoPeloNome(nome).atualizaMedicamento(atributo, novoValor);
+	}
+
+	public String consultaMedCategoria(String categoria) throws CategoriaInexistenteException, CategoriaInvalidaException{
+		try {
+			return getMedicamentosPelaCategoria(categoria);		
+		} catch (CategoriaInexistenteException | CategoriaInvalidaException e) {
+			throw new LogicaException("Erro na consulta de medicamentos. " + e.getMessage());
+		}
+	}
+	
+	public String consultaMedNome(String nome) throws ObjetoInexistenteException{
+		return getMedicamentoPeloNome(nome).toString();
+	}
+	
+	public String getEstoqueFarmacia (String tipoOrdenacao) throws ComparacaoInvalidaException{
+		
+		if (!tipoOrdenacao.equals("preco") && !tipoOrdenacao.equals("alfabetica")) {
+			throw new ComparacaoInvalidaException("Tipo de ordenacao invalida.");
+		}
+		
+		ArrayList<Medicamento> arrayMedicamentos = new ArrayList<Medicamento>();
+		
+		for (Map.Entry<String, Medicamento> entry : medicamentos.entrySet()) {
+			
+			arrayMedicamentos.add(entry.getValue());
+
+		}
+		
+		Comparador comparador = new Comparador();
+		
+		if (tipoOrdenacao.equals("preco")) {
+			Collections.sort(arrayMedicamentos);
+		} else if (tipoOrdenacao.equals("alfabetica")) {
+			Collections.sort(arrayMedicamentos, comparador);
+		}
+		String saida = "";
+		
+		for (int i = 0; i < arrayMedicamentos.size(); i++) {
+			if (i == arrayMedicamentos.size() -1) {
+				saida += arrayMedicamentos.get(i).getInfoMedicamento("nome");
+			} else {
+				saida += arrayMedicamentos.get(i).getInfoMedicamento("nome") + ",";
+			}
+		}
+		
+		return saida;
+		
+	}
+	
 }

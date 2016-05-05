@@ -8,26 +8,28 @@ import exceptions.dado.DadoInvalidoException;
 import exceptions.logica.LogicaException;
 
 /**
- * Classe de diretor do sistema, possui todas as permissões
+ * Classe de diretor do sistema, possui todas as permissï¿½es
  */
 public class Diretor extends Funcionario {
+
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * Construtor de Diretor
 	 * 
 	 * @param nome           Nome do diretor
-	 * @param matricula      Matrícula do diretor
+	 * @param matricula      Matrï¿½cula do diretor
 	 * @param dataNascimento Data de nascimento do diretor 
 	 */
 	public Diretor(String nome, String matricula, LocalDate dataNascimento) {
 		super(nome, matricula, dataNascimento);
 	}
-	
+
 	/**
-	 * Define todas as permissões que um funcionário com privilégios de
+	 * Define todas as permissï¿½es que um funcionï¿½rio com privilï¿½gios de
 	 * diretor possui
 	 * 
-	 * @return Conjunto com as permissões de Diretor
+	 * @return Conjunto com as permissï¿½es de Diretor
 	 */
 	@Override
 	public HashSet<PermissaoFuncionario> definePermissoes() {
@@ -43,5 +45,21 @@ public class Diretor extends Funcionario {
 	@Override
 	public String getCargo() {
 		return "Diretor Geral";
+	}
+	
+	@Override
+	public String toString() {
+		return getMatricula() + " - " + getNome();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+	  if (this == obj)
+	    return true;
+	  if (obj == null)
+	    return false;
+	  if (getClass() != obj.getClass())
+	    return false;
+	  return true;
 	}
 }
