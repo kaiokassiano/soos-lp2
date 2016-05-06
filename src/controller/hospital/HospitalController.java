@@ -40,12 +40,10 @@ public class HospitalController {
 	private static final String CHAVE_SISTEMA = "c041ebf8";
 
 	private FuncionarioFactory funcionarioFactory;
-	private MedicamentoFactory medicamentoFactory;
 	private Farmacia farmacia;
 
 	private Funcionario usuarioLogado;
 	private HashMap<String, Funcionario> funcionarios;
-	private HashMap<String, Medicamento> medicamentos;
 	private ArrayList<Prontuario> prontuarios;
 	private BancoDeDados bancoDeDados;
 
@@ -53,11 +51,9 @@ public class HospitalController {
 
 	public HospitalController() {
 		funcionarioFactory = new FuncionarioFactory();
-		medicamentoFactory = new MedicamentoFactory();
 		farmacia = new Farmacia();
 
 		funcionarios = new HashMap<String, Funcionario>();
-		medicamentos = new HashMap<String, Medicamento>();
 		prontuarios = new ArrayList<Prontuario>();
 
 		bancoDeDados = BancoDeDados.getInstance();

@@ -4,10 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
-import com.sun.org.apache.xerces.internal.impl.dv.ValidatedInfo;
-
-import exceptions.logica.DataInvalidaException;
-
 public class Paciente {
 
 	private String nome;
