@@ -117,8 +117,8 @@ public class MainFacade {
 		}
 	}
 
-	public String getInfoPaciente(String paciente, String atributo) throws Exception {
-		return hospitalController.getInfoPaciente(paciente, atributo);
+	public String getInfoPaciente(String nomePaciente, String atributo) throws Exception {
+		return hospitalController.getInfoPaciente(nomePaciente, atributo);
 	}
 	
 	public void cadastraPaciente(String nome, String data, double peso, String sexo, 
