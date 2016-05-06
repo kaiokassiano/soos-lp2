@@ -36,7 +36,7 @@ import validacao.medicamentos.ValidacaoMedicamentos;
  */
 public class HospitalController {
 
-	private static final String chaveSistema = "c041ebf8";
+	private static final String CHAVE_SISTEMA = "c041ebf8";
 	
 	private FuncionarioFactory funcionarioFactory;
 	private MedicamentoFactory medicamentoFactory;
@@ -99,7 +99,7 @@ public class HospitalController {
 		if (sistemaLiberado) {
 			throw new LogicaException("Sistema liberado anteriormente.");
 		}
-		if (!chave.equals(chaveSistema)) {
+		if (!chave.equals(CHAVE_SISTEMA)) {
 			throw new ChaveIncorretaException("Chave invalida.");
 		}
 		sistemaLiberado = true;
