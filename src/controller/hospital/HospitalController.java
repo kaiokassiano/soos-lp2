@@ -1,9 +1,7 @@
 package controller.hospital;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 
 import data.BancoDeDados;
 import exceptions.dado.DadoInvalidoException;
@@ -20,8 +18,6 @@ import exceptions.logica.PermissaoException;
 import exceptions.logica.SenhaIncorretaException;
 import exceptions.logica.StringVaziaException;
 import factory.funcionarios.FuncionarioFactory;
-import factory.medicamentos.MedicamentoFactory;
-import model.farmacia.Comparador;
 import model.farmacia.Farmacia;
 import model.farmacia.Medicamento;
 import model.usuarios.Diretor;
@@ -29,7 +25,6 @@ import model.usuarios.Funcionario;
 import model.usuarios.Paciente;
 import model.usuarios.PermissaoFuncionario;
 import model.usuarios.Prontuario;
-import validacao.medicamentos.ValidacaoMedicamentos;
 
 /**
  * Controller principal da aplicação, faz o gerenciamento de todas as áreas e
