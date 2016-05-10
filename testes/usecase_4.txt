@@ -71,18 +71,18 @@ cadastraMedicamento nome="Hioscina" tipo="referencia" preco=10 quantidade=300 ca
 
 expect "Hioscina" consultaMedCategoria categoria="antiemetico"
 
-####################################
+############################################
 #     Busca de medicamentos por nome       #
-###################################
+############################################
 expectError "Erro na consulta de medicamentos. Medicamento nao cadastrado." consultaMedNome nomeRemedio="Opium"
 
 expect "Medicamento de Referencia: Metamizol - Preco: R$ 58,30 - Disponivel: 466 - Categorias: analgesico,antitermico" consultaMedNome nomeRemedio="Metamizol"
 expect "Medicamento Generico: Medroxyprogesterona - Preco: R$ 171,30 - Disponivel: 200 - Categorias: hormonal" consultaMedNome nomeRemedio="Medroxyprogesterona"
 expect "Medicamento de Referencia: Hioscina - Preco: R$ 10,00 - Disponivel: 300 - Categorias: antiemetico" consultaMedNome nomeRemedio="Hioscina"
 
-#####################################
+############################################
 #     Busca por todos os medicamentos      #
-#####################################
+############################################
 
 expect "Hioscina,Valium,Nimesulida,Metamizol,Duraston,Penicilina,Morfina,Medroxyprogesterona" getEstoqueFarmacia ordenacao="preco"
 expect "Duraston,Hioscina,Medroxyprogesterona,Metamizol,Morfina,Nimesulida,Penicilina,Valium" getEstoqueFarmacia ordenacao="alfabetica"

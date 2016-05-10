@@ -6,9 +6,9 @@
 #nos arquivos de dados.
 
 iniciaSistema
-#######################
-#Cadastro do Diretor Geral #
-#######################
+###############################
+#  Cadastro do Diretor Geral  #
+###############################
 
 
 expectError "Erro ao liberar o sistema. Chave invalida." liberaSistema chave="chaveErrada" nome="Marrie Curie" dataNascimento="07/11/1967"
@@ -18,9 +18,9 @@ id1=liberaSistema chave="c041ebf8" nome="Marie Curie" dataNascimento="07/11/1967
 expectError "Erro ao liberar o sistema. Sistema liberado anteriormente." liberaSistema chave="c041ebf8" nome="Marie Curie" dataNascimento="07/11/1967"
 expectError "Erro ao liberar o sistema. Sistema liberado anteriormente." liberaSistema chave="chaveErrada" nome="Marie Curie" dataNascimento="07/11/1967"
 
-######################
-#Login do Diretor Geral #
-######################
+################################
+#    Login do Diretor Geral    #
+################################
 
 expectError "Nao foi possivel realizar o login. Senha incorreta." login matricula="12016001" senha="senhaerrada123"
 
@@ -31,9 +31,9 @@ expect "Marie Curie" getInfoFuncionario matricula=${id1} atributo="Nome"
 expect "Diretor Geral" getInfoFuncionario matricula=${id1} atributo="Cargo"
 expect "1967-11-07" getInfoFuncionario matricula=${id1} atributo="Data"
 
-######################
-#Cadastro de Funcionarios #
-######################
+##################################
+#    Cadastro de Funcionarios    #
+##################################
 
 id2=cadastraFuncionario nome="Edgar Allan Poe" cargo="Medico" dataNascimento="19/01/1989"
 
@@ -71,7 +71,7 @@ expect "Medico" getInfoFuncionario matricula=${id5} atributo="Cargo"
 expectError "Erro na consulta de funcionario. A senha do funcionario eh protegida." getInfoFuncionario matricula=${id5} atributo="Senha"
 
 #########################################################################
-# Login de Funcionarios #
+#                       Login de Funcionarios                           #
 #########################################################################
 
 expectError "Nao foi possivel fechar o sistema. Um funcionario ainda esta logado: Marie Curie." fechaSistema

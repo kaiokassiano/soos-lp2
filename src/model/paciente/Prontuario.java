@@ -1,4 +1,4 @@
-package model.usuarios;
+package model.paciente;
 
 import java.util.ArrayList;
 import java.util.List;

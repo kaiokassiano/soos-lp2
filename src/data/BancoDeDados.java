@@ -13,8 +13,14 @@ public class BancoDeDados {
 	// Arquivo e streams do numero de cadastros
 	private DataOutputStream qtdCadastrosOutput;
 	private DataInputStream qtdCadastrosInput;
-	private final String qtdCadastrosFile = "cadastros.dat";
+	private final String qtdCadastrosFile = "data/cadastros.dat";
 	private int qtdCadastros = 0;
+	
+	// Arquivo e stream representando se o sistema foi liberado
+	private DataOutputStream sistemaLiberadoOutput;
+	private DataInputStream sistemaLiberadoInput;
+	private final String sistemaLiberadoFile = "data/sistema_liberado.dat";
+	private boolean sistemaLiberado;
 
 	/**
 	 * Construtor do banco
@@ -40,6 +46,7 @@ public class BancoDeDados {
 	 */
 	public void init() {
 		initQtdCadastros();
+		initSistemaLiberado();
 	}
 	
 	/**
@@ -48,6 +55,7 @@ public class BancoDeDados {
 	 */
 	public void fechar() {
 		fecharQtdCadastros();
+		fecharSistemaLiberado();
 	}
 	
 	/**
@@ -103,4 +111,46 @@ public class BancoDeDados {
 		return qtdCadastros++;
 	}
 
+	public void initSistemaLiberado() {
+		try {
+			sistemaLiberadoInput = new DataInputStream(new FileInputStream(sistemaLiberadoFile));
+			
+			try {
+				sistemaLiberado = sistemaLiberadoInput.readBoolean();
+			}
+			catch (EOFException e) {
+				sistemaLiberado = false;
+			}
+			
+			sistemaLiberadoInput.close();
+		}
+		catch (FileNotFoundException e) {
+			System.out.println("Arquivo nao encontrado: " + sistemaLiberadoFile);
+		}
+		catch (IOException e) {
+			System.out.println("IOException: " + e.getMessage());
+		}
+	}
+	
+	public void fecharSistemaLiberado() {
+		try {
+			sistemaLiberadoOutput = new DataOutputStream(new FileOutputStream(sistemaLiberadoFile));
+			
+			sistemaLiberadoOutput.writeBoolean(sistemaLiberado);
+		}
+		catch (FileNotFoundException e) {
+			System.out.println("Arquivo nao encontrado: " + sistemaLiberadoFile);
+		}
+		catch (IOException e) {
+			System.out.println("IOException: " + e.getMessage());
+		}
+	}
+	
+	public boolean isSistemaLiberado() {
+		return sistemaLiberado;
+	}
+	
+	public void setSistemaLiberado(boolean status) {
+		this.sistemaLiberado = status;
+	}
 }

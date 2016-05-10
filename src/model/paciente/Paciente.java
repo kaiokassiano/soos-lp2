@@ -1,4 +1,4 @@
-package model.usuarios;
+package model.paciente;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

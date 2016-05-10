@@ -23,9 +23,9 @@ expectError "Erro na consulta de funcionario. A matricula nao segue o padrao." g
 expectError "Erro na consulta de funcionario. Funcionario nao cadastrado." getInfoFuncionario matricula="1234564" atributo="Nome"
 
 
-######################
-#Exclusao de Funcionarios    #
-######################
+################################
+#  Exclusao de Funcionarios    #
+################################
 
 expectError "Erro ao excluir funcionario. Funcionario nao cadastrado." excluiFuncionario matricula="893427" senha="19671201"
 
@@ -61,8 +61,6 @@ expectError "Erro ao atualizar funcionario. A nova senha deve ter entre 8 - 12 c
 atualizaSenha senhaAntiga="19671201" novaSenha="raioX1967" 
 logout
 
-##########
-
 login matricula="22016002" senha="19892201"
 expectError "Erro ao atualizar funcionario. Nome do funcionario nao pode ser vazio." atualizaInfoFuncionario atributo="nome" novoValor=""
 atualizaInfoFuncionario  atributo="Nome" novoValor="Edgar A. Poe"
@@ -86,6 +84,7 @@ atualizaSenha antigaSenha="19883201" novaSenha="paralembrar"
 expectError "Erro ao excluir funcionario. O funcionario Mary Shelley nao tem permissao para excluir funcionarios." excluiFuncionario matricula="32016004" senha="19883201"
 
 logout
+fechaSistema
 
 ################################################
 #         Depois das alteracoes                #
