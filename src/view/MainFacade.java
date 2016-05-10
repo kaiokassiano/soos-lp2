@@ -71,6 +71,15 @@ public class MainFacade {
 			throw new LogicaException("Erro no cadastro de funcionario. " + e.getMessage());
 		}
 	}
+	
+	public void excluiFuncionario(String matricula, String senha) throws LogicaException {
+		try {
+			hospitalController.excluiFuncionario(matricula, senha);
+		}
+		catch (LogicaException | DadoInvalidoException e) {
+			throw new LogicaException("Erro ao excluir funcionario. " + e.getMessage());
+		}
+	}
 
 	public String cadastraMedicamento(String nome, String tipo, double preco, int quantidade, String categorias)
 			throws LogicaException {

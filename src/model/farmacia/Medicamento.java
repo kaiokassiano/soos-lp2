@@ -1,7 +1,5 @@
 package model.farmacia;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.HashSet;
 import java.util.TreeSet;
 
@@ -10,7 +8,7 @@ import exceptions.logica.LogicaException;
 import exceptions.logica.OperacaoInvalidaException;
 import validacao.medicamentos.ValidacaoMedicamentos;
 
-public class Medicamento implements Comparable{
+public class Medicamento implements Comparable<Medicamento>{
 
 	private String nome;
 	private String tipo;
@@ -149,7 +147,7 @@ public class Medicamento implements Comparable{
 		TreeSet<String> treeset = new TreeSet<String>();
 		
 		for (CategoriaMedicamento categoriaMedicamento : categorias) {
-			treeset.add(categoriaMedicamento.toString());
+			treeset.add(categoriaMedicamento.getCategoria());
 		}
 		
 		return String.join(",", treeset);
@@ -162,9 +160,9 @@ public class Medicamento implements Comparable{
 	}
 
 	@Override
-	public int compareTo(Object objeto) {
-		if (objeto instanceof Medicamento) {
-			Medicamento novoMedicamento = (Medicamento) objeto;
+	public int compareTo(Medicamento medicamento) {
+		if (medicamento instanceof Medicamento) {
+			Medicamento novoMedicamento = (Medicamento) medicamento;
 			if (this.getPreco() < novoMedicamento.getPreco()) {
 				return -1;
 			} else if (this.getPreco() > novoMedicamento.getPreco()) {

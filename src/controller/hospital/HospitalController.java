@@ -1,30 +1,22 @@
 package controller.hospital;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import data.BancoDeDados;
 import exceptions.dado.DadoInvalidoException;
 import exceptions.dado.NullStringException;
-import exceptions.logica.AtributoInvalidoException;
 import exceptions.logica.CategoriaInexistenteException;
 import exceptions.logica.CategoriaInvalidaException;
-import exceptions.logica.ChaveIncorretaException;
 import exceptions.logica.ComparacaoInvalidaException;
 import exceptions.logica.LogicaException;
+import exceptions.logica.LogoutException;
 import exceptions.logica.ObjetoInexistenteException;
 import exceptions.logica.OperacaoInvalidaException;
-import exceptions.logica.PermissaoException;
-import exceptions.logica.SenhaIncorretaException;
-import exceptions.logica.StringVaziaException;
-import factory.funcionarios.FuncionarioFactory;
 import model.farmacia.Farmacia;
 import model.farmacia.Medicamento;
-import model.usuarios.Diretor;
-import model.usuarios.Funcionario;
-import model.usuarios.Paciente;
-import model.usuarios.PermissaoFuncionario;
-import model.usuarios.Prontuario;
+import model.paciente.Paciente;
+import model.paciente.Prontuario;
+import model.usuarios.GerenciadorFuncionarios;
 
 /**
  * Controller principal da aplicação, faz o gerenciamento de todas as áreas e
@@ -32,23 +24,16 @@ import model.usuarios.Prontuario;
  */
 public class HospitalController {
 
-	private static final String CHAVE_SISTEMA = "c041ebf8";
-
-	private FuncionarioFactory funcionarioFactory;
+	private GerenciadorFuncionarios gerenciadorFuncionarios;
 	private Farmacia farmacia;
 
-	private Funcionario usuarioLogado;
-	private HashMap<String, Funcionario> funcionarios;
 	private ArrayList<Prontuario> prontuarios;
 	private BancoDeDados bancoDeDados;
 
-	private boolean sistemaLiberado;
-
 	public HospitalController() {
-		funcionarioFactory = new FuncionarioFactory();
+		gerenciadorFuncionarios = new GerenciadorFuncionarios();
 		farmacia = new Farmacia();
 
-		funcionarios = new HashMap<String, Funcionario>();
 		prontuarios = new ArrayList<Prontuario>();
 
 		bancoDeDados = BancoDeDados.getInstance();
@@ -63,213 +48,34 @@ public class HospitalController {
 	 * está logado e, caso esteja, joga um erro
 	 */
 	public void fechaSistema() throws LogicaException {
-		if (isUsuarioLogado()) {
-			throw new LogicaException("Um funcionario ainda esta logado: " + usuarioLogado.getNome() + ".");
-		}
+		gerenciadorFuncionarios.fecharGerenciadorFuncionarios();
 		bancoDeDados.fechar();
 	}
 
-	/**
-	 * Libera o sistema, criando um usuário com privilégios de Diretor e
-	 * retornando o seu numero de matrícula
-	 * 
-	 * @param chave
-	 *            Chave para liberar o sistema
-	 * @param nome
-	 *            Nome do diretor
-	 * @param dataNascimento
-	 *            Data de nascimento do diretor conforme o padrão dd/MM/yyyy
-	 * @return Matrícula do diretor
-	 * @throws LogicaException
-	 * @throws DadoInvalidoException
-	 */
 	public String liberaSistema(String chave, String nome, String dataNascimento)
 			throws LogicaException, DadoInvalidoException {
-		if (chave == null) {
-			throw new NullStringException("Chave nao pode ser nulo.");
-		}
-		if (nome == null) {
-			throw new NullStringException("Nome nao pode ser nulo.");
-		}
-		if (dataNascimento == null) {
-			throw new NullStringException("Data nao pode ser nulo.");
-		}
-		if (sistemaLiberado) {
-			throw new LogicaException("Sistema liberado anteriormente.");
-		}
-		if (!chave.equals(CHAVE_SISTEMA)) {
-			throw new ChaveIncorretaException("Chave invalida.");
-		}
-		sistemaLiberado = true;
-
-		Diretor diretor = (Diretor) funcionarioFactory.criaFuncionario(nome, "Diretor Geral", dataNascimento);
-		funcionarios.put(diretor.getMatricula(), diretor);
-
-		return diretor.getMatricula();
+		return gerenciadorFuncionarios.liberaSistema(chave, nome, dataNascimento);
 	}
 
-	/**
-	 * Verifica se tem algum usuário logado
-	 * 
-	 * @return Boleano indicando se tem algum usuário logado
-	 */
-	public boolean isUsuarioLogado() {
-		return usuarioLogado != null;
+	public void login(String matricula, String senha) throws NullStringException, LogicaException {
+		gerenciadorFuncionarios.login(matricula, senha);
 	}
 
-	/**
-	 * Realiza o login de um usuário
-	 * 
-	 * @param matricula
-	 *            Matrícula do usuário
-	 * @param senha
-	 *            Senha do usuário
-	 * @throws LogicaException
-	 * @throws NullStringException
-	 */
-	public void login(String matricula, String senha) throws LogicaException, NullStringException {
-		if (!sistemaLiberado) {
-			throw new LogicaException("Sistema nao liberado.");
-		} else if (isUsuarioLogado()) {
-			throw new LogicaException("Um funcionario ainda esta logado: " + usuarioLogado.getNome() + ".");
-		} else if (matricula == null) {
-			throw new NullStringException("Matricula nao pode ser nulo.");
-		} else if (senha == null) {
-			throw new NullStringException("Senha nao pode ser nulo.");
-		}
-
-		Funcionario funcionario = getFuncionarioPorMatricula(matricula);
-
-		if (!funcionario.getSenha().equals(senha)) {
-			throw new SenhaIncorretaException("Senha incorreta.");
-		}
-
-		usuarioLogado = funcionario;
+	public void logout() throws LogoutException {
+		gerenciadorFuncionarios.logout();
 	}
 
-	/**
-	 * Realiza o logout de um usuário, e joga um erro caso não tenha usuários
-	 * logados
-	 * 
-	 * @throws LogicaException
-	 */
-	public void logout() throws LogicaException {
-		if (!isUsuarioLogado()) {
-			throw new LogicaException("Nao ha um funcionario logado.");
-		}
-		usuarioLogado = null;
+	public String getInfoFuncionario(String matricula, String atributo) throws NullStringException, LogicaException {
+		return gerenciadorFuncionarios.getInfoFuncionario(matricula, atributo);
 	}
 
-	/**
-	 * Retorna um funcionário dado seu numero de matrícula, e joga um erro
-	 * caso não exista um funcionário com aquela matrícula
-	 * 
-	 * @param matricula
-	 *            Matrícula do usuário
-	 * @return Instância de um objeto Funcionario
-	 * @throws ObjetoInexistenteException
-	 */
-	public Funcionario getFuncionarioPorMatricula(String matricula) throws ObjetoInexistenteException {
-		Funcionario funcionario = funcionarios.get(matricula);
-
-		if (funcionario == null) {
-			throw new ObjetoInexistenteException("Funcionario nao cadastrado.");
-		}
-
-		return funcionario;
-	}
-
-	/**
-	 * Cadastra um funcionário, retornando seu número de matrícula
-	 * 
-	 * @param nome
-	 *            Nome do funcionário
-	 * @param cargo
-	 *            Cargo do funcionário
-	 * @param dataNascimento
-	 *            Data de nascimento do funcionário
-	 * @return Matrícula do funcionário criado
-	 * @throws LogicaException
-	 * @throws DadoInvalidoException
-	 */
 	public String cadastraFuncionario(String nome, String cargo, String dataNascimento)
 			throws LogicaException, DadoInvalidoException {
-		if (nome == null) {
-			throw new NullStringException("Nome do funcionario nao pode ser nulo.");
-		} else if (nome.trim().isEmpty()) {
-			throw new StringVaziaException("Nome do funcionario nao pode ser vazio.");
-		}
-		if (cargo == null) {
-			throw new NullStringException("Nome do cargo nao pode ser nulo.");
-		} else if (cargo.trim().isEmpty()) {
-			throw new StringVaziaException("Nome do cargo nao pode ser vazio.");
-		}
-
-		if (!sistemaLiberado) {
-			throw new LogicaException("O sistema esta bloqueado.");
-		} else if (!isUsuarioLogado()) {
-			throw new LogicaException("Usuario nao esta logado.");
-		} else if (!usuarioLogado.temPermissao(PermissaoFuncionario.criacaoUsuarios)) {
-			throw new PermissaoException(
-					"O funcionario " + usuarioLogado.getNome() + " nao tem permissao para cadastrar funcionarios.");
-		} else if (cargo.equalsIgnoreCase("Diretor Geral")) {
-			throw new PermissaoException("Nao eh possivel criar mais de um Diretor Geral.");
-		}
-
-		Funcionario funcionario = funcionarioFactory.criaFuncionario(nome, cargo, dataNascimento);
-		funcionarios.put(funcionario.getMatricula(), funcionario);
-
-		return funcionario.getMatricula();
+		return gerenciadorFuncionarios.cadastraFuncionario(nome, cargo, dataNascimento);
 	}
-
-	/**
-	 * Pega o atributo do funcionário requisitado
-	 * 
-	 * @param matricula
-	 *            Matrícula do funcionário
-	 * @param atributo
-	 *            Atributo a ser requisitado
-	 * @return Valor do atributo do funcionário
-	 * @throws LogicaException
-	 * @throws NullStringException
-	 */
-	public String getInfoFuncionario(String matricula, String atributo) throws LogicaException, NullStringException {
-		if (!isUsuarioLogado()) {
-			throw new LogicaException("Usuario nao esta logado.");
-		} else if (matricula == null) {
-			throw new NullStringException("Matricula nao pode ser nulo.");
-		} else if (atributo == null) {
-			throw new NullStringException("Atributo nao pode ser nulo.");
-		}
-
-		Funcionario funcionario = getFuncionarioPorMatricula(matricula);
-
-		String attr = null;
-
-		switch (atributo) {
-
-		case "Nome":
-			attr = funcionario.getNome();
-
-		case "Cargo":
-			attr = funcionario.getCargo();
-
-		case "Data":
-			attr = funcionario.getDataNascimento();
-
-		case "Senha":
-			if (usuarioLogado.getMatricula().equals(funcionario.getMatricula())) {
-				attr = funcionario.getSenha();
-			} else {
-				throw new PermissaoException("A senha do funcionario eh protegida.");
-			}
-			break;
-
-		default:
-			throw new AtributoInvalidoException("Atributo invalido.");
-		}
-
-		return attr;
+	
+	public void excluiFuncionario(String matricula, String senha) throws DadoInvalidoException, LogicaException {
+		gerenciadorFuncionarios.excluiFuncionario(matricula, senha);
 	}
 
 	public Medicamento getMedicamentoPeloNome(String nome) throws ObjetoInexistenteException {
@@ -278,9 +84,7 @@ public class HospitalController {
 
 	public String getMedicamentosPelaCategoria(String categoria)
 			throws CategoriaInexistenteException, CategoriaInvalidaException {
-
 		return farmacia.getMedicamentosPelaCategoria(categoria);
-
 	}
 
 	public String cadastraMedicamento(String nome, String tipo, double preco, int quantidade, String categorias)
@@ -367,4 +171,5 @@ public class HospitalController {
 		}
 		return null;
 	}
+
 }

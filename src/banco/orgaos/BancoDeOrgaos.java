@@ -6,15 +6,15 @@ import java.util.TreeMap;
 
 public class BancoDeOrgaos {
 
-	private TreeMap<String, ArrayList<String>> bancoDeOrgaos;
+	private TreeMap<String, ArrayList<Orgao>> bancoDeOrgaos;
 
 	public BancoDeOrgaos() {
-		bancoDeOrgaos = new TreeMap<String, ArrayList<String>>();
+		bancoDeOrgaos = new TreeMap<String, ArrayList<Orgao>>();
 	}
 
 	public String obterOrgaoPeloNome(String nome, String tipoSanguineo) {
 
-		for (Map.Entry<String, ArrayList<String>> entry : bancoDeOrgaos.entrySet()) {
+		for (Map.Entry<String, ArrayList<Orgao>> entry : bancoDeOrgaos.entrySet()) {
 
 			if (entry.getKey().equals(nome)) {
 
@@ -22,10 +22,9 @@ public class BancoDeOrgaos {
 
 				for (int i = 0; i < entry.getValue().size(); i++) {
 
-					if (entry.getValue().get(i).equals(tipoSanguineo)) {
+					if (entry.getValue().get(i).getTipoSanguineo().equals(tipoSanguineo)) {
 
-						Orgao orgaoRetorno = new Orgao(nome, tipoSanguineo);
-						return orgaoRetorno.toString();
+						return entry.getValue().get(i).toString();
 
 					}
 				}
@@ -41,7 +40,7 @@ public class BancoDeOrgaos {
 	public int getQtdTotal() {
 		int retorno = 0;
 
-		for (Map.Entry<String, ArrayList<String>> entry : bancoDeOrgaos.entrySet()) {
+		for (Map.Entry<String, ArrayList<Orgao>> entry : bancoDeOrgaos.entrySet()) {
 			retorno += entry.getValue().size();
 		}
 
@@ -50,12 +49,12 @@ public class BancoDeOrgaos {
 
 	public boolean temOrgao(String nome, String tipoSanguineo) {
 
-		for (Map.Entry<String, ArrayList<String>> entry : bancoDeOrgaos.entrySet()) {
+		for (Map.Entry<String, ArrayList<Orgao>> entry : bancoDeOrgaos.entrySet()) {
 
 			if (entry.getKey().equals(nome)) {
 
 				for (int i = 0; i < entry.getValue().size(); i++) {
-					if (entry.getValue().get(i).equals(tipoSanguineo)) {
+					if (entry.getValue().get(i).getTipoSanguineo().equals(tipoSanguineo)) {
 						entry.getValue().remove(i);
 						return true;
 					}

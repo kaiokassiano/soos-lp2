@@ -3,6 +3,7 @@ package model.farmacia;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import exceptions.dado.DadoInvalidoException;
@@ -37,7 +38,13 @@ public class Farmacia {
 	public String getMedicamentosPelaCategoria(String categoria)
 			throws CategoriaInexistenteException, CategoriaInvalidaException {
 
-		if (!"analgesico,antibiotico,antiemetico,antiinflamatorio,antitermico,hormonal".contains(categoria)) {
+		List<String> categoriasMedicamentos = new ArrayList<String>();
+		
+		for (CategoriaMedicamento categ : CategoriaMedicamento.values()) {
+			categoriasMedicamentos.add(categ.getCategoria());
+		}
+		
+		if (!categoriasMedicamentos.contains(categoria)) {
 			throw new CategoriaInvalidaException("Categoria invalida.");
 		}
 
