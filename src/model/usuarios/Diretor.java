@@ -41,6 +41,7 @@ public class Diretor extends Funcionario {
 		permissoes.add(PermissaoFuncionario.criacaoUsuarios);
 		permissoes.add(PermissaoFuncionario.criacaoPacientes);
 		permissoes.add(PermissaoFuncionario.lerSenhas);
+		permissoes.add(PermissaoFuncionario.exclusaoFuncionarios);
 
 		return permissoes;
 	}

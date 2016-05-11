@@ -2,7 +2,7 @@ package model.usuarios;
 
 import java.util.HashMap;
 
-import data.BancoDeDados;
+import banco.dados.BancoDeDados;
 import exceptions.dado.DadoInvalidoException;
 import exceptions.dado.NullStringException;
 import exceptions.logica.AtributoInvalidoException;
@@ -18,6 +18,8 @@ import exceptions.logica.SistemaException;
 import exceptions.logica.StringVaziaException;
 import factory.funcionarios.FuncionarioFactory;
 import validacao.dados.ValidaMatricula;
+import validacao.dados.ValidaNome;
+import validacao.dados.ValidaSenha;
 
 public class GerenciadorFuncionarios {
 
@@ -234,7 +236,7 @@ public class GerenciadorFuncionarios {
 			attr = funcionario.getCargo();
 			break;
 		case "Data":
-			attr = funcionario.getDataNascimento();
+			attr = funcionario.getData();
 			break;
 		case "Senha":
 			if (usuarioLogado.getMatricula().equals(funcionario.getMatricula())) {
@@ -265,10 +267,64 @@ public class GerenciadorFuncionarios {
 		
 		Funcionario funcionario = getFuncionarioPorMatricula(matricula);
 		
-		if (!getFuncionarioPorMatricula("12016001").getSenha().equals(senhaDiretor)) {
+		if (!usuarioLogado.temPermissao(PermissaoFuncionario.exclusaoFuncionarios)) {
+			throw new PermissaoException("O funcionario " + usuarioLogado.getNome() + " nao tem permissao para excluir funcionarios.");
+		} else if (!getFuncionarioPorMatricula("12016001").getSenha().equals(senhaDiretor)) {
 			throw new SenhaIncorretaException("Senha invalida.");
 		}
 		
 		funcionarios.remove(funcionario.getMatricula());
+	}
+	
+	public void atualizaInfoFuncionario(String matricula, String atributo, String novoValor) throws DadoInvalidoException, LogicaException {
+		if (matricula == null) {
+			throw new NullStringException("Matricula nao pode ser nulo.");
+		} else if (matricula.trim().isEmpty()) {
+			throw new StringVaziaException("Matricula nao pode ser vazia.");
+		} else if (atributo == null) {
+			throw new NullStringException("Atributo nao pode ser nulo.");
+		} else if (novoValor == null) {
+			throw new NullStringException("Novo valor nao pode ser nulo.");
+		}
+		
+		Funcionario funcionario = getFuncionarioPorMatricula(matricula);
+		
+		if (atributo.equalsIgnoreCase("nome")) {
+			if (novoValor.trim().isEmpty()) {
+				throw new StringVaziaException("Nome do funcionario nao pode ser vazio.");
+			} else if (!ValidaNome.validar(novoValor)) {
+				throw new PadraoException("Nome invalido.");
+			}
+			funcionario.setNome(novoValor);
+		} else if (atributo.equalsIgnoreCase("data")) {
+			if (novoValor.trim().isEmpty()) {
+				throw new StringVaziaException("Data de nascimento do funcionario nao pode ser vazia.");
+			}
+			funcionario.setData(FuncionarioFactory.parseData(novoValor));
+		}
+	}
+	
+	public void atualizaInfoFuncionario(String atributo, String novoValor) throws DadoInvalidoException, LogicaException {
+		atualizaInfoFuncionario(usuarioLogado.getMatricula(), atributo, novoValor);
+	}
+	
+	public void atualizaSenha(String antigaSenha, String novaSenha) throws DadoInvalidoException, LogicaException {
+		if (antigaSenha == null) {
+			throw new NullStringException("A senha antiga nao pode ser nulo.");
+		} else if (antigaSenha.trim().isEmpty()) {
+			throw new StringVaziaException("A senha antiga nao pode ser vazio.");
+		} else if (novaSenha == null) {
+			throw new NullStringException("A nova senha nao pode ser nulo.");
+		} else if (novaSenha.trim().isEmpty()) {
+			throw new StringVaziaException("A nova senha nao pode ser vazia.");
+		}
+		
+		if (!usuarioLogado.getSenha().equals(antigaSenha)) {
+			throw new SenhaIncorretaException("Senha invalida.");
+		} else if (!ValidaSenha.validar(novaSenha)) {
+			throw new PadraoException("A nova senha deve ter entre 8 - 12 caracteres alfanumericos.");
+		}
+		
+		usuarioLogado.setSenha(novaSenha);
 	}
 }

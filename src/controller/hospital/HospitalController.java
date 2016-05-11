@@ -2,7 +2,7 @@ package controller.hospital;
 
 import java.util.ArrayList;
 
-import data.BancoDeDados;
+import banco.dados.BancoDeDados;
 import exceptions.dado.DadoInvalidoException;
 import exceptions.dado.NullStringException;
 import exceptions.logica.CategoriaInexistenteException;
@@ -77,7 +77,19 @@ public class HospitalController {
 	public void excluiFuncionario(String matricula, String senha) throws DadoInvalidoException, LogicaException {
 		gerenciadorFuncionarios.excluiFuncionario(matricula, senha);
 	}
+	
+	public void atualizaInfoFuncionario(String matricula, String atributo, String novoValor) throws DadoInvalidoException, LogicaException {
+		gerenciadorFuncionarios.atualizaInfoFuncionario(matricula, atributo, novoValor);
+	}
+	
+	public void atualizaInfoFuncionario(String atributo, String novoValor) throws DadoInvalidoException, LogicaException {
+		gerenciadorFuncionarios.atualizaInfoFuncionario(atributo, novoValor);
+	}
 
+	public void atualizaSenha(String antigaSenha, String novaSenha) throws DadoInvalidoException, LogicaException {
+		gerenciadorFuncionarios.atualizaSenha(antigaSenha, novaSenha);
+	}
+	
 	public Medicamento getMedicamentoPeloNome(String nome) throws ObjetoInexistenteException {
 		return farmacia.getMedicamentoPeloNome(nome);
 	}

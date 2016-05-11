@@ -2,13 +2,13 @@ package factory.funcionarios;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
-import data.BancoDeDados;
+import banco.dados.BancoDeDados;
 import exceptions.dado.DadoInvalidoException;
 import exceptions.logica.CargoInvalidoException;
 import exceptions.logica.DataInvalidaException;
 import exceptions.logica.LogicaException;
-import exceptions.logica.StringVaziaException;
 import model.usuarios.Diretor;
 import model.usuarios.Funcionario;
 import model.usuarios.Medico;
@@ -69,13 +69,13 @@ public class FuncionarioFactory {
 	 * @return               Data como um objeto de LocalDate
 	 * @throws DataInvalidaException 
 	 */
-	private LocalDate parseData(String dataNascimento) throws DataInvalidaException {
+	public static LocalDate parseData(String dataNascimento) throws DataInvalidaException {
 		DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		
 		try {
 			return LocalDate.parse(dataNascimento, formato);
 		}
-		catch (Exception e) {
+		catch (DateTimeParseException e) {
 			throw new DataInvalidaException("Data invalida.");
 		}
 	}

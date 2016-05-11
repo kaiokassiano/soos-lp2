@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 
-import data.BancoDeDados;
+import banco.dados.BancoDeDados;
 import exceptions.dado.DadoInvalidoException;
 import exceptions.dado.NullStringException;
 import exceptions.logica.LogicaException;
@@ -109,7 +109,14 @@ public abstract class Funcionario implements Serializable {
 		return senha;
 	}
 	
-	public String getDataNascimento() {
+	public void setData(LocalDate data) throws DadoInvalidoException {
+		if (data == null) {
+			throw new DadoInvalidoException("Data nao pode ser nulo.");
+		}
+		this.dataNascimento = data;
+	}
+	
+	public String getData() {
 		return dataNascimento.toString();
 	}
 	

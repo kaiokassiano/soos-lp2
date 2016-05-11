@@ -2,9 +2,9 @@ package validacao.dados;
 
 import java.util.regex.*;
 
-public class ValidaNomes {
+public class ValidaNome {
 
-	private static final String pattern = "^[a-z A-z]{1,50}$";
+	private static final String pattern = "^[\\w][\\w. ]{1,49}$";
 	
 	public static boolean validar(String nome){
 		return Pattern.matches(pattern, nome);
