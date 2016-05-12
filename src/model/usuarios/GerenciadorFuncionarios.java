@@ -115,7 +115,7 @@ public class GerenciadorFuncionarios {
 		}
 
 		usuarioLogado = funcionario;
-		BancoDeDados.getInstance().setUsuarioLogado(funcionario);
+		bancoDeDados.setUsuarioLogado(usuarioLogado);
 	}
 
 	/**
@@ -129,6 +129,7 @@ public class GerenciadorFuncionarios {
 			throw new LogoutException("Nao ha um funcionario logado.");
 		}
 		usuarioLogado = null;
+		bancoDeDados.setUsuarioLogado(usuarioLogado);
 	}
 	
 	/**
