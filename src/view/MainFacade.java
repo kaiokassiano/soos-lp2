@@ -5,6 +5,7 @@ import controller.hospital.HospitalController;
 import data.BancoDeDados;
 import exceptions.dado.*;
 import exceptions.logica.*;
+import model.prontuarios.Prontuario;
 
 /**
  * View principal para a aplicação
@@ -116,13 +117,17 @@ public class MainFacade {
 			throw new LogicaException("Erro na consulta de medicamentos. " + e.getMessage());
 		}
 	}
-
-	public String getInfoPaciente(String nomePaciente, String atributo) throws Exception {
-		return hospitalController.getInfoPaciente(nomePaciente, atributo);
+	
+	public String cadastraPaciente(String nome, String dataNascimento, double peso, String sexoBiologico, String genero, String tipoSanguineo) throws LogicaException, DadoInvalidoException {
+		return hospitalController.cadastraPaciente(nome, dataNascimento, peso, sexoBiologico, genero, tipoSanguineo);
 	}
 	
-	public void cadastraPaciente(String nome, String data, double peso, String sexo, 
-			String genero, String tipoSanguineo) throws Exception {
-		hospitalController.cadastraPaciente(nome, data, peso, sexo, genero, tipoSanguineo);
+	public String getInfoPaciente(String nome, String atributo) throws DataInvalidaException, StringVaziaException, NullStringException, NumeroNegativoException {
+		return hospitalController.getInfoPaciente(nome, atributo);
 	}
+	
+	public String getProntuario(int posicao) throws NumeroNegativoException, DadoInvalidoException {
+		return hospitalController.getProntuario(posicao);
+	}
+
 }

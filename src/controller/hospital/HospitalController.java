@@ -1,8 +1,7 @@
 package controller.hospital;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import data.BancoDeDados;
@@ -13,7 +12,9 @@ import exceptions.logica.CategoriaInexistenteException;
 import exceptions.logica.CategoriaInvalidaException;
 import exceptions.logica.ChaveIncorretaException;
 import exceptions.logica.ComparacaoInvalidaException;
+import exceptions.logica.DataInvalidaException;
 import exceptions.logica.LogicaException;
+import exceptions.logica.NumeroNegativoException;
 import exceptions.logica.ObjetoInexistenteException;
 import exceptions.logica.OperacaoInvalidaException;
 import exceptions.logica.PermissaoException;
@@ -21,14 +22,15 @@ import exceptions.logica.SenhaIncorretaException;
 import exceptions.logica.StringVaziaException;
 import factory.funcionarios.FuncionarioFactory;
 import factory.medicamentos.MedicamentoFactory;
+
 import model.farmacia.Comparador;
 import model.farmacia.Farmacia;
 import model.farmacia.Medicamento;
+import model.prontuarios.Prontuario;
+import model.prontuarios.GerenciadorProntuario;
 import model.usuarios.Diretor;
 import model.usuarios.Funcionario;
-import model.usuarios.Paciente;
 import model.usuarios.PermissaoFuncionario;
-import model.usuarios.Prontuario;
 import validacao.medicamentos.ValidacaoMedicamentos;
 
 /**
@@ -42,14 +44,13 @@ public class HospitalController {
 	private FuncionarioFactory funcionarioFactory;
 	private MedicamentoFactory medicamentoFactory;
 	private Farmacia farmacia;
-
 	private Funcionario usuarioLogado;
 	private HashMap<String, Funcionario> funcionarios;
 	private HashMap<String, Medicamento> medicamentos;
-	private ArrayList<Prontuario> prontuarios;
 	private BancoDeDados bancoDeDados;
-
 	private boolean sistemaLiberado;
+	private GerenciadorProntuario prontuarios;
+	
 
 	public HospitalController() {
 		funcionarioFactory = new FuncionarioFactory();
@@ -58,9 +59,9 @@ public class HospitalController {
 
 		funcionarios = new HashMap<String, Funcionario>();
 		medicamentos = new HashMap<String, Medicamento>();
-		prontuarios = new ArrayList<Prontuario>();
 
 		bancoDeDados = BancoDeDados.getInstance();
+		prontuarios = new GerenciadorProntuario();
 	}
 
 	public void iniciaSistema() {
@@ -323,57 +324,17 @@ public class HospitalController {
 		return farmacia.getEstoqueFarmacia(tipoOrdenacao);
 	}
 
-	public String getInfoPaciente(String nomePaciente, String atributo) throws Exception {
-
-		Paciente paciente = retornaPacientePeloNome(nomePaciente);
-
-		String saida = "";
-
-		switch (atributo) {
-		case "Nome":
-			saida = paciente.getNome();
-		case "Data":
-			saida = paciente.getData();
-		case "Sexo":
-			saida = paciente.getSexo();
-		case "Genero":
-			saida = paciente.getGenero();
-		case "TipoSanguineo":
-			saida = paciente.getTipoSanguineo();
-		case "Peso":
-			saida = paciente.getPeso();
-		}
-		return saida;
+	public String cadastraPaciente(String nome, String dataNascimento, double peso, String sexoBiologico, String genero,
+			String tipoSanguineo) throws LogicaException, DadoInvalidoException {
+		return prontuarios.cadastraPaciente(nome, dataNascimento, peso, sexoBiologico, genero, tipoSanguineo);
 	}
 
-	public void cadastraPaciente(String nome, String data, double peso, String sexo, String genero,
-			String tipoSanguineo) throws Exception {
-
-		Paciente p = retornaPacientePeloNome(nome);
-		if (p != null) {
-			throw new Exception("Nao foi possivel cadastrar o paciente. Paciente ja cadastrado.");
-		}
-
-		try {
-			Paciente paciente = new Paciente(nome, data, peso, sexo, genero, tipoSanguineo);
-			Prontuario prontuario = new Prontuario(paciente);
-			this.prontuarios.add(prontuario);
-		} catch (Exception e) {
-			throw new Exception("Nao foi possivel cadastrar o paciente." + e.getMessage());
-		}
+	public String getInfoPaciente(String nome, String atributo) {
+		return prontuarios.getInfoPaciente(nome, atributo);
 	}
 
-	public Paciente retornaPacientePeloNome(String nome) throws Exception {
-		try {
-			for (int i = 0; i < prontuarios.size(); i++) {
-				if (prontuarios.get(i).getPaciente().getNome().equals(nome)
-						&& prontuarios.get(i).getPaciente() != null) {
-					return prontuarios.get(i).getPaciente();
-				}
-			}
-		} catch (Exception e) {
-			throw new Exception("Paciente nao encontrado.");
-		}
-		return null;
+	public String getProntuario(int posicao) throws NumeroNegativoException, DadoInvalidoException {
+		return prontuarios.getProntuario(posicao);
 	}
+
 }
