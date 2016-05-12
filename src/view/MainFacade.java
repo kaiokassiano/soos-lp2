@@ -1,8 +1,7 @@
 package view;
 
+import banco.dados.BancoDeDados;
 import controller.hospital.HospitalController;
-
-import data.BancoDeDados;
 import exceptions.dado.*;
 import exceptions.logica.*;
 import model.prontuarios.Prontuario;
@@ -72,7 +71,42 @@ public class MainFacade {
 			throw new LogicaException("Erro no cadastro de funcionario. " + e.getMessage());
 		}
 	}
+	
+	public void excluiFuncionario(String matricula, String senha) throws LogicaException {
+		try {
+			hospitalController.excluiFuncionario(matricula, senha);
+		}
+		catch (LogicaException | DadoInvalidoException e) {
+			throw new LogicaException("Erro ao excluir funcionario. " + e.getMessage());
+		}
+	}
 
+	public void atualizaInfoFuncionario(String matricula, String atributo, String novoValor) throws LogicaException {
+		try {
+			hospitalController.atualizaInfoFuncionario(matricula, atributo, novoValor);
+		}
+		catch (LogicaException | DadoInvalidoException e) {
+			throw new LogicaException("Erro ao atualizar funcionario. " + e.getMessage());
+		}
+	}
+	
+	public void atualizaInfoFuncionario(String atributo, String novoValor) throws LogicaException {
+		try {
+			hospitalController.atualizaInfoFuncionario(atributo, novoValor);
+		} catch (LogicaException | DadoInvalidoException e) {
+			throw new LogicaException("Erro ao atualizar funcionario. " + e.getMessage());
+		}
+	}
+	
+	public void atualizaSenha(String antigaSenha, String novaSenha) throws LogicaException {
+		try {
+			hospitalController.atualizaSenha(antigaSenha, novaSenha);
+		}
+		catch (LogicaException | DadoInvalidoException e) {
+			throw new LogicaException("Erro ao atualizar funcionario. " + e.getMessage());
+		}
+	}
+	
 	public String cadastraMedicamento(String nome, String tipo, double preco, int quantidade, String categorias)
 			throws LogicaException {
 		try {

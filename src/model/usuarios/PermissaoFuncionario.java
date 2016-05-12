@@ -2,5 +2,5 @@ package model.usuarios;
 
 public enum PermissaoFuncionario {
 
-	criacaoUsuarios, criacaoPacientes, lerSenhas;
+	CRIACAO_USUARIOS, CRIACAO_PACIENTES, LER_SENHAS, EXCLUSAO_FUNCIONARIOS, CRIACAO_MEDICAMENTOS;
 }

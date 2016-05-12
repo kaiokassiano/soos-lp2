@@ -1,8 +1,6 @@
 package model.prontuarios;
 
-import java.rmi.server.LoaderHandler;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
