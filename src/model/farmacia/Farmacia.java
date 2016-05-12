@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import banco.dados.BancoDeDados;
 import exceptions.dado.DadoInvalidoException;
 import exceptions.logica.CategoriaInexistenteException;
 import exceptions.logica.CategoriaInvalidaException;
@@ -13,7 +14,10 @@ import exceptions.logica.ComparacaoInvalidaException;
 import exceptions.logica.LogicaException;
 import exceptions.logica.ObjetoInexistenteException;
 import exceptions.logica.OperacaoInvalidaException;
+import exceptions.logica.PermissaoException;
 import factory.medicamentos.MedicamentoFactory;
+import model.usuarios.Funcionario;
+import model.usuarios.PermissaoFuncionario;
 import validacao.medicamentos.ValidacaoMedicamentos;
 
 public class Farmacia {
@@ -79,6 +83,10 @@ public class Farmacia {
 
 	public String cadastraMedicamento(String nome, String tipo, double preco, int quantidade, String categorias)
 			throws DadoInvalidoException, LogicaException {
+		Funcionario usuarioLogado = BancoDeDados.getInstance().getUsuarioLogado();
+		if (!usuarioLogado.temPermissao(PermissaoFuncionario.CRIACAO_MEDICAMENTOS)) {
+			throw new PermissaoException("O funcionario " + usuarioLogado.getNome() + " nao tem permissao para cadastrar medicamentos.");
+		}
 		Medicamento medicamento = medicamentoFactory.criaMedicamento(nome, tipo, preco, quantidade, categorias);
 		medicamentos.put(nome, medicamento);
 

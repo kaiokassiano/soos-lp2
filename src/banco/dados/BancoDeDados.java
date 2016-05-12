@@ -1,6 +1,15 @@
 package banco.dados;
 
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import model.usuarios.Funcionario;
 
 /**
  * Gerenciador de todos os dados do sistema, utiliza arquivos
@@ -21,6 +30,9 @@ public class BancoDeDados {
 	private DataInputStream sistemaLiberadoInput;
 	private final String sistemaLiberadoFile = "data/sistema_liberado.dat";
 	private boolean sistemaLiberado;
+	
+	// Usuário logado no sistema
+	private Funcionario usuarioLogado;
 
 	/**
 	 * Construtor do banco
@@ -184,5 +196,13 @@ public class BancoDeDados {
 	
 	public void setSistemaLiberado(boolean status) {
 		this.sistemaLiberado = status;
+	}
+
+	public void setUsuarioLogado(Funcionario funcionario) {
+		this.usuarioLogado = funcionario;
+	}
+
+	public Funcionario getUsuarioLogado() {
+		return this.usuarioLogado;
 	}
 }

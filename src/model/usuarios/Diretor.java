@@ -38,10 +38,10 @@ public class Diretor extends Funcionario {
 	public HashSet<PermissaoFuncionario> definePermissoes() {
 		HashSet<PermissaoFuncionario> permissoes = new HashSet<PermissaoFuncionario>();
 
-		permissoes.add(PermissaoFuncionario.criacaoUsuarios);
-		permissoes.add(PermissaoFuncionario.criacaoPacientes);
-		permissoes.add(PermissaoFuncionario.lerSenhas);
-		permissoes.add(PermissaoFuncionario.exclusaoFuncionarios);
+		permissoes.add(PermissaoFuncionario.CRIACAO_USUARIOS);
+		permissoes.add(PermissaoFuncionario.CRIACAO_PACIENTES);
+		permissoes.add(PermissaoFuncionario.LER_SENHAS);
+		permissoes.add(PermissaoFuncionario.EXCLUSAO_FUNCIONARIOS);
 
 		return permissoes;
 	}

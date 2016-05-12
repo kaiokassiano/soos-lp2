@@ -29,7 +29,8 @@ public class TecnicoAdministrativo extends Funcionario {
 	public HashSet<PermissaoFuncionario> definePermissoes() {
 		HashSet<PermissaoFuncionario> permissoes = new HashSet<PermissaoFuncionario>();
 		
-		permissoes.add(PermissaoFuncionario.criacaoPacientes);
+		permissoes.add(PermissaoFuncionario.CRIACAO_PACIENTES);
+		permissoes.add(PermissaoFuncionario.CRIACAO_MEDICAMENTOS);
 		
 		return permissoes;
 	}

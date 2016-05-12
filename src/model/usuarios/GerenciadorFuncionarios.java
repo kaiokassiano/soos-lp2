@@ -115,6 +115,7 @@ public class GerenciadorFuncionarios {
 		}
 
 		usuarioLogado = funcionario;
+		BancoDeDados.getInstance().setUsuarioLogado(funcionario);
 	}
 
 	/**
@@ -188,7 +189,7 @@ public class GerenciadorFuncionarios {
 			throw new SistemaException("O sistema esta bloqueado.");
 		} else if (!isUsuarioLogado()) {
 			throw new SistemaException("Usuario nao esta logado.");
-		} else if (!usuarioLogado.temPermissao(PermissaoFuncionario.criacaoUsuarios)) {
+		} else if (!usuarioLogado.temPermissao(PermissaoFuncionario.CRIACAO_USUARIOS)) {
 			throw new PermissaoException(
 					"O funcionario " + usuarioLogado.getNome() + " nao tem permissao para cadastrar funcionarios.");
 		} else if (cargo.equalsIgnoreCase("Diretor Geral")) {
@@ -267,7 +268,7 @@ public class GerenciadorFuncionarios {
 		
 		Funcionario funcionario = getFuncionarioPorMatricula(matricula);
 		
-		if (!usuarioLogado.temPermissao(PermissaoFuncionario.exclusaoFuncionarios)) {
+		if (!usuarioLogado.temPermissao(PermissaoFuncionario.EXCLUSAO_FUNCIONARIOS)) {
 			throw new PermissaoException("O funcionario " + usuarioLogado.getNome() + " nao tem permissao para excluir funcionarios.");
 		} else if (!getFuncionarioPorMatricula("12016001").getSenha().equals(senhaDiretor)) {
 			throw new SenhaIncorretaException("Senha invalida.");
