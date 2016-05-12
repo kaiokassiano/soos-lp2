@@ -152,8 +152,13 @@ public class MainFacade {
 		}
 	}
 	
-	public String cadastraPaciente(String nome, String dataNascimento, double peso, String sexoBiologico, String genero, String tipoSanguineo) throws LogicaException, DadoInvalidoException {
-		return hospitalController.cadastraPaciente(nome, dataNascimento, peso, sexoBiologico, genero, tipoSanguineo);
+	public String cadastraPaciente(String nome, String dataNascimento, double peso, String sexoBiologico, String genero, String tipoSanguineo) throws LogicaException {
+		try {
+			return hospitalController.cadastraPaciente(nome, dataNascimento, peso, sexoBiologico, genero, tipoSanguineo);
+		}
+		catch (LogicaException | DadoInvalidoException e) {
+			throw new LogicaException("Nao foi possivel cadastrar o paciente. " + e.getMessage());
+		}
 	}
 	
 	public String getInfoPaciente(String nome, String atributo) throws DataInvalidaException, StringVaziaException, NullStringException, NumeroNegativoException {

@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import banco.dados.BancoDeDados;
 import exceptions.dado.DadoInvalidoException;
 import exceptions.logica.LogicaException;
 import exceptions.logica.NumeroNegativoException;
+import exceptions.logica.PermissaoException;
+import model.usuarios.PermissaoFuncionario;
 import validacao.prontuarios.ValidacaoProntuarios;
 
 public class GerenciadorProntuario {
@@ -20,10 +23,14 @@ public class GerenciadorProntuario {
 	public String cadastraPaciente(String nome,  String dataNascimento, double peso, String sexoBiologico, String genero,
 			String tipoSanguineo) throws LogicaException, DadoInvalidoException {
 		
+		if (!BancoDeDados.getInstance().getUsuarioLogado().temPermissao(PermissaoFuncionario.CRIACAO_PACIENTES)) {
+			throw new PermissaoException("O funcionario " + BancoDeDados.getInstance().getUsuarioLogado().getNome() + " nao tem permissao para cadastrar pacientes.");
+		}
+		
 		ValidacaoProntuarios.validaDadosProntuario(nome, dataNascimento, peso, tipoSanguineo);
 		
 		if (retornaProntuarioPeloNome(nome) != null) {
-			throw new LogicaException("Nao foi possivel cadastrar o paciente. Paciente ja cadastrado.");
+			throw new LogicaException("Paciente ja cadastrado.");
 		}
 		
 

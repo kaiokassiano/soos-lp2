@@ -14,23 +14,23 @@ public class ValidacaoProntuarios {
 	public static boolean validaDadosProntuario(String nome, String dataNascimento, double peso, String tipoSanguineo) throws StringVaziaException, NumeroNegativoException, DataInvalidaException, DadoInvalidoException{
 		
 		if (nome == null) {
-			throw new NullStringException("Nao foi possivel cadastrar o paciente. Nome nao pode ser nulo");
+			throw new NullStringException("Nome nao pode ser nulo");
 		}
 		
 		else if (nome.trim().isEmpty()) {
-			throw new StringVaziaException("Nao foi possivel cadastrar o paciente. Nome do paciente nao pode ser vazio.");
+			throw new StringVaziaException("Nome do paciente nao pode ser vazio.");
 			
 		} else if (peso < 0.0) {
-			throw new NumeroNegativoException("Nao foi possivel cadastrar o paciente. Peso do paciente nao pode ser negativo.");
+			throw new NumeroNegativoException("Peso do paciente nao pode ser negativo.");
 		
 			
 		} else if (!contemTipoSanguineo(tipoSanguineo)) {
-			throw new DadoInvalidoException("Nao foi possivel cadastrar o paciente. Tipo sanguineo invalido.");
+			throw new DadoInvalidoException("Tipo sanguineo invalido.");
 			
 		} try {
 			parseData(dataNascimento);
 		} catch (Exception e) {
-			throw new DataInvalidaException("Nao foi possivel cadastrar o paciente. " + e.getMessage());
+			throw new DataInvalidaException(e.getMessage());
 		
 		}
 		return true;
