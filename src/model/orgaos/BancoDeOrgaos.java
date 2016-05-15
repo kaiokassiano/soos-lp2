@@ -1,4 +1,4 @@
-package banco.orgaos;
+package model.orgaos;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -18,7 +18,7 @@ public class BancoDeOrgaos {
 
 			if (entry.getKey().equals(nome)) {
 
-				// TODO refatorar essa bagaça
+				// TODO refatorar essa bagaï¿½a
 
 				for (int i = 0; i < entry.getValue().size(); i++) {
 

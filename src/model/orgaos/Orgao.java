@@ -1,4 +1,4 @@
-package banco.orgaos;
+package model.orgaos;
 
 public class Orgao {
 
