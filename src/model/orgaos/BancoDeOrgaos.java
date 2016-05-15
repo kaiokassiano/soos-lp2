@@ -1,68 +1,103 @@
 package model.orgaos;
 
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
+
+import exceptions.dado.DadoInvalidoException;
+import exceptions.logica.OrgaoInexistenteException;
+import exceptions.logica.TipoSanguineoInexistenteException;
+import exceptions.logica.TipoSanguineoInvalidoException;
+import validacao.orgao.ValidaOrgao;
 
 public class BancoDeOrgaos {
 
-	private TreeMap<String, ArrayList<Orgao>> bancoDeOrgaos;
-
+	private ArrayList<Orgao> bancoDeOrgaos;
+	private OrgaoFactory orgaoFactory;
+	
 	public BancoDeOrgaos() {
-		bancoDeOrgaos = new TreeMap<String, ArrayList<Orgao>>();
+		bancoDeOrgaos = new ArrayList<Orgao>();
+		orgaoFactory = new OrgaoFactory();
 	}
 
-	public String obterOrgaoPeloNome(String nome, String tipoSanguineo) {
+	public String buscaOrgPorNome(String nome) throws DadoInvalidoException, OrgaoInexistenteException {
 
-		for (Map.Entry<String, ArrayList<Orgao>> entry : bancoDeOrgaos.entrySet()) {
+		ArrayList<String> tiposSanguineos = new ArrayList<String>();
 
-			if (entry.getKey().equals(nome)) {
-
-				// TODO refatorar essa baga�a
-
-				for (int i = 0; i < entry.getValue().size(); i++) {
-
-					if (entry.getValue().get(i).getTipoSanguineo().equals(tipoSanguineo)) {
-
-						return entry.getValue().get(i).toString();
-
-					}
-				}
+		for (Orgao orgao : bancoDeOrgaos) {
+			if (orgao.getNome().equals(nome)) {
+				tiposSanguineos.add(orgao.getTipoSanguineo());
 			}
 		}
-		return null;
-	}
-
-	public int getQtdOrgaos(String nome) {
-		return bancoDeOrgaos.get(nome).size();
-	}
-
-	public int getQtdTotal() {
-		int retorno = 0;
-
-		for (Map.Entry<String, ArrayList<Orgao>> entry : bancoDeOrgaos.entrySet()) {
-			retorno += entry.getValue().size();
+		
+		if (tiposSanguineos.isEmpty()) {
+			throw new OrgaoInexistenteException("Orgao nao cadastrado.");
 		}
-
-		return retorno;
+		return String.join(",", tiposSanguineos);
 	}
 
-	public boolean temOrgao(String nome, String tipoSanguineo) {
+	public int totalOrgaosDisponiveis() {
+		return bancoDeOrgaos.size();
+	}
 
-		for (Map.Entry<String, ArrayList<Orgao>> entry : bancoDeOrgaos.entrySet()) {
+	public boolean buscaOrgao(String nome, String tipoSanguineo) throws TipoSanguineoInvalidoException, DadoInvalidoException {
 
-			if (entry.getKey().equals(nome)) {
-
-				for (int i = 0; i < entry.getValue().size(); i++) {
-					if (entry.getValue().get(i).getTipoSanguineo().equals(tipoSanguineo)) {
-						entry.getValue().remove(i);
-						return true;
-					}
-				}
+		Orgao outroOrgao = orgaoFactory.criaOrgao(nome, tipoSanguineo);
+		
+		for (Orgao orgao : bancoDeOrgaos) {
+			if (orgao.equals(outroOrgao)) {
+				return true;
 			}
 		}
-
 		return false;
 	}
 
+	public void cadastraOrgao(String nome, String tipoSanguineo) throws TipoSanguineoInvalidoException, DadoInvalidoException {
+		Orgao orgao = orgaoFactory.criaOrgao(nome, tipoSanguineo);
+		bancoDeOrgaos.add(orgao);
+	}
+	
+	public String buscaOrgPorSangue(String tipoSanguineo) throws TipoSanguineoInvalidoException, DadoInvalidoException, TipoSanguineoInexistenteException {
+		
+		ValidaOrgao.validaTipoSanguineo(tipoSanguineo);
+		ArrayList<String> orgaosTipoSanguineo = new ArrayList<String>();
+		
+		for (Orgao orgao : bancoDeOrgaos) {
+			if (orgao.getTipoSanguineo().equals(tipoSanguineo)) {
+				
+				if (!orgaosTipoSanguineo.contains(orgao.getNome())) {
+					orgaosTipoSanguineo.add(orgao.getNome());
+				}
+				
+			}
+		}
+		
+		if (orgaosTipoSanguineo.isEmpty()) {
+			throw new TipoSanguineoInexistenteException("Nao ha orgaos cadastrados para esse tipo sanguineo.");
+		}
+		
+		return String.join(",", orgaosTipoSanguineo);
+	}
+	
+	public boolean retiraOrgao (String nome, String tipoSanguineo) throws TipoSanguineoInvalidoException, DadoInvalidoException, OrgaoInexistenteException {
+		if (!buscaOrgao(nome, tipoSanguineo)) {
+			throw new OrgaoInexistenteException("Orgao nao cadastrado.");
+		}
+		Orgao orgao = orgaoFactory.criaOrgao(nome, tipoSanguineo);
+		bancoDeOrgaos.remove(orgao);
+		return true;
+	}
+	
+	public int qtdOrgaos(String nome) throws OrgaoInexistenteException, DadoInvalidoException {
+		int quantidade = 0;
+		for (Orgao orgao : bancoDeOrgaos) {
+			if (orgao.getNome().equals(nome)) {
+				quantidade++;
+			}
+		}
+		
+		if (quantidade == 0) {
+			throw new OrgaoInexistenteException("Orgao nao cadastrado.");
+		}
+		return quantidade;
+	}
+	
 }

@@ -1,10 +1,13 @@
 package view;
 
-import banco.dados.BancoDeDados;
 import controller.hospital.HospitalController;
-import exceptions.dado.*;
-import exceptions.logica.*;
-import model.prontuarios.Prontuario;
+import exceptions.dado.DadoInvalidoException;
+import exceptions.dado.NullStringException;
+import exceptions.logica.DataInvalidaException;
+import exceptions.logica.LogicaException;
+import exceptions.logica.NumeroNegativoException;
+import exceptions.logica.OrgaoInexistenteException;
+import exceptions.logica.StringVaziaException;
 
 /**
  * View principal para a aplicação
@@ -169,4 +172,51 @@ public class MainFacade {
 		return hospitalController.getProntuario(posicao);
 	}
 
+	public void cadastraOrgao(String nome, String tipoSanguineo) throws LogicaException {
+		hospitalController.cadastraOrgao(nome, tipoSanguineo);
+	}
+	
+	public String buscaOrgPorSangue(String tipoSanguineo) throws LogicaException {
+		try {
+			return hospitalController.buscaOrgPorSangue(tipoSanguineo);
+		} catch (DadoInvalidoException | LogicaException e) {
+			throw new LogicaException("O banco de orgaos apresentou um erro. " + e.getMessage());
+		}
+	}
+	
+	public String buscaOrgPorNome(String nome) throws LogicaException {
+		try {
+			return hospitalController.buscaOrgPorNome(nome);
+		} catch (DadoInvalidoException | OrgaoInexistenteException e) {
+			throw new LogicaException("O banco de orgaos apresentou um erro. " + e.getMessage());
+		}
+	}
+	
+	public boolean buscaOrgao(String nome, String tipoSanguineo) throws LogicaException {
+		try {
+			return hospitalController.buscaOrgao(nome, tipoSanguineo);
+		} catch (DadoInvalidoException | LogicaException e) {
+			throw new LogicaException("O banco de orgaos apresentou um erro. " + e.getMessage());
+		}
+	}
+	
+	public boolean retiraOrgao(String nome, String tipoSanguineo) throws LogicaException {
+		try {
+			return hospitalController.retiraOrgao(nome, tipoSanguineo);
+		} catch (DadoInvalidoException | LogicaException e) {
+			throw new LogicaException("Erro na retirada de orgaos. " + e.getMessage());
+		}
+	}
+	public int qtdOrgaos(String nome) throws LogicaException {
+		try {
+			return hospitalController.qtdOrgaos(nome);
+		} catch (DadoInvalidoException | LogicaException e) {
+			throw new LogicaException("O banco de orgaos apresentou um erro. " + e.getMessage());
+		}
+	}
+	
+	public int totalOrgaosDisponiveis() {
+		return hospitalController.totalOrgaosDisponiveis();
+	}
+	
 }

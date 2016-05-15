@@ -11,8 +11,11 @@ import exceptions.logica.LogoutException;
 import exceptions.logica.NumeroNegativoException;
 import exceptions.logica.ObjetoInexistenteException;
 import exceptions.logica.OperacaoInvalidaException;
+import exceptions.logica.OrgaoInexistenteException;
+import exceptions.logica.TipoSanguineoInvalidoException;
 import model.farmacia.Farmacia;
 import model.farmacia.Medicamento;
+import model.orgaos.BancoDeOrgaos;
 import model.prontuarios.GerenciadorProntuario;
 import model.usuarios.GerenciadorFuncionarios;
 
@@ -27,12 +30,14 @@ public class HospitalController {
 	
 	private GerenciadorProntuario prontuarios;
 	private BancoDeDados bancoDeDados;
+	private BancoDeOrgaos bancoDeOrgaos;
 
 	public HospitalController() {
 		gerenciadorFuncionarios = new GerenciadorFuncionarios();
 		farmacia = new Farmacia();
 
 		prontuarios = new GerenciadorProntuario();
+		bancoDeOrgaos = new BancoDeOrgaos();
 		
 		bancoDeDados = BancoDeDados.getInstance();
 	}
@@ -143,4 +148,36 @@ public class HospitalController {
 		return prontuarios.getProntuario(posicao);
 	}
 
+	public void cadastraOrgao(String nome, String tipoSanguineo) throws LogicaException {
+		try {
+			bancoDeOrgaos.cadastraOrgao(nome, tipoSanguineo);
+		} catch (TipoSanguineoInvalidoException | DadoInvalidoException e) {
+			throw new LogicaException("O banco de orgaos apresentou um erro. " + e.getMessage());
+		}
+	}
+	
+	public String buscaOrgPorSangue(String tipoSanguineo) throws LogicaException, DadoInvalidoException {
+		return bancoDeOrgaos.buscaOrgPorSangue(tipoSanguineo);
+	}
+	
+	public String buscaOrgPorNome(String nome) throws DadoInvalidoException, OrgaoInexistenteException {
+		return bancoDeOrgaos.buscaOrgPorNome(nome);
+	}
+	
+	public boolean buscaOrgao(String nome, String tipoSanguineo) throws TipoSanguineoInvalidoException, DadoInvalidoException {
+		return bancoDeOrgaos.buscaOrgao(nome, tipoSanguineo);
+	}
+	
+	public boolean retiraOrgao(String nome, String tipoSanguineo) throws TipoSanguineoInvalidoException, OrgaoInexistenteException, DadoInvalidoException {
+		return bancoDeOrgaos.retiraOrgao(nome, tipoSanguineo);
+	}
+	
+	public int qtdOrgaos(String nome) throws OrgaoInexistenteException, DadoInvalidoException {
+		return bancoDeOrgaos.qtdOrgaos(nome);
+	}
+	
+	public int totalOrgaosDisponiveis() {
+		return bancoDeOrgaos.totalOrgaosDisponiveis();
+	}
+	
 }

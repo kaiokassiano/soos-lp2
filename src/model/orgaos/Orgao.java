@@ -31,4 +31,15 @@ public class Orgao {
 		return "Orgao " + getNome() + ", com tipo sanguineo " + getTipoSanguineo();
 	}
 
+	@Override
+	public boolean equals(Object orgao) {
+		if (orgao instanceof Orgao) {
+			Orgao outroOrgao = (Orgao) orgao;
+			if (outroOrgao.getNome().equals(this.nome) && outroOrgao.getTipoSanguineo().equals(this.tipoSanguineo)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
