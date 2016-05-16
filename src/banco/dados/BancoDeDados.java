@@ -19,9 +19,7 @@ import model.usuarios.Funcionario;
  * Gerenciador de todos os dados do sistema, utiliza arquivos para realizar a
  * persistência dos dados entre sessões diferentes
  */
-public class BancoDeDados implements Serializable {
-
-	private static final long serialVersionUID = 6537104789688111269L;
+public class BancoDeDados {
 
 	private static BancoDeDados instance = null;
 
