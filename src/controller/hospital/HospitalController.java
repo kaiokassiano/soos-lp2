@@ -179,5 +179,13 @@ public class HospitalController {
 	public int totalOrgaosDisponiveis() {
 		return bancoDeOrgaos.totalOrgaosDisponiveis();
 	}
+
+	public int getPontosFidelidade(String nomePaciente) {
+		return prontuarios.getPontosFidelidade(nomePaciente);
+	}
+
+	public double getGastosPaciente(String nomePaciente) {
+		return prontuarios.getGastosPaciente(nomePaciente);
+	}
 	
 }

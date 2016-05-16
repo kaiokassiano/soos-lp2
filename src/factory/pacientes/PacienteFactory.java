@@ -1,8 +1,5 @@
 package factory.pacientes;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 import exceptions.logica.DataInvalidaException;
 import model.prontuarios.Paciente;
 

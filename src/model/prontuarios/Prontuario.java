@@ -52,4 +52,8 @@ public class Prontuario {
 		 return saida;
 	}
 	
+	public Paciente getPaciente(){
+		return this.paciente;
+	}
+	
 }

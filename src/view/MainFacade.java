@@ -219,4 +219,12 @@ public class MainFacade {
 		return hospitalController.totalOrgaosDisponiveis();
 	}
 	
+	public int getPontosFidelidade(String nomePaciente) {
+		return hospitalController.getPontosFidelidade(nomePaciente);
+	}
+	
+	public double getGastosPaciente(String nomePaciente){
+		return hospitalController.getGastosPaciente(nomePaciente);
+	}
+	
 }

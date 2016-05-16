@@ -15,12 +15,13 @@ import validacao.prontuarios.ValidacaoProntuarios;
 public class GerenciadorProntuario {
 	
 	private List<Prontuario> prontuarios;
+	private TipoFidelidade cartaoFidelidade;
 	
 	public GerenciadorProntuario(){
 		this.prontuarios = new ArrayList<Prontuario>();
 	}
 
-	public String cadastraPaciente(String nome,  String dataNascimento, double peso, String sexoBiologico, String genero,
+	public String cadastraPaciente(String nome, String dataNascimento, double peso, String sexoBiologico, String genero,
 			String tipoSanguineo) throws LogicaException, DadoInvalidoException {
 		
 		if (!BancoDeDados.getInstance().getUsuarioLogado().temPermissao(PermissaoFuncionario.CRIACAO_PACIENTES)) {
@@ -61,6 +62,10 @@ public class GerenciadorProntuario {
 		}
 		return null;
 	}
+	
+	public Paciente getPaciente(String nome) {
+		return retornaProntuarioPeloNome(nome).getPaciente();
+	}
 
 	public String getProntuario(int posicao) throws NumeroNegativoException, DadoInvalidoException {
 		if (posicao < 0) {
@@ -70,6 +75,14 @@ public class GerenciadorProntuario {
 		}
 		return prontuarios.get(posicao).getNome();
 		
+	}
+
+	public int getPontosFidelidade(String nomePaciente) {
+		return getPaciente(nomePaciente).getPontosFidelidade();	
+	}
+	
+	public double getGastosPaciente(String nomePaciente){
+		return getPaciente(nomePaciente).getGastosPaciente();
 	}
 	
 
