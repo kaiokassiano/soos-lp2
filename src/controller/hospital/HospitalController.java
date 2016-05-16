@@ -1,5 +1,7 @@
 package controller.hospital;
 
+import java.io.Serializable;
+
 import banco.dados.BancoDeDados;
 import exceptions.dado.DadoInvalidoException;
 import exceptions.dado.NullStringException;
@@ -23,36 +25,33 @@ import model.usuarios.GerenciadorFuncionarios;
  * Controller principal da aplicação, faz o gerenciamento de todas as áreas e
  * assim como o do sistema
  */
-public class HospitalController {
+public class HospitalController implements Serializable {
 
+	private static final long serialVersionUID = 2263371848242193064L;
+	
 	private GerenciadorFuncionarios gerenciadorFuncionarios;
 	private Farmacia farmacia;
 	
-	private GerenciadorProntuario prontuarios;
-	private BancoDeDados bancoDeDados;
+	private GerenciadorProntuario gerenciadorProntuarios;
 	private BancoDeOrgaos bancoDeOrgaos;
 
 	public HospitalController() {
 		gerenciadorFuncionarios = new GerenciadorFuncionarios();
 		farmacia = new Farmacia();
 
-		prontuarios = new GerenciadorProntuario();
+		gerenciadorProntuarios = new GerenciadorProntuario();
 		bancoDeOrgaos = new BancoDeOrgaos();
-		
-		bancoDeDados = BancoDeDados.getInstance();
 	}
 
-	public void iniciaSistema() {
-		bancoDeDados.init();
+	public void iniciaController() {
 	}
 
 	/**
 	 * Fecha o sistema, junto com o banco de dados, verificando se alguém ainda
 	 * está logado e, caso esteja, joga um erro
 	 */
-	public void fechaSistema() throws LogicaException {
+	public void fechaController() throws LogicaException {
 		gerenciadorFuncionarios.fecharGerenciadorFuncionarios();
-		bancoDeDados.fechar();
 	}
 
 	public String liberaSistema(String chave, String nome, String dataNascimento)
@@ -137,15 +136,15 @@ public class HospitalController {
 
 	public String cadastraPaciente(String nome, String dataNascimento, double peso, String sexoBiologico, String genero,
 			String tipoSanguineo) throws LogicaException, DadoInvalidoException {
-		return prontuarios.cadastraPaciente(nome, dataNascimento, peso, sexoBiologico, genero, tipoSanguineo);
+		return gerenciadorProntuarios.cadastraPaciente(nome, dataNascimento, peso, sexoBiologico, genero, tipoSanguineo);
 	}
 
 	public String getInfoPaciente(String nome, String atributo) {
-		return prontuarios.getInfoPaciente(nome, atributo);
+		return gerenciadorProntuarios.getInfoPaciente(nome, atributo);
 	}
 
 	public String getProntuario(int posicao) throws NumeroNegativoException, DadoInvalidoException {
-		return prontuarios.getProntuario(posicao);
+		return gerenciadorProntuarios.getProntuario(posicao);
 	}
 
 	public void cadastraOrgao(String nome, String tipoSanguineo) throws LogicaException {

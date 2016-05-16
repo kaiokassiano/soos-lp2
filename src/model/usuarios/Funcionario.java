@@ -15,7 +15,8 @@ import exceptions.logica.StringVaziaException;
  */
 public abstract class Funcionario implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2579440738034457486L;
+
 	private String nome;
 	private HashSet<PermissaoFuncionario> permissoes;
 	private LocalDate dataNascimento;

@@ -11,9 +11,9 @@ import exceptions.logica.LogicaException;
  * todas as permissões relacionadas ao corpo profissional
  */
 public class TecnicoAdministrativo extends Funcionario {
-
-	private static final long serialVersionUID = 1L;
 	
+	private static final long serialVersionUID = -2632995063393340848L;
+
 	/**
 	 * Construtor de TecnicoAdministrativo
 	 * 

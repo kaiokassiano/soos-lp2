@@ -1,5 +1,6 @@
 package model.farmacia;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -20,7 +21,9 @@ import model.usuarios.Funcionario;
 import model.usuarios.PermissaoFuncionario;
 import validacao.medicamentos.ValidacaoMedicamentos;
 
-public class Farmacia {
+public class Farmacia implements Serializable {
+
+	private static final long serialVersionUID = -4910281402972801774L;
 
 	private MedicamentoFactory medicamentoFactory;
 

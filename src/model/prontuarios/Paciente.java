@@ -1,13 +1,16 @@
 package model.prontuarios;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import exceptions.logica.DataInvalidaException;
 
-public class Paciente {
-	
+public class Paciente implements Serializable {
+
+	private static final long serialVersionUID = -7182415301026656229L;
+
 	private String nome;
 	private LocalDate dataNascimento;
 	private double peso;

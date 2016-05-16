@@ -1,5 +1,6 @@
 package model.farmacia;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.TreeSet;
 
@@ -8,7 +9,9 @@ import exceptions.logica.LogicaException;
 import exceptions.logica.OperacaoInvalidaException;
 import validacao.medicamentos.ValidacaoMedicamentos;
 
-public class Medicamento implements Comparable<Medicamento>{
+public class Medicamento implements Comparable<Medicamento>, Serializable {
+
+	private static final long serialVersionUID = 9144424243399198829L;
 
 	private String nome;
 	private String tipo;

@@ -1,5 +1,6 @@
 package view;
 
+import banco.dados.BancoDeDados;
 import controller.hospital.HospitalController;
 import exceptions.dado.DadoInvalidoException;
 import exceptions.dado.NullStringException;
@@ -15,24 +16,27 @@ import exceptions.logica.StringVaziaException;
 public class MainFacade {
 
 	private HospitalController hospitalController;
+	private BancoDeDados bancoDeDados;
 	
 	/**
 	 * Construtor da Facade
 	 */
 	public MainFacade() {
-		hospitalController = new HospitalController();
+		bancoDeDados = BancoDeDados.getInstance();
 	}
 
 	public void iniciaSistema() {
-		hospitalController.iniciaSistema();
+		bancoDeDados.init();
+		hospitalController = bancoDeDados.getHospitalController();
 	}
 
 	public void fechaSistema() throws LogicaException {
 		try {
-			hospitalController.fechaSistema();
+			hospitalController.fechaController();
 		} catch (LogicaException e) {
 			throw new LogicaException("Nao foi possivel fechar o sistema. " + e.getMessage());
 		}
+		bancoDeDados.fechar();
 	}
 
 	public String liberaSistema(String chave, String nome, String dataNascimento) throws LogicaException {

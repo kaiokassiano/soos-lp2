@@ -1,5 +1,6 @@
 package model.usuarios;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 import banco.dados.BancoDeDados;
@@ -21,7 +22,9 @@ import validacao.dados.ValidaMatricula;
 import validacao.dados.ValidaNome;
 import validacao.dados.ValidaSenha;
 
-public class GerenciadorFuncionarios {
+public class GerenciadorFuncionarios implements Serializable {
+
+	private static final long serialVersionUID = -1957084040534534334L;
 
 	private static final String CHAVE_SISTEMA = "c041ebf8";
 	

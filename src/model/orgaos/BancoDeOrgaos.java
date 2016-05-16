@@ -1,14 +1,18 @@
 package model.orgaos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import exceptions.dado.DadoInvalidoException;
 import exceptions.logica.OrgaoInexistenteException;
 import exceptions.logica.TipoSanguineoInexistenteException;
 import exceptions.logica.TipoSanguineoInvalidoException;
+import factory.orgaos.OrgaoFactory;
 import validacao.orgao.ValidaOrgao;
 
-public class BancoDeOrgaos {
+public class BancoDeOrgaos implements Serializable {
+
+	private static final long serialVersionUID = 4504834495360884617L;
 
 	private ArrayList<Orgao> bancoDeOrgaos;
 	private OrgaoFactory orgaoFactory;

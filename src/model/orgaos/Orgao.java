@@ -1,6 +1,10 @@
 package model.orgaos;
 
-public class Orgao {
+import java.io.Serializable;
+
+public class Orgao implements Serializable {
+
+	private static final long serialVersionUID = -541010157090076328L;
 
 	private String nome;
 	private String tipoSanguineo;

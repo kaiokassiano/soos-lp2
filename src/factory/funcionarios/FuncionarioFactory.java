@@ -1,5 +1,6 @@
 package factory.funcionarios;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -18,8 +19,10 @@ import model.usuarios.TecnicoAdministrativo;
 /**
  * Factory de funcionários
  */
-public class FuncionarioFactory {
-	
+public class FuncionarioFactory implements Serializable {
+
+	private static final long serialVersionUID = -279654535889515995L;
+
 	/**
 	 * Cria um funcionário dado suas informações
 	 * 
