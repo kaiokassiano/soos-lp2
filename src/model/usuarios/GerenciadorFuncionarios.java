@@ -35,7 +35,7 @@ public class GerenciadorFuncionarios implements Serializable {
 	
 	public GerenciadorFuncionarios() {
 		funcionarios = new HashMap<String, Funcionario>();
-		funcionarioFactory = new FuncionarioFactory();
+		funcionarioFactory = new FuncionarioFactory(); // test
 	}
 	
 	public void initGerenciadorFuncionarios() {
