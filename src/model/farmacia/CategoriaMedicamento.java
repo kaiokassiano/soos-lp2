@@ -1,6 +1,8 @@
 package model.farmacia;
 
-public enum CategoriaMedicamento {
+import java.io.Serializable;
+
+public enum CategoriaMedicamento implements Serializable {
 
 	ANALGESICO("analgesico"), ANTIBIOTICO("antibiotico"), ANTIEMETICO("antiemetico"), ANTIINFLAMATORIO(
 			"antiinflamatorio"), ANTITERMICO("antitermico"), HORMONAL("hormonal");
@@ -16,7 +18,6 @@ public enum CategoriaMedicamento {
 	}
 
 	public static CategoriaMedicamento converteString(String categoria) {
-
 		for (int i = 0; i < CategoriaMedicamento.values().length; i++) {
 			if (categoria.equals(CategoriaMedicamento.values()[i].getCategoria())) {
 				return CategoriaMedicamento.values()[i];

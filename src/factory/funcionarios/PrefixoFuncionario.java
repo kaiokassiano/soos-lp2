@@ -1,9 +1,11 @@
 package factory.funcionarios;
 
+import java.io.Serializable;
+
 /**
  * Enum representando o prefixo de cada tipo de funcionário
  */
-public enum PrefixoFuncionario {
+public enum PrefixoFuncionario implements Serializable {
 	
 	Diretor(1), Medico(2), TecnicoAdministrativo(3);
 	

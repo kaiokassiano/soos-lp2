@@ -12,9 +12,9 @@ import exceptions.logica.StringVaziaException;
  * Classe de diretor do sistema, possui todas as permissões
  */
 public class Diretor extends Funcionario {
-
-	private static final long serialVersionUID = 1L;
 	
+	private static final long serialVersionUID = 6991832192337349566L;
+
 	/**
 	 * Construtor de Diretor
 	 * 

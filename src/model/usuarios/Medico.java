@@ -13,7 +13,7 @@ import exceptions.logica.StringVaziaException;
  */
 public class Medico extends Funcionario {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 896465749455349591L;
 
 	/**
 	 * Construtor de Medico

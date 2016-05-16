@@ -1,5 +1,6 @@
 package model.prontuarios;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,8 +13,9 @@ import exceptions.logica.PermissaoException;
 import model.usuarios.PermissaoFuncionario;
 import validacao.prontuarios.ValidacaoProntuarios;
 
-public class GerenciadorProntuario {
+public class GerenciadorProntuario implements Serializable {
 	
+	private static final long serialVersionUID = -8996993358051123045L;
 	private List<Prontuario> prontuarios;
 	
 	public GerenciadorProntuario(){

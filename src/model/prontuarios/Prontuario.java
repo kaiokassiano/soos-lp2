@@ -1,12 +1,15 @@
 package model.prontuarios;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import exceptions.logica.DataInvalidaException;
 import factory.pacientes.PacienteFactory;
 
-public class Prontuario {
+public class Prontuario implements Serializable {
+
+	private static final long serialVersionUID = 5588910044733686821L;
 
 	private Paciente paciente;
 	private PacienteFactory pacienteFactory;
