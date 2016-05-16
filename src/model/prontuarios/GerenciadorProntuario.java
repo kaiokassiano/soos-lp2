@@ -72,5 +72,7 @@ public class GerenciadorProntuario {
 		
 	}
 	
-
+	public void realizaProcedimento(String procedimento, String nomePaciente) {
+		
+	}
 }
