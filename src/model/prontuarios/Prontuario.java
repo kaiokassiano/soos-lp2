@@ -19,7 +19,7 @@ public class Prontuario {
 		this.tratamentos = new ArrayList<>();
 		this.pacienteFactory = new PacienteFactory();
 
-		// TODO valida��o prontuario
+		// TODO validação prontuario
 		this.paciente = pacienteFactory.criaPaciente(nome, dataNascimento, peso, sexoBiologico, genero, tipoSanguineo);
 	}
 

@@ -16,7 +16,8 @@ public class Paciente {
 	private String tipoSanguineo; // TODO criar enum
 	private UUID id;
 	private int pontosFidelidade;
-	private double gastosPaciente;
+	private double gastoTotalPaciente;
+	private Cartao cartao;
 
 	public Paciente(String nome, String dataNascimento, double peso, String sexoBiologico, String genero, String tipoSanguineo) throws DataInvalidaException {
 		
@@ -28,7 +29,7 @@ public class Paciente {
 		this.tipoSanguineo = tipoSanguineo;
 		this.id = UUID.randomUUID();
 		this.pontosFidelidade = 0;
-		this.gastosPaciente = 0.0;
+		this.cartao = new Cartao();
 	}
 	
 	public LocalDate parseData(String dataNascimento) throws DataInvalidaException {
@@ -82,6 +83,10 @@ public class Paciente {
 	}
 	
 	public double getGastosPaciente(){
-		return this.gastosPaciente;
+		return this.gastoTotalPaciente;
+	}
+	
+	public void adicionaPontosFidelidade() {
+		
 	}
 }

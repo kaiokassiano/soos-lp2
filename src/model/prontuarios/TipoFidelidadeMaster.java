@@ -1,26 +1,28 @@
 package model.prontuarios;
 
-public class CartaoMaster implements TipoFidelidade{
+public class TipoFidelidadeMaster implements TipoFidelidade{
 	
 	private int pontos;
 
 	@Override
-	public void adicionaPontos() {
+	public void aplicaDesconto(Cartao cartao) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void aplicaDesconto() {
+	public void adicionaPontos(Cartao cartao) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void adicionaPontosBonus() {
+	public void adicionaPontosBonus(Cartao cartao) {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 	
 //		if (this.pontos < 150) return "Padrao";
 //		if (this.pontos >= 150 && pontos <= 350) return "Master";
