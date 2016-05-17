@@ -32,13 +32,10 @@ public class GerenciadorFuncionarios implements Serializable {
 	private FuncionarioFactory funcionarioFactory;	
 	
 	private Funcionario usuarioLogado;
-	private BancoDeDados bancoDeDados;
 	
 	public GerenciadorFuncionarios() {
 		funcionarios = new HashMap<String, Funcionario>();
-		funcionarioFactory = new FuncionarioFactory();
-		
-		bancoDeDados = BancoDeDados.getInstance();
+		funcionarioFactory = new FuncionarioFactory(); // test
 	}
 	
 	public void initGerenciadorFuncionarios() {
@@ -76,13 +73,13 @@ public class GerenciadorFuncionarios implements Serializable {
 		if (dataNascimento == null) {
 			throw new NullStringException("Data nao pode ser nulo.");
 		}
-		if (bancoDeDados.isSistemaLiberado()) {
+		if (BancoDeDados.getInstance().isSistemaLiberado()) {
 			throw new LogicaException("Sistema liberado anteriormente.");
 		}
 		if (!chave.equals(CHAVE_SISTEMA)) {
 			throw new ChaveIncorretaException("Chave invalida.");
 		}
-		bancoDeDados.setSistemaLiberado(true);
+		BancoDeDados.getInstance().setSistemaLiberado(true);
 		
 		Diretor diretor = (Diretor) funcionarioFactory.criaFuncionario(nome, "Diretor Geral", dataNascimento);
 		funcionarios.put(diretor.getMatricula(), diretor);
@@ -101,7 +98,7 @@ public class GerenciadorFuncionarios implements Serializable {
 	 * @throws NullStringException
 	 */
 	public void login(String matricula, String senha) throws LogicaException, NullStringException {
-		if (!bancoDeDados.isSistemaLiberado()) {
+		if (!BancoDeDados.getInstance().isSistemaLiberado()) {
 			throw new SistemaException("Sistema nao liberado.");
 		} else if (isUsuarioLogado()) {
 			throw new LoginException("Um funcionario ainda esta logado: " + usuarioLogado.getNome() + ".");
@@ -118,7 +115,7 @@ public class GerenciadorFuncionarios implements Serializable {
 		}
 
 		usuarioLogado = funcionario;
-		bancoDeDados.setUsuarioLogado(usuarioLogado);
+		BancoDeDados.getInstance().setUsuarioLogado(usuarioLogado);
 	}
 
 	/**
@@ -132,7 +129,7 @@ public class GerenciadorFuncionarios implements Serializable {
 			throw new LogoutException("Nao ha um funcionario logado.");
 		}
 		usuarioLogado = null;
-		bancoDeDados.setUsuarioLogado(usuarioLogado);
+		BancoDeDados.getInstance().setUsuarioLogado(usuarioLogado);
 	}
 	
 	/**
@@ -189,7 +186,7 @@ public class GerenciadorFuncionarios implements Serializable {
 			throw new StringVaziaException("Nome do cargo nao pode ser vazio.");
 		}
 
-		if (!bancoDeDados.isSistemaLiberado()) {
+		if (!BancoDeDados.getInstance().isSistemaLiberado()) {
 			throw new SistemaException("O sistema esta bloqueado.");
 		} else if (!isUsuarioLogado()) {
 			throw new SistemaException("Usuario nao esta logado.");

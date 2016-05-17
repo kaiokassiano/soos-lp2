@@ -10,6 +10,7 @@ import exceptions.dado.DadoInvalidoException;
 import exceptions.logica.LogicaException;
 import exceptions.logica.NumeroNegativoException;
 import exceptions.logica.PermissaoException;
+import model.procedimentos.GerenciadorProcedimentos;
 import model.usuarios.PermissaoFuncionario;
 import validacao.prontuarios.ValidacaoProntuarios;
 
@@ -17,9 +18,11 @@ public class GerenciadorProntuario implements Serializable {
 	
 	private static final long serialVersionUID = -8996993358051123045L;
 	private List<Prontuario> prontuarios;
+	private GerenciadorProcedimentos gerenciadorProcedimento;
 	
 	public GerenciadorProntuario(){
 		this.prontuarios = new ArrayList<Prontuario>();
+		gerenciadorProcedimento = new GerenciadorProcedimentos();
 	}
 
 	public String cadastraPaciente(String nome,  String dataNascimento, double peso, String sexoBiologico, String genero,
@@ -74,7 +77,14 @@ public class GerenciadorProntuario implements Serializable {
 		
 	}
 	
-	public void realizaProcedimento(String procedimento, String nomePaciente) {
+	// Sobrecarga de metodo. Esse metodo aqui nao recebe o orgao
+	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String medicamentos) {
 		
 	}
+		
+	// Sobrecarga de metodo. Esse metodo aqui recebe o orgao
+	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String nomeOrgao, String medicamentos) {
+		
+	}
+	
 }

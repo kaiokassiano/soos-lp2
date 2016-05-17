@@ -7,6 +7,7 @@ import exceptions.dado.NullStringException;
 import exceptions.logica.DataInvalidaException;
 import exceptions.logica.LogicaException;
 import exceptions.logica.NumeroNegativoException;
+import exceptions.logica.ObjetoInexistenteException;
 import exceptions.logica.OrgaoInexistenteException;
 import exceptions.logica.StringVaziaException;
 
@@ -221,6 +222,28 @@ public class MainFacade {
 	
 	public int totalOrgaosDisponiveis() {
 		return hospitalController.totalOrgaosDisponiveis();
+	}
+	
+	public String getPacienteID(String nome) {
+		return hospitalController.getPacienteID(nome);
+	}
+	
+	// Sobrecarga de metodo. Esse metodo aqui nao recebe o orgao
+	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String medicamentos) throws LogicaException {
+		try {
+			hospitalController.realizaProcedimento(procedimentoSolicitado, nomePaciente, medicamentos);
+		} catch (DadoInvalidoException |LogicaException e) {
+			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
+		}
+	}
+		
+	// Sobrecarga de metodo. Esse metodo aqui recebe o orgao
+	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String nomeOrgao, String medicamentos) throws LogicaException {
+		try {
+			hospitalController.realizaProcedimento(procedimentoSolicitado, nomePaciente, nomeOrgao, medicamentos);
+		} catch (LogicaException e) {
+			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
+		}
 	}
 	
 }

@@ -17,6 +17,7 @@ public class Paciente implements Serializable {
 	private String sexoBiologico;
 	private String genero;
 	private String tipoSanguineo; // TODO criar enum
+	private double gastos;
 	private UUID id;
 
 	public Paciente(String nome, String dataNascimento, double peso, String sexoBiologico, String genero, String tipoSanguineo) throws DataInvalidaException {
@@ -28,6 +29,7 @@ public class Paciente implements Serializable {
 		this.genero = genero;
 		this.tipoSanguineo = tipoSanguineo;
 		this.id = UUID.randomUUID();
+		this.gastos = 0.0;
 	}
 	
 	public LocalDate parseData(String dataNascimento) throws DataInvalidaException {
@@ -53,11 +55,23 @@ public class Paciente implements Serializable {
 	public double getPeso() {
 		return this.peso;
 	}
+	
+	public void setPeso(double peso) {
+		this.peso = peso;
+	}
 
 	public String getSexoBiologico() {
 		return this.sexoBiologico;
 	}
 
+	protected void mudaGenero() {
+		if (this.genero.equals("masculino")) {
+			this.genero = "feminino";
+		} else {
+			this.genero = "masculino";
+		}
+	}
+	
 	public String getGenero() {
 		return this.genero;
 	}
@@ -74,6 +88,14 @@ public class Paciente implements Serializable {
 		int idade;
 		idade = this.dataNascimento.until(LocalDate.now()).getYears();
 		return idade;
+	}
+	
+	public void adicionaGastos(double gastos) {
+		this.gastos += gastos;
+	}
+	
+	public double getGastos() {
+		return this.gastos;
 	}
 	
 }

@@ -2,7 +2,6 @@ package controller.hospital;
 
 import java.io.Serializable;
 
-import banco.dados.BancoDeDados;
 import exceptions.dado.DadoInvalidoException;
 import exceptions.dado.NullStringException;
 import exceptions.logica.CategoriaInexistenteException;
@@ -20,6 +19,7 @@ import model.farmacia.Medicamento;
 import model.orgaos.BancoDeOrgaos;
 import model.prontuarios.GerenciadorProntuario;
 import model.usuarios.GerenciadorFuncionarios;
+import validacao.procedimentos.ValidaProcedimento;
 
 /**
  * Controller principal da aplicação, faz o gerenciamento de todas as áreas e
@@ -177,6 +177,52 @@ public class HospitalController implements Serializable {
 	
 	public int totalOrgaosDisponiveis() {
 		return bancoDeOrgaos.totalOrgaosDisponiveis();
+	}
+	
+	public String getPacienteID(String nome) {
+		return gerenciadorProntuarios.getInfoPaciente(nome, nome);
+	}
+	
+	
+	// Sobrecarga de metodo. Esse metodo aqui nao recebe o orgao
+	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String medicamentos) throws ObjetoInexistenteException, DadoInvalidoException{
+		
+		if (existeMedicamento(medicamentos)) {
+			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, medicamentos);
+		}
+		ValidaProcedimento.validaProcedimento(nomePaciente);
+	}
+	
+	// Sobrecarga de metodo. Esse metodo aqui recebe o orgao
+	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String nomeOrgao, String medicamentos) throws LogicaException {
+		try {
+			bancoDeOrgaos.buscaOrgPorNome(nomeOrgao);
+			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, nomeOrgao, medicamentos);
+		} catch (OrgaoInexistenteException | DadoInvalidoException e) {
+			throw new LogicaException("Banco nao possui o orgao especificado");
+		}
+	}
+	
+	public double calculaPrecoMedicamentos(String medicamentos) throws ObjetoInexistenteException {
+		String[] medicamentosArray = medicamentos.split(",");
+		
+		double precoTotal = 0.0;
+		
+		for (int i = 0; i < medicamentosArray.length; i++) {
+			precoTotal += Double.parseDouble(getMedicamentoPeloNome(medicamentosArray[i]).getInfoMedicamento("preco"));
+		}
+		
+		return precoTotal;
+	}
+	
+	public boolean existeMedicamento(String medicamentos) throws ObjetoInexistenteException {
+		String[] arrayMedicamentos = medicamentos.split(",");
+		for (String nomeMedicamento : arrayMedicamentos) {
+			if (!farmacia.getMedicamentoPeloNome(nomeMedicamento).getInfoMedicamento("nome").equals(nomeMedicamento)) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 }
