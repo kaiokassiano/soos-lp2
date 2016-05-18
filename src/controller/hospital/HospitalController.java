@@ -1,5 +1,6 @@
 package controller.hospital;
 
+import java.beans.FeatureDescriptor;
 import java.io.Serializable;
 
 import exceptions.dado.DadoInvalidoException;
@@ -13,12 +14,14 @@ import exceptions.logica.NumeroNegativoException;
 import exceptions.logica.ObjetoInexistenteException;
 import exceptions.logica.OperacaoInvalidaException;
 import exceptions.logica.OrgaoInexistenteException;
+import exceptions.logica.ProcedimentoInvalidoException;
 import exceptions.logica.TipoSanguineoInvalidoException;
 import model.farmacia.Farmacia;
 import model.farmacia.Medicamento;
 import model.orgaos.BancoDeOrgaos;
 import model.prontuarios.GerenciadorProntuario;
 import model.usuarios.GerenciadorFuncionarios;
+import validacao.medicamentos.ValidacaoMedicamentos;
 import validacao.procedimentos.ValidaProcedimento;
 
 /**
@@ -180,27 +183,39 @@ public class HospitalController implements Serializable {
 	}
 	
 	public String getPacienteID(String nome) {
-		return gerenciadorProntuarios.getInfoPaciente(nome, nome);
+		return gerenciadorProntuarios.getInfoPaciente(nome, "nome");
 	}
 	
 	
 	// Sobrecarga de metodo. Esse metodo aqui nao recebe o orgao
-	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String medicamentos) throws ObjetoInexistenteException, DadoInvalidoException{
-		
-		if (existeMedicamento(medicamentos)) {
+	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String medicamentos) throws LogicaException{
+		try {
+			ValidaProcedimento.validaProcedimentoSolicitado(procedimentoSolicitado);
+			ValidacaoMedicamentos.validaNomeMedicamento(medicamentos);
+			ValidaProcedimento.validaNomePaciente(nomePaciente);
+			existeMedicamento(medicamentos);
 			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, medicamentos);
-		}
-		ValidaProcedimento.validaProcedimento(nomePaciente);
+		} catch (ObjetoInexistenteException e) {
+			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
+		} catch (DadoInvalidoException e) {
+			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
+		} 
 	}
 	
 	// Sobrecarga de metodo. Esse metodo aqui recebe o orgao
 	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String nomeOrgao, String medicamentos) throws LogicaException {
 		try {
-			bancoDeOrgaos.buscaOrgPorNome(nomeOrgao);
-			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, nomeOrgao, medicamentos);
-		} catch (OrgaoInexistenteException | DadoInvalidoException e) {
-			throw new LogicaException("Banco nao possui o orgao especificado");
-		}
+			ValidaProcedimento.validaProcedimentoSolicitado(procedimentoSolicitado);
+			ValidaProcedimento.validaNomePaciente(nomePaciente);
+			ValidacaoMedicamentos.validaNomeMedicamento(medicamentos);
+			existeMedicamento(medicamentos);
+			String tipoSanguineoPaciente = gerenciadorProntuarios.getInfoPaciente(nomePaciente, "tiposanguineo");
+			existeOrgao(nomeOrgao, tipoSanguineoPaciente);
+		} catch (ObjetoInexistenteException e) {
+			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
+		} catch (DadoInvalidoException e) {
+			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
+		} 
 	}
 	
 	public double calculaPrecoMedicamentos(String medicamentos) throws ObjetoInexistenteException {
@@ -224,5 +239,16 @@ public class HospitalController implements Serializable {
 		}
 		return true;
 	}
+	
+	public boolean existeOrgao(String nome, String tipoSanguineo) throws OrgaoInexistenteException, DadoInvalidoException, TipoSanguineoInvalidoException {
+
+		boolean temOrgao = bancoDeOrgaos.buscaOrgao(nome, tipoSanguineo);
+		
+		if (!temOrgao) {
+			throw new OrgaoInexistenteException("Erro na realizacao de procedimentos. Banco nao possui o orgao especificado.");
+		}
+		
+		return temOrgao;
+ 	}
 	
 }

@@ -108,7 +108,7 @@ public class BancoDeDados {
 				System.err.println("IOException: " + e.getMessage());
 			}
 		} catch (IOException e) {
-			System.err.println("IOException: " + e.getMessage());
+			
 		}
 	}
 

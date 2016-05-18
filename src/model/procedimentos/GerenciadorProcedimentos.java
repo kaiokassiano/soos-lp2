@@ -1,29 +1,26 @@
 package model.procedimentos;
 
+import java.io.Serializable;
+
+import exceptions.dado.DadoInvalidoException;
+import exceptions.logica.LogicaException;
+import factory.procedimento.ProcedimentoFactory;
 import model.prontuarios.Prontuario;
 
-public class GerenciadorProcedimentos {
+public class GerenciadorProcedimentos implements Serializable{
 	
+	private static final long serialVersionUID = 7351303124526973570L;
 	private Procedimento procedimento;
-
-	public void realizaProcedimento(Prontuario prontuario, String procedimentoSolicitado) {
+	private ProcedimentoFactory procedimentoFactory;
+	
+	public GerenciadorProcedimentos() {
+		this.procedimentoFactory = new ProcedimentoFactory();
+	}
+	
+	public void realizaProcedimento(Prontuario prontuario, String procedimentoSolicitado) throws LogicaException, DadoInvalidoException {
 		
-		switch (procedimentoSolicitado) {
-			case "Consulta clinica":
-				procedimento = new ConsultaClinica();
-				break;
-			case "Transplante de orgaos":
-				procedimento = new TransplanteDeOrgaos();
-				break;
-			case "Redesignacao sexual":
-				procedimento = new RedesignacaoSexual();
-				break;
-			case "Cirurgia bariatrica":
-				procedimento = new CirurgiaBariatrica();
-				break;
-		}
+		Procedimento procedimento = procedimentoFactory.criaProcedimento(procedimentoSolicitado);		
 		procedimento.realizaProcedimento(prontuario);
-		
 	}
 	
 }

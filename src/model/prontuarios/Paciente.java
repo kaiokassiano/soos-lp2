@@ -65,11 +65,7 @@ public class Paciente implements Serializable {
 	}
 
 	protected void mudaGenero() {
-		if (this.genero.equals("masculino")) {
-			this.genero = "feminino";
-		} else {
-			this.genero = "masculino";
-		}
+		this.genero = (this.genero.equals("feminino")) ? "masculino" : "feminino";
 	}
 	
 	public String getGenero() {

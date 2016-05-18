@@ -9,9 +9,11 @@ import banco.dados.BancoDeDados;
 import exceptions.dado.DadoInvalidoException;
 import exceptions.logica.LogicaException;
 import exceptions.logica.NumeroNegativoException;
+import exceptions.logica.PacienteNaoCadastradoException;
 import exceptions.logica.PermissaoException;
 import model.procedimentos.GerenciadorProcedimentos;
 import model.usuarios.PermissaoFuncionario;
+import validacao.procedimentos.ValidaProcedimento;
 import validacao.prontuarios.ValidacaoProntuarios;
 
 public class GerenciadorProntuario implements Serializable {
@@ -22,7 +24,7 @@ public class GerenciadorProntuario implements Serializable {
 	
 	public GerenciadorProntuario(){
 		this.prontuarios = new ArrayList<Prontuario>();
-		gerenciadorProcedimento = new GerenciadorProcedimentos();
+		this.gerenciadorProcedimento = new GerenciadorProcedimentos();
 	}
 
 	public String cadastraPaciente(String nome,  String dataNascimento, double peso, String sexoBiologico, String genero,
@@ -58,7 +60,7 @@ public class GerenciadorProntuario implements Serializable {
 		return retornaProntuarioPeloNome(nome).getInfoPaciente(nome, atributo);	
 	}
 	
-	public Prontuario retornaProntuarioPeloNome(String nome) {
+	public Prontuario retornaProntuarioPeloNome(String nome){
 		for (Prontuario prontuario : prontuarios) {
 			if (prontuario.getNome().equals(nome)) {
 				return prontuario;
@@ -78,7 +80,11 @@ public class GerenciadorProntuario implements Serializable {
 	}
 	
 	// Sobrecarga de metodo. Esse metodo aqui nao recebe o orgao
-	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String medicamentos) {
+	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String medicamentos) throws DadoInvalidoException, LogicaException {
+		Prontuario prontuario = retornaProntuarioPeloNome(nomePaciente);
+		if (prontuario != null) {
+			gerenciadorProcedimento.realizaProcedimento(prontuario, procedimentoSolicitado);
+		}
 		
 	}
 		

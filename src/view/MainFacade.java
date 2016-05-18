@@ -4,12 +4,9 @@ import banco.dados.BancoDeDados;
 import controller.hospital.HospitalController;
 import exceptions.dado.DadoInvalidoException;
 import exceptions.dado.NullStringException;
-import exceptions.logica.DataInvalidaException;
 import exceptions.logica.LogicaException;
 import exceptions.logica.NumeroNegativoException;
-import exceptions.logica.ObjetoInexistenteException;
 import exceptions.logica.OrgaoInexistenteException;
-import exceptions.logica.StringVaziaException;
 
 /**
  * View principal para a aplicação
@@ -169,7 +166,7 @@ public class MainFacade {
 		}
 	}
 	
-	public String getInfoPaciente(String nome, String atributo) throws DataInvalidaException, StringVaziaException, NullStringException, NumeroNegativoException {
+	public String getInfoPaciente(String nome, String atributo) throws NullStringException, LogicaException {
 		return hospitalController.getInfoPaciente(nome, atributo);
 	}
 	
@@ -224,17 +221,13 @@ public class MainFacade {
 		return hospitalController.totalOrgaosDisponiveis();
 	}
 	
-	public String getPacienteID(String nome) {
+	public String getPacienteID(String nome) throws LogicaException {
 		return hospitalController.getPacienteID(nome);
 	}
 	
 	// Sobrecarga de metodo. Esse metodo aqui nao recebe o orgao
 	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String medicamentos) throws LogicaException {
-		try {
-			hospitalController.realizaProcedimento(procedimentoSolicitado, nomePaciente, medicamentos);
-		} catch (DadoInvalidoException |LogicaException e) {
-			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
-		}
+		hospitalController.realizaProcedimento(procedimentoSolicitado, nomePaciente, medicamentos);
 	}
 		
 	// Sobrecarga de metodo. Esse metodo aqui recebe o orgao
@@ -242,8 +235,9 @@ public class MainFacade {
 		try {
 			hospitalController.realizaProcedimento(procedimentoSolicitado, nomePaciente, nomeOrgao, medicamentos);
 		} catch (LogicaException e) {
-			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
+			throw new LogicaException(e.getMessage());
 		}
+		
 	}
 	
 }

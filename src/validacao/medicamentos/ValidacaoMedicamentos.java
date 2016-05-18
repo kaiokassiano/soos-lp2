@@ -55,5 +55,12 @@ public class ValidacaoMedicamentos {
 		}
 		return true;
 	}
+	
+	public static boolean validaNomeMedicamento(String nomeMedicamento) throws NullStringException {
+		if (nomeMedicamento == null || nomeMedicamento.trim().isEmpty()) {
+			throw new NullStringException("Nome do medicamento nao pode ser vazio.");
+		}
+		return true;
+	}
 
 }

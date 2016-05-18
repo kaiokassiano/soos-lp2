@@ -51,9 +51,25 @@ public class BancoDeOrgaos implements Serializable {
 				return true;
 			}
 		}
+		// TODO: refatorar pra lancar excecao
 		return false;
 	}
 
+	public boolean buscaOrgaoPorNome(String nomeOrgao) throws OrgaoInexistenteException, DadoInvalidoException {
+		
+		if (nomeOrgao.trim().isEmpty()) {
+			throw new DadoInvalidoException("Nome do orgao nao pode ser vazio.");
+		}
+		
+		for (Orgao orgao : bancoDeOrgaos) {
+			if (orgao.getNome().equals(nomeOrgao)) {
+				return true;
+			}
+		}
+		
+		throw new OrgaoInexistenteException("Banco nao possui o orgao especificado");
+	}
+	
 	public void cadastraOrgao(String nome, String tipoSanguineo) throws TipoSanguineoInvalidoException, DadoInvalidoException {
 		Orgao orgao = orgaoFactory.criaOrgao(nome, tipoSanguineo);
 		bancoDeOrgaos.add(orgao);
