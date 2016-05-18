@@ -82,4 +82,16 @@ public class Prontuario implements Serializable {
 		return procedimentos.size();
 	}
 	
+	private Paciente getPaciente(){
+		return this.paciente;
+	}
+	
+	public int getPontosFidelidade() {
+		return getPaciente().getPontosFidelidade();	
+	}
+	
+	public double getGastosPaciente(){
+		return getPaciente().getGastos();
+	}
+	
 }

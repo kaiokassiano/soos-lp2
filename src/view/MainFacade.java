@@ -244,4 +244,13 @@ public class MainFacade {
 		return hospitalController.getTotalProcedimento(nomePaciente);
 	}
 	
+	public int getPontosFidelidade(String nomePaciente) {
+		return hospitalController.getPontosFidelidade(nomePaciente);
+	}
+	
+	public double getGastosPaciente(String nomePaciente){
+		return hospitalController.getGastosPaciente(nomePaciente);
+	}
+	
+	
 }

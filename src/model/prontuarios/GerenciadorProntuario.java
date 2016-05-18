@@ -101,4 +101,12 @@ public class GerenciadorProntuario implements Serializable {
 		return retornaProntuarioPeloNome(nomePaciente).getTotalProcedimento();
 	}
 	
+	public double getGastosPaciente(String nomePaciente) {
+		return retornaProntuarioPeloNome(nomePaciente).getGastosPaciente();
+	}
+
+	public int getPontosFidelidade(String nomePaciente) {
+		return retornaProntuarioPeloNome(nomePaciente).getPontosFidelidade();
+	}
+	
 }

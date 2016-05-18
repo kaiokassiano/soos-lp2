@@ -256,4 +256,12 @@ public class HospitalController implements Serializable {
 		return gerenciadorProntuarios.getTotalProcedimento(nomePaciente);
 	}
 	
+	public int getPontosFidelidade(String nomePaciente) {
+		return gerenciadorProntuarios.getPontosFidelidade(nomePaciente);
+	}
+
+	public double getGastosPaciente(String nomePaciente) {
+		return gerenciadorProntuarios.getGastosPaciente(nomePaciente);
+	}
+	
 }
