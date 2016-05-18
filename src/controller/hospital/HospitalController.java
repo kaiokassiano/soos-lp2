@@ -211,6 +211,7 @@ public class HospitalController implements Serializable {
 			existeMedicamento(medicamentos);
 			String tipoSanguineoPaciente = gerenciadorProntuarios.getInfoPaciente(nomePaciente, "tiposanguineo");
 			existeOrgao(nomeOrgao, tipoSanguineoPaciente);
+			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, medicamentos);
 		} catch (ObjetoInexistenteException e) {
 			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
 		} catch (DadoInvalidoException e) {
@@ -250,5 +251,9 @@ public class HospitalController implements Serializable {
 		
 		return temOrgao;
  	}
+
+	public int getTotalProcedimento(String nomePaciente) {
+		return gerenciadorProntuarios.getTotalProcedimento(nomePaciente);
+	}
 	
 }

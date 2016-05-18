@@ -64,13 +64,22 @@ public class Prontuario implements Serializable {
 			case "gastos":
 				paciente.adicionaGastos(valorDouble);
 				break;
-			case "genero":
-				paciente.mudaGenero();
-				break;
 			case "peso":
 				paciente.setPeso(valorDouble);	
 				break;
 		}
+	}
+	
+	public void mudaGeneroPaciente() {
+		paciente.mudaGenero();
+	}
+	
+	public void adicionaProcedimento(String procedimento) {
+		procedimentos.add(procedimento);
+	}
+
+	public int getTotalProcedimento() {
+		return procedimentos.size();
 	}
 	
 }

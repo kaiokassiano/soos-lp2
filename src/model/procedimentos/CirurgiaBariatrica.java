@@ -6,9 +6,11 @@ public class CirurgiaBariatrica implements Procedimento{
 
 	@Override
 	public void realizaProcedimento(Prontuario prontuario) {
-		Object pesoPaciente = prontuario.getInfoPaciente(prontuario.getNome(), "peso");
+		String pesoPaciente = prontuario.getInfoPaciente(prontuario.getNome(), "peso");
+		Double novoPeso = Double.parseDouble(pesoPaciente) * 0.90;
+		
 		prontuario.atualizaInfoPaciente("7600.00", "gastos");
-		prontuario.atualizaInfoPaciente((String) pesoPaciente, "peso");
+		prontuario.atualizaInfoPaciente(novoPeso.toString(), "peso");
 	}
 
 }

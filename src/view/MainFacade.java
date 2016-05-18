@@ -240,4 +240,8 @@ public class MainFacade {
 		
 	}
 	
+	public int getTotalProcedimento(String nomePaciente) {
+		return hospitalController.getTotalProcedimento(nomePaciente);
+	}
+	
 }

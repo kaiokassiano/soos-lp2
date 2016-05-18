@@ -84,13 +84,21 @@ public class GerenciadorProntuario implements Serializable {
 		Prontuario prontuario = retornaProntuarioPeloNome(nomePaciente);
 		if (prontuario != null) {
 			gerenciadorProcedimento.realizaProcedimento(prontuario, procedimentoSolicitado);
+			prontuario.adicionaProcedimento(procedimentoSolicitado);
 		}
-		
 	}
 		
 	// Sobrecarga de metodo. Esse metodo aqui recebe o orgao
-	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String nomeOrgao, String medicamentos) {
-		
+	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String nomeOrgao, String medicamentos) throws LogicaException, DadoInvalidoException {
+		Prontuario prontuario = retornaProntuarioPeloNome(nomePaciente);
+		if (prontuario != null) {
+			gerenciadorProcedimento.realizaProcedimento(prontuario, procedimentoSolicitado);
+			prontuario.adicionaProcedimento(procedimentoSolicitado);
+		}
+	}
+
+	public int getTotalProcedimento(String nomePaciente) {
+		return retornaProntuarioPeloNome(nomePaciente).getTotalProcedimento();
 	}
 	
 }
