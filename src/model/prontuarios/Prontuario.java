@@ -58,7 +58,7 @@ public class Prontuario implements Serializable {
 	public void atualizaInfoPaciente(String valor, String atributo) {
 		
 		double valorDouble = Double.parseDouble(valor);
-		
+
 		switch (atributo.toLowerCase().trim()) {
 			
 			case "gastos":
@@ -66,6 +66,10 @@ public class Prontuario implements Serializable {
 				break;
 			case "peso":
 				paciente.setPeso(valorDouble);	
+				break;
+			case "pontos":
+				int valorInt = Integer.parseInt(valor);
+				paciente.adicionaPontosFidelidade(valorInt);
 				break;
 		}
 	}
@@ -92,6 +96,14 @@ public class Prontuario implements Serializable {
 	
 	public double getGastosPaciente(){
 		return getPaciente().getGastos();
+	}
+
+	public double aplicaDesconto() {
+		return getPaciente().aplicaDesconto();
+	}
+
+	public double getDesconto() {
+		return this.paciente.getDesconto();
 	}
 	
 }

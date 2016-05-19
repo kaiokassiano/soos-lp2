@@ -1,23 +1,15 @@
 package model.prontuarios;
 
 public class TipoFidelidadeVIP implements TipoFidelidade{
-	
-	private int pontos;
 
 	@Override
-	public void aplicaDesconto(Cartao cartao) {
-		// TODO Auto-generated method stub
+	public double aplicaDesconto( ) {
+		return 0.7;
 		
 	}
 
 	@Override
-	public void adicionaPontos(Cartao cartao) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void adicionaPontosBonus(Cartao cartao) {
+	public void adicionaPontosBonus( ) {
 		// TODO Auto-generated method stub
 		
 	}

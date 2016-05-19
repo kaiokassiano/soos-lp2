@@ -236,8 +236,12 @@ public class MainFacade {
 			hospitalController.realizaProcedimento(procedimentoSolicitado, nomePaciente, nomeOrgao, medicamentos);
 		} catch (LogicaException e) {
 			throw new LogicaException(e.getMessage());
-		}
-		
+		}	
+	}
+	
+	// Sobrecarga de metodo. Esse metodo aqui só recebe o procedimento e o nome do paciente
+	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente) throws LogicaException {
+		hospitalController.realizaProcedimento(procedimentoSolicitado, nomePaciente);
 	}
 	
 	public int getTotalProcedimento(String nomePaciente) {

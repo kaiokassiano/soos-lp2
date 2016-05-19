@@ -19,7 +19,6 @@ public class Paciente implements Serializable {
 	private String tipoSanguineo; // TODO criar enum
 	private double gastos;
 	private UUID id;
-	private int pontosFidelidade;
 	private Cartao cartao;
 
 	public Paciente(String nome, String dataNascimento, double peso, String sexoBiologico, String genero, String tipoSanguineo) throws DataInvalidaException {
@@ -32,7 +31,6 @@ public class Paciente implements Serializable {
 		this.tipoSanguineo = tipoSanguineo;
 		this.id = UUID.randomUUID();
 		this.gastos = 0.0;
-		this.pontosFidelidade = 0;
 		this.cartao = new Cartao();
 	}
 	
@@ -101,9 +99,21 @@ public class Paciente implements Serializable {
 	public double getGastos() {
 		return this.gastos;
 	}
-	
-	public int getPontosFidelidade(){
-		return this.pontosFidelidade;
+
+	public int getPontosFidelidade() {
+		return this.cartao.getPontosFidelidade();
+	}
+
+	public void adicionaPontosFidelidade(int valor) {
+		this.cartao.adicionaPontosFidelidade(valor);
+	}
+
+	public double aplicaDesconto() {
+		return this.cartao.aplicaDesconto();
+	}
+
+	public double getDesconto() {
+		return this.cartao.aplicaDesconto();
 	}
 	
 }

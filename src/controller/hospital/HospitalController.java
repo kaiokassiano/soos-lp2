@@ -186,8 +186,7 @@ public class HospitalController implements Serializable {
 		return gerenciadorProntuarios.getInfoPaciente(nome, "nome");
 	}
 	
-	
-	// Sobrecarga de metodo. Esse metodo aqui nao recebe o orgao
+		// Sobrecarga de metodo. Esse metodo aqui nao recebe o orgao
 	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String medicamentos) throws LogicaException{
 		try {
 			ValidaProcedimento.validaProcedimentoSolicitado(procedimentoSolicitado);
@@ -219,6 +218,19 @@ public class HospitalController implements Serializable {
 		} 
 	}
 	
+	// Sobrecarga de metodo. Esse metodo aqui só recebe o procedimento e o nome do paciente
+	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente) throws LogicaException {
+		try {
+			ValidaProcedimento.validaProcedimentoSolicitado(procedimentoSolicitado);
+			ValidaProcedimento.validaNomePaciente(nomePaciente);
+			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente);
+		} catch (ObjetoInexistenteException e) {
+			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
+		} catch (DadoInvalidoException e) {
+			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
+		} 	
+	}
+
 	public double calculaPrecoMedicamentos(String medicamentos) throws ObjetoInexistenteException {
 		String[] medicamentosArray = medicamentos.split(",");
 		
@@ -263,5 +275,6 @@ public class HospitalController implements Serializable {
 	public double getGastosPaciente(String nomePaciente) {
 		return gerenciadorProntuarios.getGastosPaciente(nomePaciente);
 	}
+
 	
 }
