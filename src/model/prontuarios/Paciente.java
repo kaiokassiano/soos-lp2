@@ -44,7 +44,6 @@ public class Paciente implements Serializable {
 		}
 	}
 
-
 	public String getNome() {
 		return this.nome;
 	}
@@ -66,11 +65,7 @@ public class Paciente implements Serializable {
 	}
 
 	public void mudaGenero() {
-		if (this.genero.equals("feminino")) {
-			this.genero = "masculino";
-		} else {
-			this.genero = "feminino";
-		}
+		this.genero = (genero.equals("feminino")) ? "masculino": "feminino";
 	}
 	
 	public String getGenero() {

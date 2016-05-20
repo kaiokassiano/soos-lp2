@@ -1,7 +1,10 @@
 package model.prontuarios;
 
-public class CartaoFidelidade {
+import java.io.Serializable;
 
+public class CartaoFidelidade implements Serializable {
+
+	private static final long serialVersionUID = -1736823742135308661L;
 	private TipoFidelidade tipoFidelidade;
 	private int pontosFidelidade;
 

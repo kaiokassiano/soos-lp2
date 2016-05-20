@@ -1,6 +1,8 @@
 package model.prontuarios;
 
-public interface TipoFidelidade {
+import java.io.Serializable;
+
+public interface TipoFidelidade extends Serializable {
 	
 	double aplicaDesconto(double gasto);
 

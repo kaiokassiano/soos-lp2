@@ -9,11 +9,9 @@ import banco.dados.BancoDeDados;
 import exceptions.dado.DadoInvalidoException;
 import exceptions.logica.LogicaException;
 import exceptions.logica.NumeroNegativoException;
-import exceptions.logica.PacienteNaoCadastradoException;
 import exceptions.logica.PermissaoException;
 import model.procedimentos.GerenciadorProcedimentos;
 import model.usuarios.PermissaoFuncionario;
-import validacao.procedimentos.ValidaProcedimento;
 import validacao.prontuarios.ValidacaoProntuarios;
 
 public class GerenciadorProntuario implements Serializable {

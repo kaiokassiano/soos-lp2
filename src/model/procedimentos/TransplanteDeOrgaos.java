@@ -3,7 +3,9 @@ package model.procedimentos;
 import model.prontuarios.Prontuario;
 
 public class TransplanteDeOrgaos implements Procedimento{
-	
+
+	private static final long serialVersionUID = -1968367212003155005L;
+
 	@Override
 	public void realizaProcedimento(Prontuario prontuario) {
 		

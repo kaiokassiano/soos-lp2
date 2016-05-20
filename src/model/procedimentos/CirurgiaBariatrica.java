@@ -3,7 +3,9 @@ package model.procedimentos;
 import model.prontuarios.Prontuario;
 
 public class CirurgiaBariatrica implements Procedimento{
-	
+
+	private static final long serialVersionUID = -7903208135181946295L;
+
 	@Override
 	public void realizaProcedimento(Prontuario prontuario) {
 		String pesoPaciente = prontuario.getInfoPaciente(prontuario.getNome(), "peso");
