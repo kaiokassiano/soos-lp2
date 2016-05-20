@@ -2,8 +2,8 @@ package model.prontuarios;
 
 public interface TipoFidelidade {
 	
-	double aplicaDesconto();
-	
-	void adicionaPontosBonus();	
+	double aplicaDesconto(double gasto);
+
+	double getDesconto();
 
 }

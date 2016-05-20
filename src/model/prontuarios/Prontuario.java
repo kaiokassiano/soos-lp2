@@ -96,8 +96,8 @@ public class Prontuario implements Serializable {
 		return getPaciente().getGastos();
 	}
 
-	public double aplicaDesconto() {
-		return getPaciente().aplicaDesconto();
+	public double aplicaDesconto(double gasto) {
+		return getPaciente().aplicaDesconto(gasto);
 	}
 
 	public double getDesconto() {

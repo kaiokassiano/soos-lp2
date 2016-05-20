@@ -4,6 +4,6 @@ import model.prontuarios.Prontuario;
 
 public interface Procedimento {
 
-	public void realizaProcedimento(Prontuario prontuario);
+	void realizaProcedimento(Prontuario prontuario);
 	
 }

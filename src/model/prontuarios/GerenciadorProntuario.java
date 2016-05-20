@@ -47,13 +47,11 @@ public class GerenciadorProntuario implements Serializable {
 		ordenaPeloNome(nome);
 		
 		return prontuario.getNome();
-		
 	}
 	
 	public void ordenaPeloNome(String nome){
 		Comparador comparador = new Comparador();
 		Collections.sort(prontuarios, comparador);
-		
 	}
 
 	public String getInfoPaciente(String nome, String atributo) {

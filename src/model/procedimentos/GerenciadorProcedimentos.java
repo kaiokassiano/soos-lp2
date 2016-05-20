@@ -10,7 +10,6 @@ import model.prontuarios.Prontuario;
 public class GerenciadorProcedimentos implements Serializable{
 	
 	private static final long serialVersionUID = 7351303124526973570L;
-	private Procedimento procedimento;
 	private ProcedimentoFactory procedimentoFactory;
 	
 	public GerenciadorProcedimentos() {
@@ -18,8 +17,10 @@ public class GerenciadorProcedimentos implements Serializable{
 	}
 	
 	public void realizaProcedimento(Prontuario prontuario, String procedimentoSolicitado) throws LogicaException, DadoInvalidoException {
-		Procedimento procedimento = procedimentoFactory.criaProcedimento(procedimentoSolicitado);		
+		Procedimento procedimento = procedimentoFactory.criaProcedimento(procedimentoSolicitado);
+		
 		procedimento.realizaProcedimento(prontuario);
+		
 		prontuario.adicionaProcedimento(procedimento);
 	}
 }

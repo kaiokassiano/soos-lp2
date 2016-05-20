@@ -14,20 +14,20 @@ public class ProcedimentoFactory implements Serializable{
 	private static final long serialVersionUID = 5129586256606014264L;
 
 	public Procedimento criaProcedimento(String procedimentoSolicitado) throws ProcedimentoInvalidoException {
-
+		Procedimento procedimento = null;
+		
 		switch (procedimentoSolicitado) {
 		case "Consulta clinica":
-			return new ConsultaClinica();
+			procedimento = new ConsultaClinica();
 		case "Transplante de orgaos":
-			return new TransplanteDeOrgaos();
+			procedimento = new TransplanteDeOrgaos();
 		case "Redesignacao sexual":
-			return new RedesignacaoSexual();
+			procedimento = new RedesignacaoSexual();
 		case "Cirurgia bariatrica":
-			return new CirurgiaBariatrica();
+			procedimento = new CirurgiaBariatrica();
 		}
 		
-		return null;
-		
+		return procedimento;
 	}
 
 }
