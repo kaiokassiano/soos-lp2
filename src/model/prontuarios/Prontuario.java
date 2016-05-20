@@ -6,6 +6,7 @@ import java.util.List;
 
 import exceptions.logica.DataInvalidaException;
 import factory.pacientes.PacienteFactory;
+import model.procedimentos.Procedimento;
 
 public class Prontuario implements Serializable {
 
@@ -13,13 +14,11 @@ public class Prontuario implements Serializable {
 
 	private Paciente paciente;
 	private PacienteFactory pacienteFactory;
-	private List<String> procedimentos; // TODO refatorar
-	private List<String> tratamentos; // TODO refatorar
+	private List<Procedimento> procedimentos;
 
 	public Prontuario(String nome, String dataNascimento, double peso, String sexoBiologico, String genero,
 			String tipoSanguineo) throws DataInvalidaException {
 		this.procedimentos = new ArrayList<>();
-		this.tratamentos = new ArrayList<>();
 		this.pacienteFactory = new PacienteFactory();
 
 		// TODO valida��o prontuario
@@ -44,12 +43,11 @@ public class Prontuario implements Serializable {
 		case "genero":
 			return saida = this.paciente.getGenero();
 		case "tiposanguineo":
-			return saida = this.paciente.getTipoSanguineo();
+			return saida = this.paciente.getTipoSanguineo().toString();
 		case "peso":
 			return saida = this.paciente.getPeso() + "";
 		case "idade":
-			return saida = this.paciente.getIdadePaciente() + "";	
-			
+			return saida = this.paciente.getIdadePaciente() + "";
 		}
 
 		 return saida;
@@ -78,7 +76,7 @@ public class Prontuario implements Serializable {
 		paciente.mudaGenero();
 	}
 	
-	public void adicionaProcedimento(String procedimento) {
+	public void adicionaProcedimento(Procedimento procedimento) {
 		procedimentos.add(procedimento);
 	}
 

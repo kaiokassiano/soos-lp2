@@ -18,9 +18,8 @@ public class GerenciadorProcedimentos implements Serializable{
 	}
 	
 	public void realizaProcedimento(Prontuario prontuario, String procedimentoSolicitado) throws LogicaException, DadoInvalidoException {
-		
 		Procedimento procedimento = procedimentoFactory.criaProcedimento(procedimentoSolicitado);		
 		procedimento.realizaProcedimento(prontuario);
+		prontuario.adicionaProcedimento(procedimento);
 	}
-	
 }

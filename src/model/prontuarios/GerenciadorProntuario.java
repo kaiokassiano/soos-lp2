@@ -84,7 +84,6 @@ public class GerenciadorProntuario implements Serializable {
 		Prontuario prontuario = retornaProntuarioPeloNome(nomePaciente);
 		if (prontuario != null) {
 			gerenciadorProcedimento.realizaProcedimento(prontuario, procedimentoSolicitado);
-			prontuario.adicionaProcedimento(procedimentoSolicitado);
 		}
 	}
 		
@@ -93,7 +92,6 @@ public class GerenciadorProntuario implements Serializable {
 		Prontuario prontuario = retornaProntuarioPeloNome(nomePaciente);
 		if (prontuario != null) {
 			gerenciadorProcedimento.realizaProcedimento(prontuario, procedimentoSolicitado);
-			prontuario.adicionaProcedimento(procedimentoSolicitado);
 		}
 	}
 	
@@ -102,7 +100,6 @@ public class GerenciadorProntuario implements Serializable {
 		Prontuario prontuario = retornaProntuarioPeloNome(nomePaciente);
 		if (prontuario != null) {
 			gerenciadorProcedimento.realizaProcedimento(prontuario, procedimentoSolicitado);
-			prontuario.adicionaProcedimento(procedimentoSolicitado);
 		}
 	}
 
