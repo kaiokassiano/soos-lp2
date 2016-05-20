@@ -1,6 +1,5 @@
 package controller.hospital;
 
-import java.beans.FeatureDescriptor;
 import java.io.Serializable;
 
 import exceptions.dado.DadoInvalidoException;
@@ -14,7 +13,6 @@ import exceptions.logica.NumeroNegativoException;
 import exceptions.logica.ObjetoInexistenteException;
 import exceptions.logica.OperacaoInvalidaException;
 import exceptions.logica.OrgaoInexistenteException;
-import exceptions.logica.ProcedimentoInvalidoException;
 import exceptions.logica.TipoSanguineoInvalidoException;
 import model.farmacia.Farmacia;
 import model.farmacia.Medicamento;
@@ -34,14 +32,12 @@ public class HospitalController implements Serializable {
 	
 	private GerenciadorFuncionarios gerenciadorFuncionarios;
 	private Farmacia farmacia;
-	
 	private GerenciadorProntuario gerenciadorProntuarios;
 	private BancoDeOrgaos bancoDeOrgaos;
 
 	public HospitalController() {
 		gerenciadorFuncionarios = new GerenciadorFuncionarios();
 		farmacia = new Farmacia();
-
 		gerenciadorProntuarios = new GerenciadorProntuario();
 		bancoDeOrgaos = new BancoDeOrgaos();
 	}
@@ -50,7 +46,7 @@ public class HospitalController implements Serializable {
 	}
 
 	/**
-	 * Fecha o sistema, junto com o banco de dados, verificando se alguém ainda
+	 * Fecha o sistema verificando se alguém ainda
 	 * está logado e, caso esteja, joga um erro
 	 */
 	public void fechaController() throws LogicaException {
@@ -275,6 +271,5 @@ public class HospitalController implements Serializable {
 	public double getGastosPaciente(String nomePaciente) {
 		return gerenciadorProntuarios.getGastosPaciente(nomePaciente);
 	}
-
 	
 }

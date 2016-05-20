@@ -254,6 +254,17 @@ public class GerenciadorFuncionarios implements Serializable {
 		return attr;
 	}
 	
+	/**
+	 * Exclui um funcionário do sistema, necessitando do usuário logado dar
+	 * uma confirmação da senha do diretor e possuir a permissão de excluir
+	 * outros funcionarios 
+	 * 
+	 * @param matricula              Matrícula do funcionário a ser excluido
+	 * @param senhaDiretor           Confirmação da senha do diretor
+	 * @throws DadoInvalidoException Quando um dos dados for inválido
+	 * @throws LogicaException       Quando o usuário não tem permissão de exclusão ou a senha
+	 *                               do diretor estiver incorreta.
+	 */
 	public void excluiFuncionario(String matricula, String senhaDiretor) throws DadoInvalidoException, LogicaException {
 		if (matricula == null) {
 			throw new NullStringException("Matricula nao pode ser nulo.");
@@ -278,6 +289,16 @@ public class GerenciadorFuncionarios implements Serializable {
 		funcionarios.remove(funcionario.getMatricula());
 	}
 	
+	/**
+	 * Atualiza a informação de um funcionário que não é o usuário que
+	 * está atualmente logado no sistema.
+	 * 
+	 * @param matricula              Matrícula do funcionário a ser alterado
+	 * @param atributo               Atributo do funcionário a ser alterado
+	 * @param novoValor              Novo valor para o atributo
+	 * @throws DadoInvalidoException Quando um dos parâmetros for inválido
+	 * @throws LogicaException       Quando houver um erro no padrão dos atributos
+	 */
 	public void atualizaInfoFuncionario(String matricula, String atributo, String novoValor) throws DadoInvalidoException, LogicaException {
 		if (matricula == null) {
 			throw new NullStringException("Matricula nao pode ser nulo.");
@@ -290,7 +311,31 @@ public class GerenciadorFuncionarios implements Serializable {
 		}
 		
 		Funcionario funcionario = getFuncionarioPorMatricula(matricula);
-		
+		atualizaInfoFuncionario(funcionario, atributo, novoValor);
+	}
+	
+	/**
+	 * Atualiza a informação do usuário que está logado no sistema
+	 * 
+	 * @param atributo
+	 * @param novoValor
+	 * @throws DadoInvalidoException
+	 * @throws LogicaException
+	 */
+	public void atualizaInfoFuncionario(String atributo, String novoValor) throws DadoInvalidoException, LogicaException {
+		atualizaInfoFuncionario(usuarioLogado, atributo, novoValor);
+	}
+	
+	/**
+	 * Atualiza a informação de um funcionário arbitrário
+	 * 
+	 * @param funcionario            Funcionário a ser atualizado
+	 * @param atributo               Atributo a ser atualizado
+	 * @param novoValor              Novo valor para o atributo
+	 * @throws DadoInvalidoException Quando o novo valor for inválido (null ou vazio)
+	 * @throws LogicaException       Quando o usuário logado não possuir permissão 
+	 */
+	public void atualizaInfoFuncionario(Funcionario funcionario, String atributo, String novoValor) throws DadoInvalidoException, LogicaException {
 		if (atributo.equalsIgnoreCase("nome")) {
 			if (novoValor.trim().isEmpty()) {
 				throw new StringVaziaException("Nome do funcionario nao pode ser vazio.");
@@ -306,10 +351,15 @@ public class GerenciadorFuncionarios implements Serializable {
 		}
 	}
 	
-	public void atualizaInfoFuncionario(String atributo, String novoValor) throws DadoInvalidoException, LogicaException {
-		atualizaInfoFuncionario(usuarioLogado.getMatricula(), atributo, novoValor);
-	}
-	
+	/**
+	 * Atualiza a senha do usuário atualmente logado
+	 * 
+	 * @param antigaSenha            Senha antiga
+	 * @param novaSenha              Nova senha
+	 * @throws DadoInvalidoException Quando um dos parâmetros forem inválidos
+	 * @throws LogicaException       Quando a senha antiga estiver incorreta ou a nova senha
+	 *                               não seguir o padrão
+	 */
 	public void atualizaSenha(String antigaSenha, String novaSenha) throws DadoInvalidoException, LogicaException {
 		if (antigaSenha == null) {
 			throw new NullStringException("A senha antiga nao pode ser nulo.");
