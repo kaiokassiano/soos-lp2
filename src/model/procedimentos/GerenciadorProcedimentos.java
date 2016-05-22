@@ -1,6 +1,7 @@
 package model.procedimentos;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 import banco.dados.BancoDeDados;
 import exceptions.dado.DadoInvalidoException;
@@ -20,7 +21,7 @@ public class GerenciadorProcedimentos implements Serializable{
 		this.procedimentoFactory = new ProcedimentoFactory();
 	}
 	
-	public void realizaProcedimento(Prontuario prontuario, String procedimentoSolicitado) throws LogicaException, DadoInvalidoException {
+	public void realizaProcedimento(Prontuario prontuario, String procedimentoSolicitado, HashMap<String, Object> params) throws LogicaException, DadoInvalidoException {
 		Funcionario usuarioLogado = BancoDeDados.getInstance().getUsuarioLogado();
 		if (!usuarioLogado.temPermissao(PermissaoFuncionario.CRIACAO_PROCEDIMENTOS)) {
 			throw new PermissaoException(
@@ -29,7 +30,7 @@ public class GerenciadorProcedimentos implements Serializable{
 		
 		Procedimento procedimento = procedimentoFactory.criaProcedimento(procedimentoSolicitado);
 		
-		procedimento.realizaProcedimento(prontuario);
+		procedimento.realizaProcedimento(prontuario, params);
 		
 		prontuario.adicionaProcedimento(procedimento);
 	}

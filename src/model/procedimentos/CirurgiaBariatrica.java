@@ -1,5 +1,6 @@
 package model.procedimentos;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 
 import model.prontuarios.Prontuario;
@@ -15,15 +16,11 @@ public class CirurgiaBariatrica extends Procedimento{
 		
 		Double gastosComDesconto = prontuario.aplicaDesconto(7600.0);
 		
+		super.setMedico((String) param.get("nomeMedico"));
+		super.setDataProcedimento(LocalDate.now());
+		
 		prontuario.atualizaInfoPaciente(gastosComDesconto.toString(), "gastos");
 		prontuario.atualizaInfoPaciente(novoPeso.toString(), "peso");
 		prontuario.atualizaInfoPaciente("100", "pontos");
 	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

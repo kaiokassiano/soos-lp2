@@ -2,6 +2,7 @@ package model.procedimentos;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 import model.prontuarios.Prontuario;
@@ -30,6 +31,30 @@ public abstract class Procedimento implements Serializable {
 		realizaProcedimento(prontuario, null);
 	}
 	
+	public void setMedico(String nomeMedico) {
+		this.nomeMedico = nomeMedico;
+	}
+	
+	public String getMedico() {
+		return this.nomeMedico;
+	}
+	
+	public void setDataProcedimento(LocalDate dataProcedimento) {
+		this.dataProcedimento = dataProcedimento;
+	}
+	
+	public LocalDate getDataProcedimento() {
+		return this.dataProcedimento;
+	}
+	
 	@Override
-	public abstract String toString();
+	public String toString() {
+		String res = "";
+		
+		res += "--> Transplante de Orgaos:" + "\n" +
+			   "....... Data: " + getDataProcedimento().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) +
+			   " Medico: " + getMedico();
+
+		return res;
+	};
 }

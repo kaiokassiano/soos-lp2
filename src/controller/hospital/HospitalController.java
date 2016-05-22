@@ -1,7 +1,9 @@
 package controller.hospital;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
+import banco.dados.BancoDeDados;
 import exceptions.dado.DadoInvalidoException;
 import exceptions.dado.NullStringException;
 import exceptions.logica.CategoriaInexistenteException;
@@ -192,7 +194,12 @@ public class HospitalController implements Serializable {
 			ValidaProcedimento.validaNomePaciente(nomePaciente);
 			
 			existeMedicamento(medicamentos);
-			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, medicamentos);
+			
+			HashMap<String, Object> params = new HashMap<>();
+			
+			params.put("nomeMedico", BancoDeDados.getInstance().getUsuarioLogado().getNome());
+			
+			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, medicamentos, params);
 		} catch (DadoInvalidoException | LogicaException e) {
 			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
 		}
@@ -207,9 +214,13 @@ public class HospitalController implements Serializable {
 			existeMedicamento(medicamentos);
 			
 			String tipoSanguineoPaciente = gerenciadorProntuarios.getInfoPaciente(nomePaciente, "tiposanguineo");
+			HashMap<String, Object> params = new HashMap<>();
+			
+			params.put("nomeMedico", BancoDeDados.getInstance().getUsuarioLogado().getNome());
+			params.put("orgao", nomeOrgao);
 			
 			existeOrgao(nomeOrgao, tipoSanguineoPaciente);
-			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, medicamentos);
+			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, medicamentos, params);
 		} catch (DadoInvalidoException | LogicaException e) {
 			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
 		}
@@ -220,7 +231,11 @@ public class HospitalController implements Serializable {
 			ValidaProcedimento.validaProcedimentoSolicitado(procedimentoSolicitado);
 			ValidaProcedimento.validaNomePaciente(nomePaciente);
 			
-			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente);
+			HashMap<String, Object> params = new HashMap<>();
+			
+			params.put("nomeMedico", BancoDeDados.getInstance().getUsuarioLogado().getNome());
+			
+			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, params);
 		} catch (DadoInvalidoException | LogicaException e) {
 			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
 		}	

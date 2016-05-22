@@ -1,5 +1,6 @@
 package model.procedimentos;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 
 import model.prontuarios.Prontuario;
@@ -14,14 +15,10 @@ public class RedesignacaoSexual extends Procedimento{
 		
 		Double gastosComDesconto = prontuario.aplicaDesconto(9300.0);
 		
+		super.setMedico((String) param.get("nomeMedico"));
+		super.setDataProcedimento(LocalDate.now());
+		
 		prontuario.atualizaInfoPaciente(gastosComDesconto.toString(), "gastos");
 		prontuario.atualizaInfoPaciente("130", "pontos");
 	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

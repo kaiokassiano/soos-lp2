@@ -3,6 +3,7 @@ package model.prontuarios;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import banco.dados.BancoDeDados;
@@ -76,26 +77,26 @@ public class GerenciadorProntuario implements Serializable {
 	}
 	
 	// Sobrecarga de metodo. Esse metodo aqui nao recebe o orgao
-	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String medicamentos) throws DadoInvalidoException, LogicaException {
+	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String medicamentos, HashMap<String, Object> params) throws DadoInvalidoException, LogicaException {
 		Prontuario prontuario = retornaProntuarioPeloNome(nomePaciente);
 		if (prontuario != null) {
-			gerenciadorProcedimento.realizaProcedimento(prontuario, procedimentoSolicitado);
+			gerenciadorProcedimento.realizaProcedimento(prontuario, procedimentoSolicitado, params);
 		}
 	}
 		
 	// Sobrecarga de metodo. Esse metodo aqui recebe o orgao
-	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String nomeOrgao, String medicamentos) throws LogicaException, DadoInvalidoException {
+	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String nomeOrgao, String medicamentos, HashMap<String, Object> params) throws LogicaException, DadoInvalidoException {
 		Prontuario prontuario = retornaProntuarioPeloNome(nomePaciente);
 		if (prontuario != null) {
-			gerenciadorProcedimento.realizaProcedimento(prontuario, procedimentoSolicitado);
+			gerenciadorProcedimento.realizaProcedimento(prontuario, procedimentoSolicitado, params);
 		}
 	}
 	
 	// Sobrecarga de metodo. Esse metodo aqui só recebe o procedimento e o nome do paciente
-	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente) throws LogicaException, DadoInvalidoException {
+	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, HashMap<String, Object> params) throws LogicaException, DadoInvalidoException {
 		Prontuario prontuario = retornaProntuarioPeloNome(nomePaciente);
 		if (prontuario != null) {
-			gerenciadorProcedimento.realizaProcedimento(prontuario, procedimentoSolicitado);
+			gerenciadorProcedimento.realizaProcedimento(prontuario, procedimentoSolicitado, params);
 		}
 	}
 
