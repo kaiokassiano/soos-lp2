@@ -13,6 +13,8 @@ import exceptions.logica.NumeroNegativoException;
 import exceptions.logica.ObjetoInexistenteException;
 import exceptions.logica.OperacaoInvalidaException;
 import exceptions.logica.OrgaoInexistenteException;
+import exceptions.logica.PermissaoException;
+import exceptions.logica.ProcedimentoInvalidoException;
 import exceptions.logica.TipoSanguineoInvalidoException;
 import model.farmacia.Farmacia;
 import model.farmacia.Medicamento;
@@ -193,7 +195,7 @@ public class HospitalController implements Serializable {
 			
 			existeMedicamento(medicamentos);
 			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, medicamentos);
-		} catch (DadoInvalidoException | ObjetoInexistenteException e) {
+		} catch (DadoInvalidoException | ObjetoInexistenteException | ProcedimentoInvalidoException | PermissaoException e) {
 			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
 		}
 	}
@@ -210,7 +212,7 @@ public class HospitalController implements Serializable {
 			
 			existeOrgao(nomeOrgao, tipoSanguineoPaciente);
 			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, medicamentos);
-		} catch (DadoInvalidoException | ObjetoInexistenteException e) {
+		} catch (DadoInvalidoException | ObjetoInexistenteException | ProcedimentoInvalidoException | PermissaoException e) {
 			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
 		}
 	}
@@ -221,7 +223,7 @@ public class HospitalController implements Serializable {
 			ValidaProcedimento.validaNomePaciente(nomePaciente);
 			
 			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente);
-		} catch (DadoInvalidoException | ObjetoInexistenteException e) {
+		} catch (DadoInvalidoException | ObjetoInexistenteException | ProcedimentoInvalidoException | PermissaoException e) {
 			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
 		}	
 	}
