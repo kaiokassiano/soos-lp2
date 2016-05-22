@@ -11,8 +11,8 @@ local.properties
 .recommenders
 
 # Diagramas de classe
-.uml
-.ucls
+*.uml
+*.ucls
 
 # Eclipse Core
 .project
