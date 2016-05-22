@@ -23,24 +23,18 @@ public class BancoDeDados {
 
 	private static BancoDeDados instance = null;
 	
-	private static final String directory = "system_data";
-
-	// Arquivo e streams do numero de cadastros
-	private DataOutputStream qtdCadastrosOutput;
-	private DataInputStream qtdCadastrosInput;
-	private final String qtdCadastrosFile = "cadastros.dat";
-	private int qtdCadastros = 0;
+	private final String directory = "system_data";
 
 	// Arquivo e stream representando se o sistema foi liberado
 	private DataOutputStream sistemaLiberadoOutput;
 	private DataInputStream sistemaLiberadoInput;
-	private final String sistemaLiberadoFile = "sistema_liberado.dat";
+	private final String sistemaLiberadoFile = "soos_util1.dat";
 	private boolean sistemaLiberado;
 
 	// Arquivo e stream representando o controller
 	private ObjectOutputStream hospitalControllerOutput;
 	private ObjectInputStream hospitalControllerInput;
-	private final String hospitalControllerFile = "hospital_controller.dat";
+	private final String hospitalControllerFile = "soos.dat";
 	private HospitalController hospitalController;
 	
 	// Usuário logado no sistema
@@ -69,8 +63,7 @@ public class BancoDeDados {
 	 * nos arquivos
 	 */
 	public void init() {
-		initQtdCadastros();
-		initSistemaLiberado();
+		//initSistemaLiberado();
 		initHospitalController();
 	}
 
@@ -78,75 +71,8 @@ public class BancoDeDados {
 	 * Fecha o banco, salvando todos os dados que estavam na memória em arquivos
 	 */
 	public void fechar() {
-		fecharQtdCadastros();
-		fecharSistemaLiberado();
+		//fecharSistemaLiberado();
 		fecharHospitalController();
-	}
-
-	/**
-	 * Carrega os dados referentes a quantidade de cadastros realizados
-	 */
-	private void initQtdCadastros() {
-		try {
-			qtdCadastrosInput = new DataInputStream(new FileInputStream(directory + "/" + qtdCadastrosFile));
-
-			try {
-				qtdCadastros = qtdCadastrosInput.readInt();
-			} catch (EOFException e) {
-				qtdCadastros = 1;
-			}
-
-			qtdCadastrosInput.close();
-		} catch (FileNotFoundException e) {
-			qtdCadastros = 1;
-
-			// cria novo arquivo
-			File f = new File(directory + "/" + qtdCadastrosFile);
-
-			f.getParentFile().mkdirs();
-			try {
-				f.createNewFile();
-			} catch (IOException e1) {
-				System.err.println("IOException: " + e.getMessage());
-			}
-		} catch (IOException e) {
-			
-		}
-	}
-
-	/**
-	 * Salva os dados referentes a quantidade de cadastros realizados
-	 */
-	private void fecharQtdCadastros() {
-		try {
-			qtdCadastrosOutput = new DataOutputStream(new FileOutputStream(directory + "/" + qtdCadastrosFile));
-
-			qtdCadastrosOutput.writeInt(qtdCadastros);
-
-			qtdCadastrosOutput.close();
-		} catch (FileNotFoundException e) {
-			// cria novo arquivo
-			File f = new File(directory + "/" + qtdCadastrosFile);
-
-			f.getParentFile().mkdirs();
-			try {
-				f.createNewFile();
-			} catch (IOException e1) {
-				System.err.println("IOException: " + e.getMessage());
-			}
-		} catch (IOException e) {
-			System.err.println("IOException: " + e.getMessage());
-		}
-	}
-
-	/**
-	 * Pega a quantidade atual de cadastros a ser utilizada para a criação de
-	 * matriculas, e atualiza essa quantidade
-	 * 
-	 * @return Quantidade de cadastros realizados
-	 */
-	public int getProximoId() {
-		return qtdCadastros++;
 	}
 
 	private void initHospitalController() {

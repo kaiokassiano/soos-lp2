@@ -23,6 +23,8 @@ public class FuncionarioFactory implements Serializable {
 
 	private static final long serialVersionUID = -279654535889515995L;
 
+	private static int idFuncionario = 1;
+	
 	/**
 	 * Cria um funcionário dado suas informações
 	 * 
@@ -61,7 +63,7 @@ public class FuncionarioFactory implements Serializable {
 	 * @return        Matrícula do funcionário
 	 */
 	private String geraMatriculaFuncionario(PrefixoFuncionario prefixo) {
-		return prefixo.getPrefixo() + LocalDate.now().getYear() + String.format("%03d", BancoDeDados.getInstance().getProximoId());
+		return prefixo.getPrefixo() + LocalDate.now().getYear() + String.format("%03d", idFuncionario++);
 	}
 	
 	/**
