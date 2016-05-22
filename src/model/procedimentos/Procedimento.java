@@ -6,6 +6,6 @@ import model.prontuarios.Prontuario;
 
 public interface Procedimento extends Serializable {
 
-	void realizaProcedimento(Prontuario prontuario);
+	public void realizaProcedimento(Prontuario prontuario);
 	
 }
