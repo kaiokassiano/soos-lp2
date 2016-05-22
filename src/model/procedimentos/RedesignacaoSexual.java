@@ -9,10 +9,11 @@ public class RedesignacaoSexual implements Procedimento{
 	@Override
 	public void realizaProcedimento(Prontuario prontuario) {
 		
+		prontuario.mudaGeneroPaciente();
+		
 		Double gastosComDesconto = prontuario.aplicaDesconto(9300.0);
 		
 		prontuario.atualizaInfoPaciente(gastosComDesconto.toString(), "gastos");
-		prontuario.mudaGeneroPaciente();
 		prontuario.atualizaInfoPaciente("130", "pontos");
 	}
 

@@ -19,12 +19,16 @@ public class ProcedimentoFactory implements Serializable{
 		switch (procedimentoSolicitado) {
 		case "Consulta clinica":
 			procedimento = new ConsultaClinica();
+			break;
 		case "Transplante de orgaos":
 			procedimento = new TransplanteDeOrgaos();
+			break;
 		case "Redesignacao sexual":
 			procedimento = new RedesignacaoSexual();
+			break;
 		case "Cirurgia bariatrica":
 			procedimento = new CirurgiaBariatrica();
+			break;
 		}
 		
 		return procedimento;
