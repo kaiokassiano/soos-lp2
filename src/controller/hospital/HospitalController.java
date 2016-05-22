@@ -193,7 +193,7 @@ public class HospitalController implements Serializable {
 			
 			existeMedicamento(medicamentos);
 			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, medicamentos);
-		} catch (DadoInvalidoException | ObjetoInexistenteException e) {
+		} catch (DadoInvalidoException | LogicaException e) {
 			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
 		}
 	}
@@ -210,7 +210,7 @@ public class HospitalController implements Serializable {
 			
 			existeOrgao(nomeOrgao, tipoSanguineoPaciente);
 			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, medicamentos);
-		} catch (DadoInvalidoException | ObjetoInexistenteException e) {
+		} catch (DadoInvalidoException | LogicaException e) {
 			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
 		}
 	}
@@ -221,7 +221,7 @@ public class HospitalController implements Serializable {
 			ValidaProcedimento.validaNomePaciente(nomePaciente);
 			
 			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente);
-		} catch (DadoInvalidoException | ObjetoInexistenteException e) {
+		} catch (DadoInvalidoException | LogicaException e) {
 			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
 		}	
 	}
