@@ -15,6 +15,8 @@ import exceptions.logica.NumeroNegativoException;
 import exceptions.logica.ObjetoInexistenteException;
 import exceptions.logica.OperacaoInvalidaException;
 import exceptions.logica.OrgaoInexistenteException;
+import exceptions.logica.PermissaoException;
+import exceptions.logica.ProcedimentoInvalidoException;
 import exceptions.logica.TipoSanguineoInvalidoException;
 import model.farmacia.Farmacia;
 import model.farmacia.Medicamento;
@@ -220,6 +222,7 @@ public class HospitalController implements Serializable {
 			params.put("orgao", nomeOrgao);
 			
 			existeOrgao(nomeOrgao, tipoSanguineoPaciente);
+
 			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, medicamentos, params);
 		} catch (DadoInvalidoException | LogicaException e) {
 			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
