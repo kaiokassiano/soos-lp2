@@ -3,11 +3,15 @@ package model.orgaos;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import banco.dados.BancoDeDados;
 import exceptions.dado.DadoInvalidoException;
 import exceptions.logica.OrgaoInexistenteException;
+import exceptions.logica.PermissaoException;
 import exceptions.logica.TipoSanguineoInexistenteException;
 import exceptions.logica.TipoSanguineoInvalidoException;
 import factory.orgaos.OrgaoFactory;
+import model.usuarios.Funcionario;
+import model.usuarios.PermissaoFuncionario;
 import validacao.orgao.ValidaOrgao;
 
 public class BancoDeOrgaos implements Serializable {
@@ -70,7 +74,12 @@ public class BancoDeOrgaos implements Serializable {
 		throw new OrgaoInexistenteException("Banco nao possui o orgao especificado");
 	}
 	
-	public void cadastraOrgao(String nome, String tipoSanguineo) throws TipoSanguineoInvalidoException, DadoInvalidoException {
+	public void cadastraOrgao(String nome, String tipoSanguineo) throws TipoSanguineoInvalidoException, DadoInvalidoException, PermissaoException {
+		Funcionario usuarioLogado = BancoDeDados.getInstance().getUsuarioLogado();
+		if (!usuarioLogado.temPermissao(PermissaoFuncionario.CADASTRO_ORGAOS)) {
+			throw new PermissaoException(
+					"O funcionario " + usuarioLogado.getNome() + " nao tem permissao para cadastrar orgaos.");
+		}
 		Orgao orgao = orgaoFactory.criaOrgao(nome, tipoSanguineo);
 		bancoDeOrgaos.add(orgao);
 	}

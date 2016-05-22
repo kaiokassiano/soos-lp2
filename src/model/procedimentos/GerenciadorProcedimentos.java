@@ -2,10 +2,14 @@ package model.procedimentos;
 
 import java.io.Serializable;
 
+import banco.dados.BancoDeDados;
 import exceptions.dado.DadoInvalidoException;
 import exceptions.logica.LogicaException;
+import exceptions.logica.PermissaoException;
 import factory.procedimento.ProcedimentoFactory;
 import model.prontuarios.Prontuario;
+import model.usuarios.Funcionario;
+import model.usuarios.PermissaoFuncionario;
 
 public class GerenciadorProcedimentos implements Serializable{
 	
@@ -17,6 +21,12 @@ public class GerenciadorProcedimentos implements Serializable{
 	}
 	
 	public void realizaProcedimento(Prontuario prontuario, String procedimentoSolicitado) throws LogicaException, DadoInvalidoException {
+		Funcionario usuarioLogado = BancoDeDados.getInstance().getUsuarioLogado();
+		if (!usuarioLogado.temPermissao(PermissaoFuncionario.CRIACAO_PROCEDIMENTOS)) {
+			throw new PermissaoException(
+					"O funcionario " + usuarioLogado.getNome() + " nao tem permissao para realizar procedimentos.");
+		}
+		
 		Procedimento procedimento = procedimentoFactory.criaProcedimento(procedimentoSolicitado);
 		
 		procedimento.realizaProcedimento(prontuario);

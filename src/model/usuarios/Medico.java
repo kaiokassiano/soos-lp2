@@ -32,6 +32,9 @@ public class Medico extends Funcionario {
 	public HashSet<PermissaoFuncionario> definePermissoes() {
 		HashSet<PermissaoFuncionario> permissoes = new HashSet<PermissaoFuncionario>();
 		
+		permissoes.add(PermissaoFuncionario.CADASTRO_ORGAOS);
+		permissoes.add(PermissaoFuncionario.CRIACAO_PROCEDIMENTOS);
+		
 		return permissoes;
 	}
 
