@@ -22,23 +22,25 @@ import model.usuarios.Funcionario;
 public class BancoDeDados {
 
 	private static BancoDeDados instance = null;
+	
+	private static final String directory = "system_data";
 
 	// Arquivo e streams do numero de cadastros
 	private DataOutputStream qtdCadastrosOutput;
 	private DataInputStream qtdCadastrosInput;
-	private final String qtdCadastrosFile = "data/cadastros.dat";
+	private final String qtdCadastrosFile = "cadastros.dat";
 	private int qtdCadastros = 0;
 
 	// Arquivo e stream representando se o sistema foi liberado
 	private DataOutputStream sistemaLiberadoOutput;
 	private DataInputStream sistemaLiberadoInput;
-	private final String sistemaLiberadoFile = "data/sistema_liberado.dat";
+	private final String sistemaLiberadoFile = "sistema_liberado.dat";
 	private boolean sistemaLiberado;
 
 	// Arquivo e stream representando o controller
 	private ObjectOutputStream hospitalControllerOutput;
 	private ObjectInputStream hospitalControllerInput;
-	private final String hospitalControllerFile = "data/hospital_controller.dat";
+	private final String hospitalControllerFile = "hospital_controller.dat";
 	private HospitalController hospitalController;
 	
 	// Usuário logado no sistema
@@ -86,7 +88,7 @@ public class BancoDeDados {
 	 */
 	private void initQtdCadastros() {
 		try {
-			qtdCadastrosInput = new DataInputStream(new FileInputStream(qtdCadastrosFile));
+			qtdCadastrosInput = new DataInputStream(new FileInputStream(directory + "/" + qtdCadastrosFile));
 
 			try {
 				qtdCadastros = qtdCadastrosInput.readInt();
@@ -99,7 +101,7 @@ public class BancoDeDados {
 			qtdCadastros = 1;
 
 			// cria novo arquivo
-			File f = new File(qtdCadastrosFile);
+			File f = new File(directory + "/" + qtdCadastrosFile);
 
 			f.getParentFile().mkdirs();
 			try {
@@ -117,14 +119,14 @@ public class BancoDeDados {
 	 */
 	private void fecharQtdCadastros() {
 		try {
-			qtdCadastrosOutput = new DataOutputStream(new FileOutputStream(qtdCadastrosFile));
+			qtdCadastrosOutput = new DataOutputStream(new FileOutputStream(directory + "/" + qtdCadastrosFile));
 
 			qtdCadastrosOutput.writeInt(qtdCadastros);
 
 			qtdCadastrosOutput.close();
 		} catch (FileNotFoundException e) {
 			// cria novo arquivo
-			File f = new File(qtdCadastrosFile);
+			File f = new File(directory + "/" + qtdCadastrosFile);
 
 			f.getParentFile().mkdirs();
 			try {
@@ -149,7 +151,7 @@ public class BancoDeDados {
 
 	private void initHospitalController() {
 		try {
-			hospitalControllerInput = new ObjectInputStream(new FileInputStream(hospitalControllerFile));
+			hospitalControllerInput = new ObjectInputStream(new FileInputStream(directory + "/" + hospitalControllerFile));
 			
 			try {
 				hospitalController = (HospitalController) hospitalControllerInput.readObject();
@@ -161,7 +163,7 @@ public class BancoDeDados {
 		} catch (FileNotFoundException e) {
 			hospitalController = new HospitalController();
 			
-			File f = new File(hospitalControllerFile);
+			File f = new File(directory + "/" + hospitalControllerFile);
 			
 			f.getParentFile().mkdirs();
 			try {
@@ -176,13 +178,13 @@ public class BancoDeDados {
 	
 	private void fecharHospitalController() {
 		try {
-			hospitalControllerOutput = new ObjectOutputStream(new FileOutputStream(hospitalControllerFile));
+			hospitalControllerOutput = new ObjectOutputStream(new FileOutputStream(directory + "/" + hospitalControllerFile));
 			
 			hospitalControllerOutput.writeObject(hospitalController);
 
 			hospitalControllerOutput.close();
 		} catch (FileNotFoundException e) {
-			File f = new File(hospitalControllerFile);
+			File f = new File(directory + "/" + hospitalControllerFile);
 
 			f.getParentFile().mkdirs();
 			try {
@@ -201,7 +203,7 @@ public class BancoDeDados {
 	
 	private void initSistemaLiberado() {
 		try {
-			sistemaLiberadoInput = new DataInputStream(new FileInputStream(sistemaLiberadoFile));
+			sistemaLiberadoInput = new DataInputStream(new FileInputStream(directory + "/" + sistemaLiberadoFile));
 
 			try {
 				sistemaLiberado = sistemaLiberadoInput.readBoolean();
@@ -211,7 +213,7 @@ public class BancoDeDados {
 
 			sistemaLiberadoInput.close();
 		} catch (FileNotFoundException e) {
-			File f = new File(sistemaLiberadoFile);
+			File f = new File(directory + "/" + sistemaLiberadoFile);
 
 			f.getParentFile().mkdirs();
 			try {
@@ -226,11 +228,11 @@ public class BancoDeDados {
 
 	private void fecharSistemaLiberado() {
 		try {
-			sistemaLiberadoOutput = new DataOutputStream(new FileOutputStream(sistemaLiberadoFile));
+			sistemaLiberadoOutput = new DataOutputStream(new FileOutputStream(directory + "/" + sistemaLiberadoFile));
 
 			sistemaLiberadoOutput.writeBoolean(sistemaLiberado);
 		} catch (FileNotFoundException e) {
-			File f = new File(sistemaLiberadoFile);
+			File f = new File(directory + "/" + sistemaLiberadoFile);
 
 			f.getParentFile().mkdirs();
 			try {
