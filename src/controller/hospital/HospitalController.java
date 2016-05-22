@@ -29,11 +29,11 @@ import validacao.procedimentos.ValidaProcedimento;
 public class HospitalController implements Serializable {
 
 	private static final long serialVersionUID = 2263371848242193064L;
-	
-	private GerenciadorFuncionarios gerenciadorFuncionarios;
-	private Farmacia farmacia;
-	private GerenciadorProntuario gerenciadorProntuarios;
+
 	private BancoDeOrgaos bancoDeOrgaos;
+	private Farmacia farmacia;
+	private GerenciadorFuncionarios gerenciadorFuncionarios;
+	private GerenciadorProntuario gerenciadorProntuarios;
 
 	public HospitalController() {
 		gerenciadorFuncionarios = new GerenciadorFuncionarios();
@@ -46,8 +46,8 @@ public class HospitalController implements Serializable {
 	}
 
 	/**
-	 * Fecha o sistema verificando se alguém ainda
-	 * está logado e, caso esteja, joga um erro
+	 * Fecha o sistema verificando se alguém ainda está logado e, caso esteja,
+	 * joga um erro
 	 */
 	public void fechaController() throws LogicaException {
 		gerenciadorFuncionarios.fecharGerenciadorFuncionarios();
@@ -135,7 +135,8 @@ public class HospitalController implements Serializable {
 
 	public String cadastraPaciente(String nome, String dataNascimento, double peso, String sexoBiologico, String genero,
 			String tipoSanguineo) throws LogicaException, DadoInvalidoException {
-		return gerenciadorProntuarios.cadastraPaciente(nome, dataNascimento, peso, sexoBiologico, genero, tipoSanguineo);
+		return gerenciadorProntuarios.cadastraPaciente(nome, dataNascimento, peso, sexoBiologico, genero,
+				tipoSanguineo);
 	}
 
 	public String getInfoPaciente(String nome, String atributo) {
@@ -153,37 +154,40 @@ public class HospitalController implements Serializable {
 			throw new LogicaException("O banco de orgaos apresentou um erro. " + e.getMessage());
 		}
 	}
-	
+
 	public String buscaOrgPorSangue(String tipoSanguineo) throws LogicaException, DadoInvalidoException {
 		return bancoDeOrgaos.buscaOrgPorSangue(tipoSanguineo);
 	}
-	
+
 	public String buscaOrgPorNome(String nome) throws DadoInvalidoException, OrgaoInexistenteException {
 		return bancoDeOrgaos.buscaOrgPorNome(nome);
 	}
-	
-	public boolean buscaOrgao(String nome, String tipoSanguineo) throws TipoSanguineoInvalidoException, DadoInvalidoException {
+
+	public boolean buscaOrgao(String nome, String tipoSanguineo)
+			throws TipoSanguineoInvalidoException, DadoInvalidoException {
 		return bancoDeOrgaos.buscaOrgao(nome, tipoSanguineo);
 	}
-	
-	public boolean retiraOrgao(String nome, String tipoSanguineo) throws TipoSanguineoInvalidoException, OrgaoInexistenteException, DadoInvalidoException {
+
+	public boolean retiraOrgao(String nome, String tipoSanguineo)
+			throws TipoSanguineoInvalidoException, OrgaoInexistenteException, DadoInvalidoException {
 		return bancoDeOrgaos.retiraOrgao(nome, tipoSanguineo);
 	}
-	
+
 	public int qtdOrgaos(String nome) throws OrgaoInexistenteException, DadoInvalidoException {
 		return bancoDeOrgaos.qtdOrgaos(nome);
 	}
-	
+
 	public int totalOrgaosDisponiveis() {
 		return bancoDeOrgaos.totalOrgaosDisponiveis();
 	}
-	
+
 	public String getPacienteID(String nome) {
 		return gerenciadorProntuarios.getInfoPaciente(nome, "nome");
 	}
-	
-		// Sobrecarga de metodo. Esse metodo aqui nao recebe o orgao
-	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String medicamentos) throws LogicaException{
+
+	// Sobrecarga de metodo. Esse metodo aqui nao recebe o orgao
+	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String medicamentos)
+			throws LogicaException {
 		try {
 			ValidaProcedimento.validaProcedimentoSolicitado(procedimentoSolicitado);
 			ValidacaoMedicamentos.validaNomeMedicamento(medicamentos);
@@ -192,13 +196,16 @@ public class HospitalController implements Serializable {
 			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, medicamentos);
 		} catch (ObjetoInexistenteException e) {
 			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
+		} catch (LogicaException e) {
+			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
 		} catch (DadoInvalidoException e) {
 			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
-		} 
+		}
 	}
-	
+
 	// Sobrecarga de metodo. Esse metodo aqui recebe o orgao
-	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String nomeOrgao, String medicamentos) throws LogicaException {
+	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String nomeOrgao,
+			String medicamentos) throws LogicaException {
 		try {
 			ValidaProcedimento.validaProcedimentoSolicitado(procedimentoSolicitado);
 			ValidaProcedimento.validaNomePaciente(nomePaciente);
@@ -209,12 +216,15 @@ public class HospitalController implements Serializable {
 			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, medicamentos);
 		} catch (ObjetoInexistenteException e) {
 			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
+		} catch (LogicaException e) {
+			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
 		} catch (DadoInvalidoException e) {
 			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
-		} 
+		}
 	}
-	
-	// Sobrecarga de metodo. Esse metodo aqui só recebe o procedimento e o nome do paciente
+
+	// Sobrecarga de metodo. Esse metodo aqui só recebe o procedimento e o nome
+	// do paciente
 	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente) throws LogicaException {
 		try {
 			ValidaProcedimento.validaProcedimentoSolicitado(procedimentoSolicitado);
@@ -222,23 +232,25 @@ public class HospitalController implements Serializable {
 			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente);
 		} catch (ObjetoInexistenteException e) {
 			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
+		} catch (LogicaException e) {
+			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
 		} catch (DadoInvalidoException e) {
 			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
-		} 	
+		}
 	}
 
 	public double calculaPrecoMedicamentos(String medicamentos) throws ObjetoInexistenteException {
 		String[] medicamentosArray = medicamentos.split(",");
-		
+
 		double precoTotal = 0.0;
-		
+
 		for (int i = 0; i < medicamentosArray.length; i++) {
 			precoTotal += Double.parseDouble(getMedicamentoPeloNome(medicamentosArray[i]).getInfoMedicamento("preco"));
 		}
-		
+
 		return precoTotal;
 	}
-	
+
 	public boolean existeMedicamento(String medicamentos) throws ObjetoInexistenteException {
 		String[] arrayMedicamentos = medicamentos.split(",");
 		for (String nomeMedicamento : arrayMedicamentos) {
@@ -248,22 +260,24 @@ public class HospitalController implements Serializable {
 		}
 		return true;
 	}
-	
-	public boolean existeOrgao(String nome, String tipoSanguineo) throws OrgaoInexistenteException, DadoInvalidoException, TipoSanguineoInvalidoException {
+
+	public boolean existeOrgao(String nome, String tipoSanguineo)
+			throws OrgaoInexistenteException, DadoInvalidoException, TipoSanguineoInvalidoException {
 
 		boolean temOrgao = bancoDeOrgaos.buscaOrgao(nome, tipoSanguineo);
-		
+
 		if (!temOrgao) {
-			throw new OrgaoInexistenteException("Erro na realizacao de procedimentos. Banco nao possui o orgao especificado.");
+			throw new OrgaoInexistenteException(
+					"Banco nao possui o orgao especificado.");
 		}
-		
+
 		return temOrgao;
- 	}
+	}
 
 	public int getTotalProcedimento(String nomePaciente) {
 		return gerenciadorProntuarios.getTotalProcedimento(nomePaciente);
 	}
-	
+
 	public int getPontosFidelidade(String nomePaciente) {
 		return gerenciadorProntuarios.getPontosFidelidade(nomePaciente);
 	}
@@ -271,5 +285,5 @@ public class HospitalController implements Serializable {
 	public double getGastosPaciente(String nomePaciente) {
 		return gerenciadorProntuarios.getGastosPaciente(nomePaciente);
 	}
-	
+
 }

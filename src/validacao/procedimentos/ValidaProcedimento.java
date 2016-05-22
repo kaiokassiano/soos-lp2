@@ -28,7 +28,7 @@ public class ValidaProcedimento {
 			}
 		}
 		
-		throw new ProcedimentoInvalidoException("Erro na realizacao de procedimentos. Procedimento invalido.");
+		throw new ProcedimentoInvalidoException("Procedimento invalido.");
 	}
 	
 }

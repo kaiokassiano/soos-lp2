@@ -46,11 +46,11 @@ public class Farmacia implements Serializable {
 			throws CategoriaInexistenteException, CategoriaInvalidaException {
 
 		List<String> categoriasMedicamentos = new ArrayList<String>();
-		
+
 		for (CategoriaMedicamento categ : CategoriaMedicamento.values()) {
 			categoriasMedicamentos.add(categ.getCategoria());
 		}
-		
+
 		if (!categoriasMedicamentos.contains(categoria)) {
 			throw new CategoriaInvalidaException("Categoria invalida.");
 		}
@@ -88,7 +88,8 @@ public class Farmacia implements Serializable {
 			throws DadoInvalidoException, LogicaException {
 		Funcionario usuarioLogado = BancoDeDados.getInstance().getUsuarioLogado();
 		if (!usuarioLogado.temPermissao(PermissaoFuncionario.CRIACAO_MEDICAMENTOS)) {
-			throw new PermissaoException("O funcionario " + usuarioLogado.getNome() + " nao tem permissao para cadastrar medicamentos.");
+			throw new PermissaoException(
+					"O funcionario " + usuarioLogado.getNome() + " nao tem permissao para cadastrar medicamentos.");
 		}
 		Medicamento medicamento = medicamentoFactory.criaMedicamento(nome, tipo, preco, quantidade, categorias);
 		medicamentos.put(nome, medicamento);
