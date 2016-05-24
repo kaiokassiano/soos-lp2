@@ -4,16 +4,19 @@ import java.util.HashMap;
 
 import model.prontuarios.Prontuario;
 
-public class TransplanteDeOrgaos extends Procedimento{
+/**
+ * Model que representa o procedimento de transplante de orgaos
+ */
+public class TransplanteDeOrgaos extends Procedimento {
 
 	private static final long serialVersionUID = -1968367212003155005L;
-	
+
 	private String orgaoTransplantado;
 
 	@Override
 	public void realizaProcedimento(Prontuario prontuario, double precoMedicamentos, HashMap<String, Object> param) {
 		double gastos = prontuario.aplicaDesconto(12500.0 + precoMedicamentos);
-		
+
 		this.orgaoTransplantado = (String) param.get("orgao");
 		setMedico((String) param.get("nomeMedico"));
 

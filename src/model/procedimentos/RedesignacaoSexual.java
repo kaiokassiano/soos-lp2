@@ -4,7 +4,10 @@ import java.util.HashMap;
 
 import model.prontuarios.Prontuario;
 
-public class RedesignacaoSexual extends Procedimento{
+/**
+ * Model que representa o procedimento de redesignacao sexual
+ */
+public class RedesignacaoSexual extends Procedimento {
 
 	private static final long serialVersionUID = 5812370610557995210L;
 
@@ -12,9 +15,9 @@ public class RedesignacaoSexual extends Procedimento{
 	public void realizaProcedimento(Prontuario prontuario, double precoMedicamentos, HashMap<String, Object> param) {
 		prontuario.mudaGeneroPaciente();
 		double gastos = prontuario.aplicaDesconto(9300.0 + precoMedicamentos);
-		
+
 		setMedico((String) param.get("nomeMedico"));
-		
+
 		prontuario.adicionaGastos(gastos);
 		prontuario.adicionaPontosFidelidade(130);
 	}
