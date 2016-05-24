@@ -21,4 +21,9 @@ public class RedesignacaoSexual extends Procedimento{
 		prontuario.atualizaInfoPaciente(gastosComDesconto.toString(), "gastos");
 		prontuario.atualizaInfoPaciente("130", "pontos");
 	}
+
+	@Override
+	public String getTipoProcedimento() {
+		return "Redesignacao Sexual";
+	}
 }

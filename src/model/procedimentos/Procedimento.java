@@ -31,6 +31,8 @@ public abstract class Procedimento implements Serializable {
 		realizaProcedimento(prontuario, null);
 	}
 	
+	public abstract String getTipoProcedimento();
+	
 	public void setMedico(String nomeMedico) {
 		this.nomeMedico = nomeMedico;
 	}
@@ -51,7 +53,7 @@ public abstract class Procedimento implements Serializable {
 	public String toString() {
 		String res = "";
 		
-		res += "--> Transplante de Orgaos:" + "\n" +
+		res += "--> " + getTipoProcedimento() + ":" + System.lineSeparator() +
 			   "....... Data: " + getDataProcedimento().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) +
 			   " Medico: " + getMedico();
 

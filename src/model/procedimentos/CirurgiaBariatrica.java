@@ -23,4 +23,9 @@ public class CirurgiaBariatrica extends Procedimento{
 		prontuario.atualizaInfoPaciente(novoPeso.toString(), "peso");
 		prontuario.atualizaInfoPaciente("100", "pontos");
 	}
+
+	@Override
+	public String getTipoProcedimento() {
+		return "Cirurgia Bariatrica";
+	}
 }

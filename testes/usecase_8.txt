@@ -1,0 +1,6 @@
+login matricula="22016005" senha="19752201"
+
+prontuario=getProntuario 0
+id=getInfoPaciente ${prontuario} "id"
+
+exportaFichaPaciente idPaciente=${id}

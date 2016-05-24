@@ -116,11 +116,11 @@ public class Prontuario implements Serializable {
 	public String toString() {
 		String res = "";
 		
-		res += getPaciente().toString() + "\n" +
-			   "Resumo de Procedimentos: " + getTotalProcedimento() + " procedimento(s)";
+		res += getPaciente().toString() + System.lineSeparator() +
+			   "Resumo de Procedimentos: " + getTotalProcedimento() + " procedimento(s)" + System.lineSeparator();
 		
 		for (Procedimento procedimento: procedimentos) {
-			res += procedimento.toString() + "\n";
+			res += procedimento.toString() + System.lineSeparator();
 		}
 		
 		return res;

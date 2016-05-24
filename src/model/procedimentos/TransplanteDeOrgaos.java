@@ -25,6 +25,11 @@ public class TransplanteDeOrgaos extends Procedimento{
 
 	@Override
 	public String toString() {
-		return super.toString() + "\n....... Orgao transplantado: " + orgaoTransplantado;
+		return super.toString() + System.lineSeparator() + "....... Orgao transplantado: " + orgaoTransplantado;
+	}
+
+	@Override
+	public String getTipoProcedimento() {
+		return "Transplante de Orgaos";
 	}
 }

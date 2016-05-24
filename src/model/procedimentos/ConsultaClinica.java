@@ -19,4 +19,9 @@ public class ConsultaClinica extends Procedimento{
 		prontuario.atualizaInfoPaciente(valorAdicionado.toString(), "gastos");
 		prontuario.atualizaInfoPaciente("50", "pontos");
 	}
+
+	@Override
+	public String getTipoProcedimento() {
+		return "Consulta Clinica";
+	}
 }

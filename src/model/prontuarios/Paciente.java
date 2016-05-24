@@ -118,10 +118,10 @@ public class Paciente implements Serializable {
 	public String toString() {
 		String res = "";
 		
-		res += "Paciente: " + getNome() + "\n" +
-			   "Peso: " + getPeso() + " kg Tipo Sanguineo: " + getTipoSanguineo().toString() + "\n" +
-			   "Sexo: " + getSexoBiologico() + " Genero: " + getGenero() + "\n" +
-			   "Gasto total: R$ " + String.format("%.2f", getGastos()) + " Pontos acumulados: " + getPontosFidelidade();
+		res += "Paciente: " + getNome() + System.lineSeparator() +
+			   "Peso: " + getPeso() + " kg Tipo Sanguineo: " + getTipoSanguineo().toString() + System.lineSeparator() +
+			   "Sexo: " + getSexoBiologico() + " Genero: " + getGenero() + System.lineSeparator() +
+			   "Gasto total: R$ " + getGastos() + " Pontos acumulados: " + getPontosFidelidade();
 		
 		return res;
 	}
