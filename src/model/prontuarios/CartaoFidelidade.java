@@ -13,10 +13,6 @@ public class CartaoFidelidade implements Serializable {
 		this.pontosFidelidade = 0;
 	}
 
-//	public double aplicaDesconto(double valorProcedimento) {
-//		return tipoFidelidade.aplicaDesconto(valorProcedimento); // TODO
-//	}
-
 	public int getPontosFidelidade() {
 		return this.pontosFidelidade;
 	}

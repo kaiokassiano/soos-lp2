@@ -14,13 +14,17 @@ public abstract class Procedimento implements Serializable {
 	private String nomeMedico;
 	private LocalDate dataProcedimento;
 	
+	public Procedimento() {
+		this.dataProcedimento = LocalDate.now();
+	}
+	
 	/**
 	 * Realiza um procedimento em um paciente, passando parametros opcionais
 	 * 
 	 * @param prontuario Prontuário do paciente a ser realizado o procedimento
 	 * @param params     Parâmetros opcionais do procedimento
 	 */
-	public abstract void realizaProcedimento(Prontuario prontuario, HashMap<String, Object> params);
+	public abstract void realizaProcedimento(Prontuario prontuario, double precoMedicamentos, HashMap<String, Object> params);
 	
 	/**
 	 * Realiza um procedimento em um paciente
@@ -28,21 +32,17 @@ public abstract class Procedimento implements Serializable {
 	 * @param prontuario Prontuário do paciente a ser realizado o procedimento
 	 */
 	public void realizaProcedimento(Prontuario prontuario) {
-		realizaProcedimento(prontuario, null);
+		realizaProcedimento(prontuario, 0, null);
 	}
 	
 	public abstract String getTipoProcedimento();
 	
-	public void setMedico(String nomeMedico) {
+	protected void setMedico(String nomeMedico) {
 		this.nomeMedico = nomeMedico;
 	}
 	
 	public String getMedico() {
 		return this.nomeMedico;
-	}
-	
-	public void setDataProcedimento(LocalDate dataProcedimento) {
-		this.dataProcedimento = dataProcedimento;
 	}
 	
 	public LocalDate getDataProcedimento() {

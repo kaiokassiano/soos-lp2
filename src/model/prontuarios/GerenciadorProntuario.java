@@ -93,25 +93,16 @@ public class GerenciadorProntuario implements Serializable {
 		throw new PacienteNaoCadastradoException("Paciente nao existe.");
 	}
 	
-	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String medicamentos, HashMap<String, Object> params) throws DadoInvalidoException, LogicaException {
+	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, double precoMedicamentos, HashMap<String, Object> params) throws DadoInvalidoException, LogicaException {
 		Prontuario prontuario = retornaProntuarioPeloNome(nomePaciente);
-		if (prontuario != null) {
-			gerenciadorProcedimento.realizaProcedimento(prontuario, procedimentoSolicitado, params);
-		}
-	}
 		
-	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String nomeOrgao, String medicamentos, HashMap<String, Object> params) throws LogicaException, DadoInvalidoException {
-		Prontuario prontuario = retornaProntuarioPeloNome(nomePaciente);
 		if (prontuario != null) {
-			gerenciadorProcedimento.realizaProcedimento(prontuario, procedimentoSolicitado, params);
+			gerenciadorProcedimento.realizaProcedimento(prontuario, procedimentoSolicitado, precoMedicamentos, params);
 		}
 	}
 	
 	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, HashMap<String, Object> params) throws LogicaException, DadoInvalidoException {
-		Prontuario prontuario = retornaProntuarioPeloNome(nomePaciente);
-		if (prontuario != null) {
-			gerenciadorProcedimento.realizaProcedimento(prontuario, procedimentoSolicitado, params);
-		}
+		realizaProcedimento(procedimentoSolicitado, nomePaciente, 0.0, params);
 	}
 
 	public int getTotalProcedimento(String nomePaciente) {

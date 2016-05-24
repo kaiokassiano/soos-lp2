@@ -19,9 +19,11 @@ public class Paciente implements Serializable {
 	private TipoSanguineo tipoSanguineo;
 	private double gastos;
 	private UUID id;
+
 	private CartaoFidelidade cartaoFidelidade;
 
-	public Paciente(String nome, String dataNascimento, double peso, String sexoBiologico, String genero, String tipoSanguineo) throws DataInvalidaException {
+	public Paciente(String nome, String dataNascimento, double peso, String sexoBiologico, String genero,
+			String tipoSanguineo) throws DataInvalidaException {
 		this.nome = nome;
 		this.dataNascimento = parseData(dataNascimento);
 		this.peso = peso;
@@ -32,14 +34,13 @@ public class Paciente implements Serializable {
 		this.gastos = 0.0;
 		this.cartaoFidelidade = new CartaoFidelidade();
 	}
-	
+
 	public LocalDate parseData(String dataNascimento) throws DataInvalidaException {
 		DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		
+
 		try {
 			return LocalDate.parse(dataNascimento, formato);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new DataInvalidaException("Data invalida.");
 		}
 	}
@@ -56,10 +57,15 @@ public class Paciente implements Serializable {
 		return this.peso;
 	}
 	
-	public void setPeso(double peso) {
-		this.peso = peso;
+	/**
+	 * Reduz o peso do paciente por uma dada porcentagem
+	 * 
+	 * @param porcentagem Porcentagem a ser removida do peso do paciente
+	 */
+	public void reduzPeso(double porcentagem) {
+		this.peso -= peso * porcentagem;
 	}
-
+	
 	public String getSexoBiologico() {
 		return this.sexoBiologico;
 	}
@@ -71,11 +77,11 @@ public class Paciente implements Serializable {
 			this.genero = "masculino";
 		}
 	}
-	
+
 	public String getGenero() {
 		return this.genero;
 	}
-	
+
 	public TipoSanguineo getTipoSanguineo() {
 		return this.tipoSanguineo;
 	}
@@ -83,17 +89,17 @@ public class Paciente implements Serializable {
 	public UUID getId() {
 		return this.id;
 	}
-	
+
 	public int getIdadePaciente() {
 		int idade;
 		idade = this.dataNascimento.until(LocalDate.now()).getYears();
 		return idade;
 	}
-	
+
 	public void adicionaGastos(double gastos) {
 		this.gastos += gastos;
 	}
-	
+
 	public String getGastos() {
 		return String.format("%.2f", gastos);
 	}
@@ -113,16 +119,16 @@ public class Paciente implements Serializable {
 	public double getDesconto() {
 		return cartaoFidelidade.getDesconto();
 	}
-	
+
 	@Override
 	public String toString() {
 		String res = "";
-		
-		res += "Paciente: " + getNome() + System.lineSeparator() +
-			   "Peso: " + getPeso() + " kg Tipo Sanguineo: " + getTipoSanguineo().toString() + System.lineSeparator() +
-			   "Sexo: " + getSexoBiologico() + " Genero: " + getGenero() + System.lineSeparator() +
-			   "Gasto total: R$ " + getGastos() + " Pontos acumulados: " + getPontosFidelidade();
-		
+
+		res += "Paciente: " + getNome() + System.lineSeparator() + "Peso: " + getPeso() + " kg Tipo Sanguineo: "
+				+ getTipoSanguineo().toString() + System.lineSeparator() + "Sexo: " + getSexoBiologico() + " Genero: "
+				+ getGenero() + System.lineSeparator() + "Gasto total: R$ " + getGastos() + " Pontos acumulados: "
+				+ getPontosFidelidade();
+
 		return res;
 	}
 }

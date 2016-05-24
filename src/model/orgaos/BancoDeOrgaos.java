@@ -5,8 +5,10 @@ import java.util.ArrayList;
 
 import banco.dados.BancoDeDados;
 import exceptions.dado.DadoInvalidoException;
+import exceptions.logica.LogicaException;
 import exceptions.logica.OrgaoInexistenteException;
 import exceptions.logica.PermissaoException;
+import exceptions.logica.StringVaziaException;
 import exceptions.logica.TipoSanguineoInexistenteException;
 import exceptions.logica.TipoSanguineoInvalidoException;
 import factory.orgaos.OrgaoFactory;
@@ -45,36 +47,51 @@ public class BancoDeOrgaos implements Serializable {
 	public int totalOrgaosDisponiveis() {
 		return bancoDeOrgaos.size();
 	}
-
-	public boolean buscaOrgao(String nome, String tipoSanguineo) throws TipoSanguineoInvalidoException, DadoInvalidoException {
-
-		Orgao outroOrgao = orgaoFactory.criaOrgao(nome, tipoSanguineo);
+	
+	public boolean verificaOrgao(String nomeOrgao, String tipoSanguineo) throws TipoSanguineoInvalidoException, StringVaziaException, DadoInvalidoException {
+		ValidaOrgao.validaNomeOrgao(nomeOrgao);
+		ValidaOrgao.validaTipoSanguineo(tipoSanguineo);
 		
-		for (Orgao orgao : bancoDeOrgaos) {
-			if (orgao.equals(outroOrgao)) {
+		for (int i = 0; i < bancoDeOrgaos.size(); i++) {
+			Orgao orgao = bancoDeOrgaos.get(i);
+			
+			if (orgao.getNome().equals(nomeOrgao) && orgao.getTipoSanguineo().equals(tipoSanguineo)) {
 				return true;
 			}
 		}
-		// TODO: refatorar pra lancar excecao
+		
 		return false;
 	}
 
-	public boolean buscaOrgaoPorNome(String nomeOrgao) throws OrgaoInexistenteException, DadoInvalidoException {
-		
+	/**
+	 * Retorna o índice do orgão na lista
+	 * 
+	 * @param nomeOrgao                       Nome do orgão
+	 * @param tipoSanguineo                   Tipo sanguineo do orgão
+	 * @return                                Índice do orgão na lista
+	 * @throws OrgaoInexistenteException      Quando o orgão não está na lista
+	 * @throws StringVaziaException           Quando o nome do orgão ou o tipo sanguineo forem vazios
+	 * @throws TipoSanguineoInvalidoException Quando o tipo sanguineo for invalido
+	 */
+	public int buscaOrgao(String nomeOrgao, String tipoSanguineo) throws OrgaoInexistenteException, StringVaziaException, TipoSanguineoInvalidoException {
 		if (nomeOrgao.trim().isEmpty()) {
-			throw new DadoInvalidoException("Nome do orgao nao pode ser vazio.");
+			throw new StringVaziaException("Nome do orgao nao pode ser vazio.");
 		}
 		
-		for (Orgao orgao : bancoDeOrgaos) {
-			if (orgao.getNome().equals(nomeOrgao)) {
-				return true;
+		ValidaOrgao.validaTipoSanguineo(tipoSanguineo);
+		
+		for (int i = 0; i < bancoDeOrgaos.size(); i++) {
+			Orgao orgao = bancoDeOrgaos.get(i);
+			
+			if (orgao.getNome().equals(nomeOrgao) && orgao.getTipoSanguineo().equals(tipoSanguineo)) {
+				return i;
 			}
 		}
 		
-		throw new OrgaoInexistenteException("Banco nao possui o orgao especificado");
+		throw new OrgaoInexistenteException("Orgao nao cadastrado.");
 	}
 	
-	public void cadastraOrgao(String nome, String tipoSanguineo) throws TipoSanguineoInvalidoException, DadoInvalidoException, PermissaoException {
+	public void cadastraOrgao(String nome, String tipoSanguineo) throws DadoInvalidoException, LogicaException {
 		Funcionario usuarioLogado = BancoDeDados.getInstance().getUsuarioLogado();
 		if (!usuarioLogado.temPermissao(PermissaoFuncionario.CADASTRO_ORGAOS)) {
 			throw new PermissaoException(
@@ -84,9 +101,9 @@ public class BancoDeOrgaos implements Serializable {
 		bancoDeOrgaos.add(orgao);
 	}
 	
-	public String buscaOrgPorSangue(String tipoSanguineo) throws TipoSanguineoInvalidoException, DadoInvalidoException, TipoSanguineoInexistenteException {
-		
+	public String buscaOrgPorSangue(String tipoSanguineo) throws TipoSanguineoInvalidoException, StringVaziaException, TipoSanguineoInexistenteException {
 		ValidaOrgao.validaTipoSanguineo(tipoSanguineo);
+		
 		ArrayList<String> orgaosTipoSanguineo = new ArrayList<String>();
 		
 		for (Orgao orgao : bancoDeOrgaos) {
@@ -94,8 +111,7 @@ public class BancoDeOrgaos implements Serializable {
 				
 				if (!orgaosTipoSanguineo.contains(orgao.getNome())) {
 					orgaosTipoSanguineo.add(orgao.getNome());
-				}
-				
+				}	
 			}
 		}
 		
@@ -106,11 +122,9 @@ public class BancoDeOrgaos implements Serializable {
 		return String.join(",", orgaosTipoSanguineo);
 	}
 	
-	public boolean retiraOrgao (String nome, String tipoSanguineo) throws TipoSanguineoInvalidoException, DadoInvalidoException, OrgaoInexistenteException {
-		if (!buscaOrgao(nome, tipoSanguineo)) {
-			throw new OrgaoInexistenteException("Orgao nao cadastrado.");
-		}
-		Orgao orgao = orgaoFactory.criaOrgao(nome, tipoSanguineo);
+	public boolean retiraOrgao(String nome, String tipoSanguineo) throws DadoInvalidoException, LogicaException {
+		Orgao orgao = bancoDeOrgaos.get(buscaOrgao(nome, tipoSanguineo));
+		
 		bancoDeOrgaos.remove(orgao);
 		return true;
 	}

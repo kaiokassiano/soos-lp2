@@ -12,25 +12,28 @@ import model.prontuarios.Prontuario;
 import model.usuarios.Funcionario;
 import model.usuarios.PermissaoFuncionario;
 
-public class GerenciadorProcedimentos implements Serializable{
-	
+public class GerenciadorProcedimentos implements Serializable {
+
 	private static final long serialVersionUID = 7351303124526973570L;
 	private ProcedimentoFactory procedimentoFactory;
-	
+
 	public GerenciadorProcedimentos() {
 		this.procedimentoFactory = new ProcedimentoFactory();
 	}
-	
-	public void realizaProcedimento(Prontuario prontuario, String procedimentoSolicitado, HashMap<String, Object> params) throws LogicaException, DadoInvalidoException {
+
+	public void realizaProcedimento(Prontuario prontuario, String procedimentoSolicitado, double precoMedicamentos,
+			HashMap<String, Object> params) throws LogicaException, DadoInvalidoException {
 		Funcionario usuarioLogado = BancoDeDados.getInstance().getUsuarioLogado();
 		if (!usuarioLogado.temPermissao(PermissaoFuncionario.CRIACAO_PROCEDIMENTOS)) {
-			throw new PermissaoException("O funcionario " + usuarioLogado.getNome() + " nao tem permissao para realizar procedimentos.");
+			throw new PermissaoException(
+					"O funcionario " + usuarioLogado.getNome() + " nao tem permissao para realizar procedimentos.");
 		}
+
+		System.out.println("Preco dos medicamentos: " + precoMedicamentos);
 		
 		Procedimento procedimento = procedimentoFactory.criaProcedimento(procedimentoSolicitado);
-		
-		procedimento.realizaProcedimento(prontuario, params);
-		
+		procedimento.realizaProcedimento(prontuario, precoMedicamentos, params);
+
 		prontuario.adicionaProcedimento(procedimento);
 	}
 }

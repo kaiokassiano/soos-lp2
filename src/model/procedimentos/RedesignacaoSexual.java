@@ -1,6 +1,5 @@
 package model.procedimentos;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 
 import model.prontuarios.Prontuario;
@@ -10,16 +9,16 @@ public class RedesignacaoSexual extends Procedimento{
 	private static final long serialVersionUID = 5812370610557995210L;
 
 	@Override
-	public void realizaProcedimento(Prontuario prontuario, HashMap<String, Object> param) {
+	public void realizaProcedimento(Prontuario prontuario, double precoMedicamentos, HashMap<String, Object> param) {
 		prontuario.mudaGeneroPaciente();
+		double gastos = prontuario.aplicaDesconto(9300.0);
 		
-		Double gastosComDesconto = prontuario.aplicaDesconto(9300.0);
+		System.out.println("Total gasto de redesignacao: " + gastos);
 		
-		super.setMedico((String) param.get("nomeMedico"));
-		super.setDataProcedimento(LocalDate.now());
+		setMedico((String) param.get("nomeMedico"));
 		
-		prontuario.atualizaInfoPaciente(gastosComDesconto.toString(), "gastos");
-		prontuario.atualizaInfoPaciente("130", "pontos");
+		prontuario.adicionaGastos(gastos + precoMedicamentos);
+		prontuario.adicionaPontosFidelidade(130);
 	}
 
 	@Override

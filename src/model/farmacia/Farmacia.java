@@ -160,7 +160,8 @@ public class Farmacia implements Serializable {
 		double precoTotal = 0.0;
 
 		for (int i = 0; i < medicamentosArray.length; i++) {
-			precoTotal += Double.parseDouble(getMedicamentoPeloNome(medicamentosArray[i]).getInfoMedicamento("preco"));
+			Medicamento medicamento = getMedicamentoPeloNome(medicamentosArray[i]);
+			precoTotal += Double.parseDouble(medicamento.getInfoMedicamento("preco"));
 		}
 
 		return precoTotal;

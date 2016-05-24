@@ -2,11 +2,8 @@ package view;
 
 import banco.dados.BancoDeDados;
 import controller.hospital.HospitalController;
-import exceptions.dado.DadoInvalidoException;
 import exceptions.dado.NullStringException;
 import exceptions.logica.LogicaException;
-import exceptions.logica.NumeroNegativoException;
-import exceptions.logica.OrgaoInexistenteException;
 
 /**
  * View principal para a aplicação

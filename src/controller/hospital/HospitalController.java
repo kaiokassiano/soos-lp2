@@ -5,22 +5,15 @@ import java.util.HashMap;
 
 import banco.dados.BancoDeDados;
 import exceptions.dado.DadoInvalidoException;
-import exceptions.dado.NullStringException;
 import exceptions.logica.CategoriaInexistenteException;
 import exceptions.logica.CategoriaInvalidaException;
-import exceptions.logica.ComparacaoInvalidaException;
 import exceptions.logica.LogicaException;
 import exceptions.logica.LogoutException;
-import exceptions.logica.NumeroNegativoException;
 import exceptions.logica.ObjetoInexistenteException;
-import exceptions.logica.OperacaoInvalidaException;
 import exceptions.logica.OrgaoInexistenteException;
 import exceptions.logica.PacienteNaoCadastradoException;
-import exceptions.logica.PermissaoException;
-import exceptions.logica.ProcedimentoInvalidoException;
 import exceptions.logica.TipoSanguineoInvalidoException;
 import model.farmacia.Farmacia;
-import model.farmacia.Medicamento;
 import model.orgaos.BancoDeOrgaos;
 import model.prontuarios.GerenciadorProntuario;
 import model.usuarios.GerenciadorFuncionarios;
@@ -231,7 +224,7 @@ public class HospitalController implements Serializable {
 	public String buscaOrgPorSangue(String tipoSanguineo) throws LogicaException {
 		try {
 			return bancoDeOrgaos.buscaOrgPorSangue(tipoSanguineo);
-		} catch (DadoInvalidoException | LogicaException e) {
+		} catch (LogicaException e) {
 			throw new LogicaException("O banco de orgaos apresentou um erro. " + e.getMessage());
 		}
 	}
@@ -246,7 +239,7 @@ public class HospitalController implements Serializable {
 
 	public boolean buscaOrgao(String nome, String tipoSanguineo) throws LogicaException {
 		try {
-			return bancoDeOrgaos.buscaOrgao(nome, tipoSanguineo);
+			return bancoDeOrgaos.verificaOrgao(nome, tipoSanguineo);
 		} catch (DadoInvalidoException | LogicaException e) {
 			throw new LogicaException("O banco de orgaos apresentou um erro. " + e.getMessage());
 		}
@@ -283,13 +276,13 @@ public class HospitalController implements Serializable {
 			ValidacaoMedicamentos.validaNomeMedicamento(medicamentos);
 			ValidaProcedimento.validaNomePaciente(nomePaciente);
 
-			existeMedicamento(medicamentos);
+			double precoMedicamentos = farmacia.calculaPrecoMedicamentos(medicamentos);
 
 			HashMap<String, Object> params = new HashMap<>();
 
 			params.put("nomeMedico", BancoDeDados.getInstance().getUsuarioLogado().getNome());
 
-			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, medicamentos, params);
+			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, precoMedicamentos, params);
 		} catch (DadoInvalidoException | LogicaException e) {
 			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
 		}
@@ -304,15 +297,20 @@ public class HospitalController implements Serializable {
 
 			String tipoSanguineoPaciente = gerenciadorProntuarios.getInfoPaciente(nomePaciente, "tiposanguineo");
 
-			existeMedicamento(medicamentos);
-			existeOrgao(nomeOrgao, tipoSanguineoPaciente);
+			double precoMedicamentos = farmacia.calculaPrecoMedicamentos(medicamentos);
+			
+			if (!bancoDeOrgaos.verificaOrgao(nomeOrgao, tipoSanguineoPaciente)) {
+				throw new LogicaException("Banco nao possui o orgao especificado.");
+			}
+			
+			bancoDeOrgaos.retiraOrgao(nomeOrgao, tipoSanguineoPaciente);
 
 			HashMap<String, Object> params = new HashMap<>();
 
 			params.put("nomeMedico", BancoDeDados.getInstance().getUsuarioLogado().getNome());
 			params.put("orgao", nomeOrgao);
 
-			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, medicamentos, params);
+			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, precoMedicamentos, params);
 		} catch (DadoInvalidoException | LogicaException e) {
 			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
 		}
@@ -339,27 +337,6 @@ public class HospitalController implements Serializable {
 		} catch (ObjetoInexistenteException e) {
 			throw new LogicaException("Erro ao calcular preco de medicamentos. " + e.getMessage());
 		}
-	}
-
-	public void existeMedicamento(String medicamentos) throws ObjetoInexistenteException {
-		String[] arrayMedicamentos = medicamentos.split(",");
-		for (String nomeMedicamento : arrayMedicamentos) {
-			if (!farmacia.temMedicamento(nomeMedicamento)) {
-				throw new ObjetoInexistenteException("Medicamento nao cadastrado.");
-			}
-		}
-	}
-
-	public boolean existeOrgao(String nome, String tipoSanguineo)
-			throws OrgaoInexistenteException, DadoInvalidoException, TipoSanguineoInvalidoException {
-
-		boolean temOrgao = bancoDeOrgaos.buscaOrgao(nome, tipoSanguineo);
-
-		if (!temOrgao) {
-			throw new OrgaoInexistenteException("Banco nao possui o orgao especificado.");
-		}
-
-		return temOrgao;
 	}
 
 	public int getTotalProcedimento(String nomePaciente) {

@@ -1,6 +1,7 @@
 package validacao.orgao;
 
 import exceptions.dado.DadoInvalidoException;
+import exceptions.logica.StringVaziaException;
 import exceptions.logica.TipoSanguineoInvalidoException;
 
 public class ValidaOrgao {
@@ -9,12 +10,11 @@ public class ValidaOrgao {
 		if (nome == null || nome.trim().isEmpty()) {
 			throw new DadoInvalidoException("Nome do orgao nao pode ser vazio.");
 		}
-
 	}
 
-	public static void validaTipoSanguineo(String tipoSanguineo) throws DadoInvalidoException, TipoSanguineoInvalidoException {
+	public static void validaTipoSanguineo(String tipoSanguineo) throws StringVaziaException, TipoSanguineoInvalidoException {
 		if (tipoSanguineo == null || tipoSanguineo.trim().isEmpty()) {
-			throw new DadoInvalidoException("Tipo sanguineo nao pode ser vazio.");
+			throw new StringVaziaException("Tipo sanguineo nao pode ser vazio.");
 		}
 		
 		String tiposSanguineos = "A+A-B+B-AB+AB-O+O-";

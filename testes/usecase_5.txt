@@ -68,7 +68,7 @@ expectError "O banco de orgaos apresentou um erro. Orgao nao cadastrado." buscaO
 
 expect true buscaOrgao nome="Pulmao" tipoSanguineo="A+"
 expect true buscaOrgao nome="Figado" tipoSanguineo="B+"
-expect true buscaOrgao nome="Rim" tipoSanguineo="B-" 
+expect true buscaOrgao nome="Rim" tipoSanguineo="B-"
 expect true buscaOrgao nome="Rim" tipoSanguineo="B-" 
 expect false buscaOrgao nome="Pulmao" tipoSanguineo="B-" 
 expect false buscaOrgao nome="Pancreas" tipoSanguineo="AB-" 

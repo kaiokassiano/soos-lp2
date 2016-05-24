@@ -1,6 +1,5 @@
 package model.procedimentos;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 
 import model.prontuarios.Prontuario;
@@ -12,15 +11,16 @@ public class TransplanteDeOrgaos extends Procedimento{
 	private String orgaoTransplantado;
 
 	@Override
-	public void realizaProcedimento(Prontuario prontuario, HashMap<String, Object> param) {
-		Double gastosComDesconto = prontuario.aplicaDesconto(12500.0);
+	public void realizaProcedimento(Prontuario prontuario, double precoMedicamentos, HashMap<String, Object> param) {
+		double gastos = prontuario.aplicaDesconto(12500.0);
 		
-		orgaoTransplantado = (String) param.get("orgao");
-		super.setMedico((String) param.get("nomeMedico"));
-		super.setDataProcedimento(LocalDate.now());
+		System.out.println("Total gasto de transplante: " + gastos);
 		
-		prontuario.atualizaInfoPaciente(gastosComDesconto.toString(), "gastos");
-		prontuario.atualizaInfoPaciente("160", "pontos");
+		this.orgaoTransplantado = (String) param.get("orgao");
+		setMedico((String) param.get("nomeMedico"));
+
+		prontuario.adicionaGastos(gastos + precoMedicamentos);
+		prontuario.adicionaPontosFidelidade(160);
 	}
 
 	@Override
