@@ -1,6 +1,10 @@
 package model.prontuarios;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,6 +14,7 @@ import banco.dados.BancoDeDados;
 import exceptions.dado.DadoInvalidoException;
 import exceptions.logica.LogicaException;
 import exceptions.logica.NumeroNegativoException;
+import exceptions.logica.PacienteNaoCadastradoException;
 import exceptions.logica.PermissaoException;
 import model.procedimentos.GerenciadorProcedimentos;
 import model.usuarios.PermissaoFuncionario;
@@ -18,6 +23,9 @@ import validacao.prontuarios.ValidacaoProntuarios;
 public class GerenciadorProntuario implements Serializable {
 	
 	private static final long serialVersionUID = -8996993358051123045L;
+	
+	private static final String diretorioFichas = "fichas_pacientes";
+	
 	private List<Prontuario> prontuarios;
 	private GerenciadorProcedimentos gerenciadorProcedimento;
 	
@@ -54,7 +62,7 @@ public class GerenciadorProntuario implements Serializable {
 	}
 
 	public String getInfoPaciente(String nome, String atributo) {
-		return retornaProntuarioPeloNome(nome).getInfoPaciente(nome, atributo);	
+		return retornaProntuarioPeloNome(nome).getInfoPaciente(atributo);	
 	}
 	
 	public Prontuario retornaProntuarioPeloNome(String nome){
@@ -68,15 +76,23 @@ public class GerenciadorProntuario implements Serializable {
 
 	public String getProntuario(int posicao) throws NumeroNegativoException, DadoInvalidoException {
 		if (posicao < 0) {
-			throw new NumeroNegativoException("Erro ao consultar prontuario. Indice do prontuario nao pode ser negativo.");
+			throw new NumeroNegativoException("Indice do prontuario nao pode ser negativo.");
 		} if (posicao > prontuarios.size()) {
-			throw new DadoInvalidoException("Erro ao consultar prontuario. Nao ha prontuarios suficientes (max = " + (prontuarios.size()) + ").");
+			throw new DadoInvalidoException("Nao ha prontuarios suficientes (max = " + (prontuarios.size()) + ").");
 		}
 		return prontuarios.get(posicao).getNome();
-		
 	}
 	
-	// Sobrecarga de metodo. Esse metodo aqui nao recebe o orgao
+	public Prontuario getProntuario(String idPaciente) throws PacienteNaoCadastradoException {
+		for (Prontuario prontuario: prontuarios) {
+			if (prontuario.getInfoPaciente("id").equals(idPaciente)) {
+				return prontuario;
+			}
+		}
+		
+		throw new PacienteNaoCadastradoException("Paciente nao existe.");
+	}
+	
 	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String medicamentos, HashMap<String, Object> params) throws DadoInvalidoException, LogicaException {
 		Prontuario prontuario = retornaProntuarioPeloNome(nomePaciente);
 		if (prontuario != null) {
@@ -84,7 +100,6 @@ public class GerenciadorProntuario implements Serializable {
 		}
 	}
 		
-	// Sobrecarga de metodo. Esse metodo aqui recebe o orgao
 	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String nomeOrgao, String medicamentos, HashMap<String, Object> params) throws LogicaException, DadoInvalidoException {
 		Prontuario prontuario = retornaProntuarioPeloNome(nomePaciente);
 		if (prontuario != null) {
@@ -92,7 +107,6 @@ public class GerenciadorProntuario implements Serializable {
 		}
 	}
 	
-	// Sobrecarga de metodo. Esse metodo aqui só recebe o procedimento e o nome do paciente
 	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, HashMap<String, Object> params) throws LogicaException, DadoInvalidoException {
 		Prontuario prontuario = retornaProntuarioPeloNome(nomePaciente);
 		if (prontuario != null) {
@@ -104,12 +118,56 @@ public class GerenciadorProntuario implements Serializable {
 		return retornaProntuarioPeloNome(nomePaciente).getTotalProcedimento();
 	}
 	
-	public double getGastosPaciente(String nomePaciente) {
+	public String getGastosPaciente(String nomePaciente) {
 		return retornaProntuarioPeloNome(nomePaciente).getGastosPaciente();
 	}
 
 	public int getPontosFidelidade(String nomePaciente) {
 		return retornaProntuarioPeloNome(nomePaciente).getPontosFidelidade();
+	}
+	
+	public void exportaFichaPaciente(String idPaciente) throws PacienteNaoCadastradoException {
+		Prontuario prontuario = getProntuario(idPaciente);
+		
+		String data = prontuario.toString();
+		String nomeFicha = gerarNomeFichaPaciente(prontuario.getInfoPaciente("nome"));
+		
+		PrintWriter output = null;
+		
+		try {
+			File file = new File(diretorioFichas + "/" + nomeFicha);
+
+			file.getParentFile().mkdirs();
+			
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				System.err.println("IOException: " + e.getMessage());
+			}
+			
+			output = new PrintWriter(file);
+			
+			output.write(data);
+		} catch (IOException e) {
+			System.err.println("IOException: " + e.getMessage());
+		} finally {
+			output.close();
+		}
+	}
+	
+	private String gerarNomeFichaPaciente(String nomePaciente) {
+		LocalDate now = LocalDate.now();
+		
+		String res = "";
+		String[] nomes = nomePaciente.split(" ");
+		
+		for (String nome: nomes) {
+			res += nome + "_";
+		}
+		
+		res += now.getYear() + "_" + now.getMonthValue() + "_" + now.getDayOfMonth() + ".txt";
+		
+		return res;
 	}
 	
 }

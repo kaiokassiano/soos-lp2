@@ -11,7 +11,7 @@ public class CirurgiaBariatrica extends Procedimento{
 
 	@Override
 	public void realizaProcedimento(Prontuario prontuario, HashMap<String, Object> param) {
-		String pesoPaciente = prontuario.getInfoPaciente(prontuario.getNome(), "peso");
+		String pesoPaciente = prontuario.getInfoPaciente("peso");
 		Double novoPeso = Double.parseDouble(pesoPaciente) * 0.90;
 		
 		Double gastosComDesconto = prontuario.aplicaDesconto(7600.0);

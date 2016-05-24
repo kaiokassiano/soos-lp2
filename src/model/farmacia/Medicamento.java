@@ -32,7 +32,6 @@ public class Medicamento implements Comparable<Medicamento>, Serializable {
 
 		defineCategoriasMedicamento(categoriasRecebidas);
 		defineDesconto();
-
 	}
 
 	private void defineCategoriasMedicamento(String categoriasAnalisar) throws NullStringException {
@@ -48,42 +47,24 @@ public class Medicamento implements Comparable<Medicamento>, Serializable {
 	}
 
 	public String getInfoMedicamento(String requisicao) {
-
-		Object objeto = null;
-
 		switch (requisicao) {
-
 			case "nome":
 				return getNome();
-	
 			case "tipo":
 				return getTipo();
-	
 			case "preco":
-				objeto = getPreco();
-				return objeto.toString();
-	
+				return Double.toString(getPreco());
 			case "quantidade":
-				objeto = getQuantidade();
-				return objeto.toString();
-	
+				return Integer.toString(getQuantidade());
 			case "categorias":
 				return getCategorias();
-
 		}
-
-		return objeto.toString();
-
+		return null;
 	}
 
 	public void atualizaMedicamento(String atributo, String novoValor) throws OperacaoInvalidaException {
-		
-		
-		
 		switch (atributo) {
-		
 			case "preco":
-				
 				double valorDouble = Double.parseDouble(novoValor);
 				
 				if (this.tipo.equals("Generico")) {
@@ -155,6 +136,16 @@ public class Medicamento implements Comparable<Medicamento>, Serializable {
 		
 		return String.join(",", treeset);
 		
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Medicamento))
+			return false;
+		
+		Medicamento other = (Medicamento) obj;
+		
+		return other.getNome().equals(getNome());
 	}
 	
 	@Override

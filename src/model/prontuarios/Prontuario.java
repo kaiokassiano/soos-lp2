@@ -21,7 +21,6 @@ public class Prontuario implements Serializable {
 		this.procedimentos = new ArrayList<>();
 		this.pacienteFactory = new PacienteFactory();
 
-		// TODO valida��o prontuario
 		this.paciente = pacienteFactory.criaPaciente(nome, dataNascimento, peso, sexoBiologico, genero, tipoSanguineo);
 	}
 
@@ -29,25 +28,34 @@ public class Prontuario implements Serializable {
 		return paciente.getNome();
 	}
 
-	public String getInfoPaciente(String nome, String atributo) {
+	public String getInfoPaciente(String atributo) {
 
-		String saida = "";
+		String saida = null;
 		
 		switch (atributo.toLowerCase().trim()) {
 		case "nome":
-			return saida = this.paciente.getNome();
+			saida = this.paciente.getNome();
+			break;
 		case "data":
-			return saida = this.paciente.getDataNascimento().toString();
+			saida = this.paciente.getDataNascimento().toString();
+			break;
 		case "sexo":
-			return saida = this.paciente.getSexoBiologico();
+			saida = this.paciente.getSexoBiologico();
+			break;
 		case "genero":
-			return saida = this.paciente.getGenero();
+			saida = this.paciente.getGenero();
+			break;
 		case "tiposanguineo":
-			return saida = this.paciente.getTipoSanguineo().toString();
+			saida = this.paciente.getTipoSanguineo().toString();
+			break;
 		case "peso":
-			return saida = this.paciente.getPeso() + "";
+			saida = this.paciente.getPeso() + "";
+			break;
 		case "idade":
-			return saida = this.paciente.getIdadePaciente() + "";
+			saida = this.paciente.getIdadePaciente() + "";
+			break;
+		case "id":
+			saida = this.paciente.getId().toString();
 		}
 
 		 return saida;
@@ -92,7 +100,7 @@ public class Prontuario implements Serializable {
 		return getPaciente().getPontosFidelidade();	
 	}
 	
-	public double getGastosPaciente(){
+	public String getGastosPaciente(){
 		return getPaciente().getGastos();
 	}
 
@@ -104,4 +112,17 @@ public class Prontuario implements Serializable {
 		return this.paciente.getDesconto();
 	}
 	
+	@Override
+	public String toString() {
+		String res = "";
+		
+		res += getPaciente().toString() + "\n" +
+			   "Resumo de Procedimentos: " + getTotalProcedimento() + " procedimento(s)";
+		
+		for (Procedimento procedimento: procedimentos) {
+			res += procedimento.toString() + "\n";
+		}
+		
+		return res;
+	}
 }

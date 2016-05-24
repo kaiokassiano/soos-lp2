@@ -75,7 +75,7 @@ public class Paciente implements Serializable {
 	public String getGenero() {
 		return this.genero;
 	}
-
+	
 	public TipoSanguineo getTipoSanguineo() {
 		return this.tipoSanguineo;
 	}
@@ -94,8 +94,8 @@ public class Paciente implements Serializable {
 		this.gastos += gastos;
 	}
 	
-	public double getGastos() {
-		return gastos;
+	public String getGastos() {
+		return String.format("%.2f", gastos);
 	}
 
 	public int getPontosFidelidade() {
@@ -114,4 +114,15 @@ public class Paciente implements Serializable {
 		return cartaoFidelidade.getDesconto();
 	}
 	
+	@Override
+	public String toString() {
+		String res = "";
+		
+		res += "Paciente: " + getNome() + "\n" +
+			   "Peso: " + getPeso() + " kg Tipo Sanguineo: " + getTipoSanguineo().toString() + "\n" +
+			   "Sexo: " + getSexoBiologico() + " Genero: " + getGenero() + "\n" +
+			   "Gasto total: R$ " + String.format("%.2f", getGastos()) + " Pontos acumulados: " + getPontosFidelidade();
+		
+		return res;
+	}
 }

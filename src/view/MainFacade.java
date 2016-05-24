@@ -29,112 +29,57 @@ public class MainFacade {
 	}
 
 	public void fechaSistema() throws LogicaException {
-		try {
-			hospitalController.fechaController();
-		} catch (LogicaException e) {
-			throw new LogicaException("Nao foi possivel fechar o sistema. " + e.getMessage());
-		}
+		hospitalController.fechaController();
 		bancoDeDados.fechar();
 	}
 
 	public String liberaSistema(String chave, String nome, String dataNascimento) throws LogicaException {
-		try {
-			return hospitalController.liberaSistema(chave, nome, dataNascimento);
-		} catch (LogicaException | DadoInvalidoException e) {
-			throw new LogicaException("Erro ao liberar o sistema. " + e.getMessage());
-		}
+		return hospitalController.liberaSistema(chave, nome, dataNascimento);
 	}
 
 	public void login(String matricula, String senha) throws LogicaException {
-		try {
-			hospitalController.login(matricula, senha);
-		} catch (LogicaException | DadoInvalidoException e) {
-			throw new LogicaException("Nao foi possivel realizar o login. " + e.getMessage());
-		}
+		hospitalController.login(matricula, senha);
 	}
 
 	public void logout() throws LogicaException {
-		try {
-			hospitalController.logout();
-		} catch (LogicaException e) {
-			throw new LogicaException("Nao foi possivel realizar o logout. " + e.getMessage());
-		}
+		hospitalController.logout();
 	}
 
 	public String getInfoFuncionario(String matricula, String atributo) throws LogicaException {
-		try {
-			return hospitalController.getInfoFuncionario(matricula, atributo);
-		} catch (LogicaException | DadoInvalidoException e) {
-			throw new LogicaException("Erro na consulta de funcionario. " + e.getMessage());
-		}
+		return hospitalController.getInfoFuncionario(matricula, atributo);
 	}
 
 	public String cadastraFuncionario(String nome, String cargo, String dataNascimento) throws LogicaException {
-		try {
-			return hospitalController.cadastraFuncionario(nome, cargo, dataNascimento);
-		} catch (LogicaException | DadoInvalidoException e) {
-			throw new LogicaException("Erro no cadastro de funcionario. " + e.getMessage());
-		}
+		return hospitalController.cadastraFuncionario(nome, cargo, dataNascimento);
 	}
 	
 	public void excluiFuncionario(String matricula, String senha) throws LogicaException {
-		try {
-			hospitalController.excluiFuncionario(matricula, senha);
-		}
-		catch (LogicaException | DadoInvalidoException e) {
-			throw new LogicaException("Erro ao excluir funcionario. " + e.getMessage());
-		}
+		hospitalController.excluiFuncionario(matricula, senha);
 	}
 
 	public void atualizaInfoFuncionario(String matricula, String atributo, String novoValor) throws LogicaException {
-		try {
-			hospitalController.atualizaInfoFuncionario(matricula, atributo, novoValor);
-		}
-		catch (LogicaException | DadoInvalidoException e) {
-			throw new LogicaException("Erro ao atualizar funcionario. " + e.getMessage());
-		}
+		hospitalController.atualizaInfoFuncionario(matricula, atributo, novoValor);
 	}
 	
 	public void atualizaInfoFuncionario(String atributo, String novoValor) throws LogicaException {
-		try {
-			hospitalController.atualizaInfoFuncionario(atributo, novoValor);
-		} catch (LogicaException | DadoInvalidoException e) {
-			throw new LogicaException("Erro ao atualizar funcionario. " + e.getMessage());
-		}
+		hospitalController.atualizaInfoFuncionario(atributo, novoValor);
 	}
 	
 	public void atualizaSenha(String antigaSenha, String novaSenha) throws LogicaException {
-		try {
-			hospitalController.atualizaSenha(antigaSenha, novaSenha);
-		}
-		catch (LogicaException | DadoInvalidoException e) {
-			throw new LogicaException("Erro ao atualizar funcionario. " + e.getMessage());
-		}
+		hospitalController.atualizaSenha(antigaSenha, novaSenha);
 	}
 	
 	public String cadastraMedicamento(String nome, String tipo, double preco, int quantidade, String categorias)
 			throws LogicaException {
-		try {
-			return hospitalController.cadastraMedicamento(nome, tipo, preco, quantidade, categorias);
-		} catch (LogicaException | DadoInvalidoException e) {
-			throw new LogicaException("Erro no cadastro de medicamento. " + e.getMessage());
-		}
+		return hospitalController.cadastraMedicamento(nome, tipo, preco, quantidade, categorias);
 	}
 
 	public String getInfoMedicamento(String requisicao, String nome) throws LogicaException {
-		try {
-			return hospitalController.getInfoMedicamento(requisicao, nome);
-		} catch (LogicaException e) {
-			throw new LogicaException("Erro no cadastro de medicamento. " + e.getMessage());
-		}
+		return hospitalController.getInfoMedicamento(requisicao, nome);
 	}
 
 	public void atualizaMedicamento(String nome, String atributo, String novoValor) throws LogicaException {
-		try {
-			hospitalController.atualizaMedicamento(nome, atributo, novoValor);
-		} catch (LogicaException e) {
-			throw new LogicaException("Erro ao atualizar medicamento. " + e.getMessage());
-		}
+		hospitalController.atualizaMedicamento(nome, atributo, novoValor);
 	}
 
 	public String consultaMedCategoria(String categoria) throws LogicaException {
@@ -142,35 +87,22 @@ public class MainFacade {
 	}
 	
 	public String consultaMedNome(String nome) throws LogicaException {
-		try {
-			return hospitalController.consultaMedNome(nome);
-		} catch (LogicaException e) {
-			throw new LogicaException("Erro na consulta de medicamentos. " + e.getMessage());
-		}
+		return hospitalController.consultaMedNome(nome);
 	}
 	
 	public String getEstoqueFarmacia(String tipoOrdenacao) throws LogicaException{
-		try {
-			return hospitalController.getEstoqueFarmacia(tipoOrdenacao);
-		} catch (LogicaException e) {
-			throw new LogicaException("Erro na consulta de medicamentos. " + e.getMessage());
-		}
+		return hospitalController.getEstoqueFarmacia(tipoOrdenacao);
 	}
 	
 	public String cadastraPaciente(String nome, String dataNascimento, double peso, String sexoBiologico, String genero, String tipoSanguineo) throws LogicaException {
-		try {
-			return hospitalController.cadastraPaciente(nome, dataNascimento, peso, sexoBiologico, genero, tipoSanguineo);
-		}
-		catch (LogicaException | DadoInvalidoException e) {
-			throw new LogicaException("Nao foi possivel cadastrar o paciente. " + e.getMessage());
-		}
+		return hospitalController.cadastraPaciente(nome, dataNascimento, peso, sexoBiologico, genero, tipoSanguineo);
 	}
 	
 	public String getInfoPaciente(String nome, String atributo) throws NullStringException, LogicaException {
 		return hospitalController.getInfoPaciente(nome, atributo);
 	}
 	
-	public String getProntuario(int posicao) throws NumeroNegativoException, DadoInvalidoException {
+	public String getProntuario(int posicao) throws LogicaException {
 		return hospitalController.getProntuario(posicao);
 	}
 
@@ -179,42 +111,23 @@ public class MainFacade {
 	}
 	
 	public String buscaOrgPorSangue(String tipoSanguineo) throws LogicaException {
-		try {
-			return hospitalController.buscaOrgPorSangue(tipoSanguineo);
-		} catch (DadoInvalidoException | LogicaException e) {
-			throw new LogicaException("O banco de orgaos apresentou um erro. " + e.getMessage());
-		}
+		return hospitalController.buscaOrgPorSangue(tipoSanguineo);
 	}
 	
 	public String buscaOrgPorNome(String nome) throws LogicaException {
-		try {
-			return hospitalController.buscaOrgPorNome(nome);
-		} catch (DadoInvalidoException | OrgaoInexistenteException e) {
-			throw new LogicaException("O banco de orgaos apresentou um erro. " + e.getMessage());
-		}
+		return hospitalController.buscaOrgPorNome(nome);
 	}
 	
 	public boolean buscaOrgao(String nome, String tipoSanguineo) throws LogicaException {
-		try {
-			return hospitalController.buscaOrgao(nome, tipoSanguineo);
-		} catch (DadoInvalidoException | LogicaException e) {
-			throw new LogicaException("O banco de orgaos apresentou um erro. " + e.getMessage());
-		}
+		return hospitalController.buscaOrgao(nome, tipoSanguineo);
 	}
 	
 	public boolean retiraOrgao(String nome, String tipoSanguineo) throws LogicaException {
-		try {
-			return hospitalController.retiraOrgao(nome, tipoSanguineo);
-		} catch (DadoInvalidoException | LogicaException e) {
-			throw new LogicaException("Erro na retirada de orgaos. " + e.getMessage());
-		}
+		return hospitalController.retiraOrgao(nome, tipoSanguineo);
+		
 	}
 	public int qtdOrgaos(String nome) throws LogicaException {
-		try {
-			return hospitalController.qtdOrgaos(nome);
-		} catch (DadoInvalidoException | LogicaException e) {
-			throw new LogicaException("O banco de orgaos apresentou um erro. " + e.getMessage());
-		}
+		return hospitalController.qtdOrgaos(nome);
 	}
 	
 	public int totalOrgaosDisponiveis() {
@@ -225,21 +138,14 @@ public class MainFacade {
 		return hospitalController.getPacienteID(nome);
 	}
 	
-	// Sobrecarga de metodo. Esse metodo aqui nao recebe o orgao
 	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String medicamentos) throws LogicaException {
 		hospitalController.realizaProcedimento(procedimentoSolicitado, nomePaciente, medicamentos);
 	}
-		
-	// Sobrecarga de metodo. Esse metodo aqui recebe o orgao
+	
 	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String nomeOrgao, String medicamentos) throws LogicaException {
-		try {
-			hospitalController.realizaProcedimento(procedimentoSolicitado, nomePaciente, nomeOrgao, medicamentos);
-		} catch (LogicaException e) {
-			throw new LogicaException(e.getMessage());
-		}	
+		hospitalController.realizaProcedimento(procedimentoSolicitado, nomePaciente, nomeOrgao, medicamentos);
 	}
 	
-	// Sobrecarga de metodo. Esse metodo aqui só recebe o procedimento e o nome do paciente
 	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente) throws LogicaException {
 		hospitalController.realizaProcedimento(procedimentoSolicitado, nomePaciente);
 	}
@@ -252,9 +158,12 @@ public class MainFacade {
 		return hospitalController.getPontosFidelidade(nomePaciente);
 	}
 	
-	public double getGastosPaciente(String nomePaciente){
+	public String getGastosPaciente(String nomePaciente){
 		return hospitalController.getGastosPaciente(nomePaciente);
 	}
 	
+	public void exportaFichaPaciente(String idPaciente) throws LogicaException {
+		hospitalController.exportaFichaPaciente(idPaciente);
+	}
 	
 }

@@ -152,7 +152,22 @@ public class Farmacia implements Serializable {
 		}
 
 		return saida;
+	}
+	
+	public double calculaPrecoMedicamentos(String medicamentos) throws ObjetoInexistenteException {
+		String[] medicamentosArray = medicamentos.split(",");
 
+		double precoTotal = 0.0;
+
+		for (int i = 0; i < medicamentosArray.length; i++) {
+			precoTotal += Double.parseDouble(getMedicamentoPeloNome(medicamentosArray[i]).getInfoMedicamento("preco"));
+		}
+
+		return precoTotal;
+	}
+	
+	public boolean temMedicamento(String nomeMedicamento) {
+		return medicamentos.get(nomeMedicamento) != null;
 	}
 
 }
