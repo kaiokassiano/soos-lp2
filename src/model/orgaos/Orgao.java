@@ -2,6 +2,9 @@ package model.orgaos;
 
 import java.io.Serializable;
 
+/**
+ * Model que representa um orgao do sistema
+ */
 public class Orgao implements Serializable {
 
 	private static final long serialVersionUID = -541010157090076328L;
@@ -9,25 +12,35 @@ public class Orgao implements Serializable {
 	private String nome;
 	private String tipoSanguineo;
 
+	/**
+	 * Construtor do orgao
+	 * 
+	 * @param nome
+	 *            - nome do orgao
+	 * @param tipoSanguineo
+	 *            - tipo sanguineo do orgao
+	 */
 	public Orgao(String nome, String tipoSanguineo) {
 		this.nome = nome;
 		this.tipoSanguineo = tipoSanguineo;
 	}
 
+	/**
+	 * Consulta o nome do orgao
+	 * 
+	 * @return String nome do orgao
+	 */
 	public String getNome() {
 		return nome;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
+	/**
+	 * Consulta o tipo sanguineo de um orgao
+	 * 
+	 * @return String tipo sanguineo do orgao
+	 */
 	public String getTipoSanguineo() {
 		return tipoSanguineo;
-	}
-
-	public void setTipoSanguineo(String tipoSanguineo) {
-		this.tipoSanguineo = tipoSanguineo;
 	}
 
 	@Override
