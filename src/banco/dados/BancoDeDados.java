@@ -35,7 +35,7 @@ public class BancoDeDados {
 	private Funcionario usuarioLogado;
 
 	/**
-	 * Construtor do banco
+	 * Construtor do banco de dados
 	 */
 	private BancoDeDados() {
 	}
@@ -57,7 +57,6 @@ public class BancoDeDados {
 	 * nos arquivos
 	 */
 	public void init() {
-		// initSistemaLiberado();
 		initHospitalController();
 	}
 
@@ -65,10 +64,12 @@ public class BancoDeDados {
 	 * Fecha o banco, salvando todos os dados que estavam na memória em arquivos
 	 */
 	public void fechar() {
-		// fecharSistemaLiberado();
 		fecharHospitalController();
 	}
 
+	/**
+	 * Inicia o controller, carregando os dados a partir do arquivo soos.dat
+	 */
 	private void initHospitalController() {
 		try {
 			hospitalControllerInput = new ObjectInputStream(
@@ -97,6 +98,9 @@ public class BancoDeDados {
 		}
 	}
 
+	/**
+	 * Salva o estado atual do controller dentro do arquivo soos.dat
+	 */
 	private void fecharHospitalController() {
 		try {
 			hospitalControllerOutput = new ObjectOutputStream(
@@ -119,22 +123,49 @@ public class BancoDeDados {
 		}
 	}
 
+	/**
+	 * Retorna o controller para a Facade
+	 * 
+	 * @return Controller da aplicacao
+	 */
 	public HospitalController getHospitalController() {
 		return this.hospitalController;
 	}
 
+	/**
+	 * Checa se o sistema esta liberado atualmente
+	 * 
+	 * @return Boolean se o sistema esta liberado ou nao
+	 */
 	public boolean isSistemaLiberado() {
 		return sistemaLiberado;
 	}
 
+	/**
+	 * Libera/fecha o sistema
+	 * 
+	 * @param status
+	 *            - boolean para liberar/fechar o sistema
+	 */
 	public void setSistemaLiberado(boolean status) {
 		this.sistemaLiberado = status;
 	}
 
+	/**
+	 * Define o usuario que esta logado atualmente no sistema
+	 * 
+	 * @param funcionario
+	 *            - funcionario logado no sistema
+	 */
 	public void setUsuarioLogado(Funcionario funcionario) {
 		this.usuarioLogado = funcionario;
 	}
 
+	/**
+	 * Retorna a instancia do usuario que esta logado no sistema
+	 * 
+	 * @return Usuario logado atualmente no sistema
+	 */
 	public Funcionario getUsuarioLogado() {
 		return this.usuarioLogado;
 	}
