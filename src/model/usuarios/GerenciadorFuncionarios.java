@@ -22,32 +22,40 @@ import validacao.dados.ValidaMatricula;
 import validacao.dados.ValidaNome;
 import validacao.dados.ValidaSenha;
 
+/**
+ * Model gerenciador dos funcionarios do sistema
+ */
 public class GerenciadorFuncionarios implements Serializable {
 
 	private static final long serialVersionUID = -1957084040534534334L;
 
 	private static final String CHAVE_SISTEMA = "c041ebf8";
-	
+
 	private HashMap<String, Funcionario> funcionarios;
-	private FuncionarioFactory funcionarioFactory;	
-	
+	private FuncionarioFactory funcionarioFactory;
+
 	private Funcionario usuarioLogado;
-	
+
+	/**
+	 * Construtor do gerenciador de funcionarios
+	 */
 	public GerenciadorFuncionarios() {
 		funcionarios = new HashMap<String, Funcionario>();
 		funcionarioFactory = new FuncionarioFactory(); // test
 	}
-	
-	public void initGerenciadorFuncionarios() {
-		
-	}
-	
+
+	/**
+	 * Fecha o gerenciador de funcionarios. Informa uma mensagem de erro se
+	 * ainda existir um usuario logado
+	 * 
+	 * @throws LogicaException
+	 */
 	public void fecharGerenciadorFuncionarios() throws LogicaException {
 		if (isUsuarioLogado()) {
 			throw new LogicaException("Um funcionario ainda esta logado: " + usuarioLogado.getNome() + ".");
 		}
 	}
-	
+
 	/**
 	 * Libera o sistema, criando um usuário com privilégios de Diretor e
 	 * retornando o seu numero de matrícula
@@ -80,7 +88,7 @@ public class GerenciadorFuncionarios implements Serializable {
 			throw new ChaveIncorretaException("Chave invalida.");
 		}
 		BancoDeDados.getInstance().setSistemaLiberado(true);
-		
+
 		Diretor diretor = (Diretor) funcionarioFactory.criaFuncionario(nome, "Diretor Geral", dataNascimento);
 		funcionarios.put(diretor.getMatricula(), diretor);
 
@@ -131,7 +139,7 @@ public class GerenciadorFuncionarios implements Serializable {
 		usuarioLogado = null;
 		BancoDeDados.getInstance().setUsuarioLogado(usuarioLogado);
 	}
-	
+
 	/**
 	 * Verifica se tem algum usuário logado
 	 * 
@@ -140,10 +148,10 @@ public class GerenciadorFuncionarios implements Serializable {
 	public boolean isUsuarioLogado() {
 		return usuarioLogado != null;
 	}
-	
+
 	/**
-	 * Retorna um funcionário dado seu numero de matrícula, e joga um erro
-	 * caso não exista um funcionário com aquela matrícula
+	 * Retorna um funcionário dado seu numero de matrícula, e joga um erro caso
+	 * não exista um funcionário com aquela matrícula
 	 * 
 	 * @param matricula
 	 *            Matrícula do usuário
@@ -253,17 +261,21 @@ public class GerenciadorFuncionarios implements Serializable {
 
 		return attr;
 	}
-	
+
 	/**
-	 * Exclui um funcionário do sistema, necessitando do usuário logado dar
-	 * uma confirmação da senha do diretor e possuir a permissão de excluir
-	 * outros funcionarios 
+	 * Exclui um funcionário do sistema, necessitando do usuário logado dar uma
+	 * confirmação da senha do diretor e possuir a permissão de excluir outros
+	 * funcionarios
 	 * 
-	 * @param matricula              Matrícula do funcionário a ser excluido
-	 * @param senhaDiretor           Confirmação da senha do diretor
-	 * @throws DadoInvalidoException Quando um dos dados for inválido
-	 * @throws LogicaException       Quando o usuário não tem permissão de exclusão ou a senha
-	 *                               do diretor estiver incorreta.
+	 * @param matricula
+	 *            Matrícula do funcionário a ser excluido
+	 * @param senhaDiretor
+	 *            Confirmação da senha do diretor
+	 * @throws DadoInvalidoException
+	 *             Quando um dos dados for inválido
+	 * @throws LogicaException
+	 *             Quando o usuário não tem permissão de exclusão ou a senha do
+	 *             diretor estiver incorreta.
 	 */
 	public void excluiFuncionario(String matricula, String senhaDiretor) throws DadoInvalidoException, LogicaException {
 		if (matricula == null) {
@@ -277,29 +289,36 @@ public class GerenciadorFuncionarios implements Serializable {
 		} else if (!ValidaMatricula.validar(matricula)) {
 			throw new PadraoException("A matricula nao segue o padrao.");
 		}
-		
+
 		Funcionario funcionario = getFuncionarioPorMatricula(matricula);
-		
+
 		if (!usuarioLogado.temPermissao(PermissaoFuncionario.EXCLUSAO_FUNCIONARIOS)) {
-			throw new PermissaoException("O funcionario " + usuarioLogado.getNome() + " nao tem permissao para excluir funcionarios.");
+			throw new PermissaoException(
+					"O funcionario " + usuarioLogado.getNome() + " nao tem permissao para excluir funcionarios.");
 		} else if (!getFuncionarioPorMatricula("12016001").getSenha().equals(senhaDiretor)) {
 			throw new SenhaIncorretaException("Senha invalida.");
 		}
-		
+
 		funcionarios.remove(funcionario.getMatricula());
 	}
-	
+
 	/**
-	 * Atualiza a informação de um funcionário que não é o usuário que
-	 * está atualmente logado no sistema.
+	 * Atualiza a informação de um funcionário que não é o usuário que está
+	 * atualmente logado no sistema.
 	 * 
-	 * @param matricula              Matrícula do funcionário a ser alterado
-	 * @param atributo               Atributo do funcionário a ser alterado
-	 * @param novoValor              Novo valor para o atributo
-	 * @throws DadoInvalidoException Quando um dos parâmetros for inválido
-	 * @throws LogicaException       Quando houver um erro no padrão dos atributos
+	 * @param matricula
+	 *            Matrícula do funcionário a ser alterado
+	 * @param atributo
+	 *            Atributo do funcionário a ser alterado
+	 * @param novoValor
+	 *            Novo valor para o atributo
+	 * @throws DadoInvalidoException
+	 *             Quando um dos parâmetros for inválido
+	 * @throws LogicaException
+	 *             Quando houver um erro no padrão dos atributos
 	 */
-	public void atualizaInfoFuncionario(String matricula, String atributo, String novoValor) throws DadoInvalidoException, LogicaException {
+	public void atualizaInfoFuncionario(String matricula, String atributo, String novoValor)
+			throws DadoInvalidoException, LogicaException {
 		if (matricula == null) {
 			throw new NullStringException("Matricula nao pode ser nulo.");
 		} else if (matricula.trim().isEmpty()) {
@@ -309,11 +328,11 @@ public class GerenciadorFuncionarios implements Serializable {
 		} else if (novoValor == null) {
 			throw new NullStringException("Novo valor nao pode ser nulo.");
 		}
-		
+
 		Funcionario funcionario = getFuncionarioPorMatricula(matricula);
 		atualizaInfoFuncionario(funcionario, atributo, novoValor);
 	}
-	
+
 	/**
 	 * Atualiza a informação do usuário que está logado no sistema
 	 * 
@@ -322,20 +341,27 @@ public class GerenciadorFuncionarios implements Serializable {
 	 * @throws DadoInvalidoException
 	 * @throws LogicaException
 	 */
-	public void atualizaInfoFuncionario(String atributo, String novoValor) throws DadoInvalidoException, LogicaException {
+	public void atualizaInfoFuncionario(String atributo, String novoValor)
+			throws DadoInvalidoException, LogicaException {
 		atualizaInfoFuncionario(usuarioLogado, atributo, novoValor);
 	}
-	
+
 	/**
 	 * Atualiza a informação de um funcionário arbitrário
 	 * 
-	 * @param funcionario            Funcionário a ser atualizado
-	 * @param atributo               Atributo a ser atualizado
-	 * @param novoValor              Novo valor para o atributo
-	 * @throws DadoInvalidoException Quando o novo valor for inválido (null ou vazio)
-	 * @throws LogicaException       Quando o usuário logado não possuir permissão 
+	 * @param funcionario
+	 *            Funcionário a ser atualizado
+	 * @param atributo
+	 *            Atributo a ser atualizado
+	 * @param novoValor
+	 *            Novo valor para o atributo
+	 * @throws DadoInvalidoException
+	 *             Quando o novo valor for inválido (null ou vazio)
+	 * @throws LogicaException
+	 *             Quando o usuário logado não possuir permissão
 	 */
-	public void atualizaInfoFuncionario(Funcionario funcionario, String atributo, String novoValor) throws DadoInvalidoException, LogicaException {
+	public void atualizaInfoFuncionario(Funcionario funcionario, String atributo, String novoValor)
+			throws DadoInvalidoException, LogicaException {
 		if (atributo.equalsIgnoreCase("nome")) {
 			if (novoValor.trim().isEmpty()) {
 				throw new StringVaziaException("Nome do funcionario nao pode ser vazio.");
@@ -350,15 +376,19 @@ public class GerenciadorFuncionarios implements Serializable {
 			funcionario.setData(FuncionarioFactory.parseData(novoValor));
 		}
 	}
-	
+
 	/**
 	 * Atualiza a senha do usuário atualmente logado
 	 * 
-	 * @param antigaSenha            Senha antiga
-	 * @param novaSenha              Nova senha
-	 * @throws DadoInvalidoException Quando um dos parâmetros forem inválidos
-	 * @throws LogicaException       Quando a senha antiga estiver incorreta ou a nova senha
-	 *                               não seguir o padrão
+	 * @param antigaSenha
+	 *            Senha antiga
+	 * @param novaSenha
+	 *            Nova senha
+	 * @throws DadoInvalidoException
+	 *             Quando um dos parâmetros forem inválidos
+	 * @throws LogicaException
+	 *             Quando a senha antiga estiver incorreta ou a nova senha não
+	 *             seguir o padrão
 	 */
 	public void atualizaSenha(String antigaSenha, String novaSenha) throws DadoInvalidoException, LogicaException {
 		if (antigaSenha == null) {
@@ -370,13 +400,13 @@ public class GerenciadorFuncionarios implements Serializable {
 		} else if (novaSenha.trim().isEmpty()) {
 			throw new StringVaziaException("A nova senha nao pode ser vazia.");
 		}
-		
+
 		if (!usuarioLogado.getSenha().equals(antigaSenha)) {
 			throw new SenhaIncorretaException("Senha invalida.");
 		} else if (!ValidaSenha.validar(novaSenha)) {
 			throw new PadraoException("A nova senha deve ter entre 8 - 12 caracteres alfanumericos.");
 		}
-		
+
 		usuarioLogado.setSenha(novaSenha);
 	}
 }
