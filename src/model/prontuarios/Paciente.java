@@ -101,7 +101,7 @@ public class Paciente implements Serializable {
 	}
 
 	public String getGastos() {
-		return String.format("%.2f", gastos);
+		return String.format("%.2f", gastos).replace(",", ".");
 	}
 
 	public int getPontosFidelidade() {
