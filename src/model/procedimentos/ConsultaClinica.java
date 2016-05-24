@@ -10,11 +10,11 @@ public class ConsultaClinica extends Procedimento{
 
 	@Override
 	public void realizaProcedimento(Prontuario prontuario, double precoMedicamentos, HashMap<String, Object> param) {
-		double gastos = prontuario.aplicaDesconto(350.0);
+		double gastos = prontuario.aplicaDesconto(350.0 + precoMedicamentos);
 		
 		setMedico((String) param.get("nomeMedico"));
 		
-		prontuario.adicionaGastos(gastos + precoMedicamentos);
+		prontuario.adicionaGastos(gastos);
 		prontuario.adicionaPontosFidelidade(50);
 	}
 

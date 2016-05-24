@@ -10,11 +10,11 @@ public class CirurgiaBariatrica extends Procedimento{
 
 	@Override
 	public void realizaProcedimento(Prontuario prontuario, double precoMedicamentos, HashMap<String, Object> param) {
-		double gastos = prontuario.aplicaDesconto(7600.0);
+		double gastos = prontuario.aplicaDesconto(7600.0 + precoMedicamentos);
 		
 		setMedico((String) param.get("nomeMedico"));
 		
-		prontuario.adicionaGastos(gastos + precoMedicamentos);
+		prontuario.adicionaGastos(gastos);
 		prontuario.reduzPesoPaciente(0.10);
 		prontuario.adicionaPontosFidelidade(100);
 	}

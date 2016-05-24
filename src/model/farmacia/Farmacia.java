@@ -91,8 +91,13 @@ public class Farmacia implements Serializable {
 			throw new PermissaoException(
 					"O funcionario " + usuarioLogado.getNome() + " nao tem permissao para cadastrar medicamentos.");
 		}
-		Medicamento medicamento = medicamentoFactory.criaMedicamento(nome, tipo, preco, quantidade, categorias);
-		medicamentos.put(nome, medicamento);
+		
+		if (temMedicamento(nome)) {
+			medicamentos.get(nome).atualizaMedicamento("quantidade", Integer.toString(quantidade));
+		} else {
+			Medicamento medicamento = medicamentoFactory.criaMedicamento(nome, tipo, preco, quantidade, categorias);
+			medicamentos.put(nome, medicamento);
+		}
 
 		return nome;
 	}

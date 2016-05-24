@@ -11,11 +11,11 @@ public class RedesignacaoSexual extends Procedimento{
 	@Override
 	public void realizaProcedimento(Prontuario prontuario, double precoMedicamentos, HashMap<String, Object> param) {
 		prontuario.mudaGeneroPaciente();
-		double gastos = prontuario.aplicaDesconto(9300.0);
+		double gastos = prontuario.aplicaDesconto(9300.0 + precoMedicamentos);
 		
 		setMedico((String) param.get("nomeMedico"));
 		
-		prontuario.adicionaGastos(gastos + precoMedicamentos);
+		prontuario.adicionaGastos(gastos);
 		prontuario.adicionaPontosFidelidade(130);
 	}
 
