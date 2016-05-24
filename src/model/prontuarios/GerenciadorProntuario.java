@@ -156,7 +156,7 @@ public class GerenciadorProntuario implements Serializable {
 			res += nome + "_";
 		}
 		
-		res += now.getYear() + "_" + now.getMonthValue() + "_" + now.getDayOfMonth() + ".txt";
+		res += now.getYear() + "_" + String.format("%02d", now.getMonthValue()) + "_" + String.format("%02d", now.getDayOfMonth()) + ".txt";
 		
 		return res;
 	}

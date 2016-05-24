@@ -144,8 +144,7 @@ public class Medicamento implements Comparable<Medicamento>, Serializable {
 			return false;
 		
 		Medicamento other = (Medicamento) obj;
-		
-		return other.getNome().equals(getNome());
+		return other.getNome().equals(getNome()) && other.getTipo().equals(getTipo());
 	}
 	
 	@Override

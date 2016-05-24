@@ -13,8 +13,6 @@ public class RedesignacaoSexual extends Procedimento{
 		prontuario.mudaGeneroPaciente();
 		double gastos = prontuario.aplicaDesconto(9300.0);
 		
-		System.out.println("Total gasto de redesignacao: " + gastos);
-		
 		setMedico((String) param.get("nomeMedico"));
 		
 		prontuario.adicionaGastos(gastos + precoMedicamentos);

@@ -14,8 +14,6 @@ public class TransplanteDeOrgaos extends Procedimento{
 	public void realizaProcedimento(Prontuario prontuario, double precoMedicamentos, HashMap<String, Object> param) {
 		double gastos = prontuario.aplicaDesconto(12500.0);
 		
-		System.out.println("Total gasto de transplante: " + gastos);
-		
 		this.orgaoTransplantado = (String) param.get("orgao");
 		setMedico((String) param.get("nomeMedico"));
 

@@ -28,8 +28,6 @@ public class GerenciadorProcedimentos implements Serializable {
 			throw new PermissaoException(
 					"O funcionario " + usuarioLogado.getNome() + " nao tem permissao para realizar procedimentos.");
 		}
-
-		System.out.println("Preco dos medicamentos: " + precoMedicamentos);
 		
 		Procedimento procedimento = procedimentoFactory.criaProcedimento(procedimentoSolicitado);
 		procedimento.realizaProcedimento(prontuario, precoMedicamentos, params);
