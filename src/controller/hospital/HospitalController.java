@@ -62,8 +62,7 @@ public class HospitalController implements Serializable {
 		}
 	}
 
-	public String liberaSistema(String chave, String nome, String dataNascimento)
-			throws LogicaException {
+	public String liberaSistema(String chave, String nome, String dataNascimento) throws LogicaException {
 		try {
 			return gerenciadorFuncionarios.liberaSistema(chave, nome, dataNascimento);
 		} catch (LogicaException | DadoInvalidoException e) {
@@ -95,10 +94,9 @@ public class HospitalController implements Serializable {
 		}
 	}
 
-	public String cadastraFuncionario(String nome, String cargo, String dataNascimento)
-			throws LogicaException {
+	public String cadastraFuncionario(String nome, String cargo, String dataNascimento) throws LogicaException {
 		try {
-		return gerenciadorFuncionarios.cadastraFuncionario(nome, cargo, dataNascimento);
+			return gerenciadorFuncionarios.cadastraFuncionario(nome, cargo, dataNascimento);
 		} catch (LogicaException | DadoInvalidoException e) {
 			throw new LogicaException("Erro no cadastro de funcionario. " + e.getMessage());
 		}
@@ -106,25 +104,23 @@ public class HospitalController implements Serializable {
 
 	public void excluiFuncionario(String matricula, String senha) throws LogicaException {
 		try {
-		gerenciadorFuncionarios.excluiFuncionario(matricula, senha);
+			gerenciadorFuncionarios.excluiFuncionario(matricula, senha);
 		} catch (LogicaException | DadoInvalidoException e) {
 			throw new LogicaException("Erro ao excluir funcionario. " + e.getMessage());
 		}
 	}
 
-	public void atualizaInfoFuncionario(String matricula, String atributo, String novoValor)
-			throws LogicaException {
+	public void atualizaInfoFuncionario(String matricula, String atributo, String novoValor) throws LogicaException {
 		try {
-		gerenciadorFuncionarios.atualizaInfoFuncionario(matricula, atributo, novoValor);
+			gerenciadorFuncionarios.atualizaInfoFuncionario(matricula, atributo, novoValor);
 		} catch (LogicaException | DadoInvalidoException e) {
 			throw new LogicaException("Erro ao atualizar funcionario. " + e.getMessage());
 		}
 	}
 
-	public void atualizaInfoFuncionario(String atributo, String novoValor)
-			throws LogicaException {
+	public void atualizaInfoFuncionario(String atributo, String novoValor) throws LogicaException {
 		try {
-		gerenciadorFuncionarios.atualizaInfoFuncionario(atributo, novoValor);
+			gerenciadorFuncionarios.atualizaInfoFuncionario(atributo, novoValor);
 		} catch (LogicaException | DadoInvalidoException e) {
 			throw new LogicaException("Erro ao atualizar funcionario. " + e.getMessage());
 		}
@@ -132,12 +128,12 @@ public class HospitalController implements Serializable {
 
 	public void atualizaSenha(String antigaSenha, String novaSenha) throws LogicaException {
 		try {
-		gerenciadorFuncionarios.atualizaSenha(antigaSenha, novaSenha);
+			gerenciadorFuncionarios.atualizaSenha(antigaSenha, novaSenha);
 		} catch (LogicaException | DadoInvalidoException e) {
 			throw new LogicaException("Erro ao atualizar funcionario. " + e.getMessage());
 		}
 	}
-	
+
 	public String cadastraMedicamento(String nome, String tipo, double preco, int quantidade, String categorias)
 			throws LogicaException {
 		try {
@@ -146,7 +142,7 @@ public class HospitalController implements Serializable {
 			throw new LogicaException("Erro no cadastro de medicamento. " + e.getMessage());
 		}
 	}
-	
+
 	public String getInfoMedicamento(String requisicao, String nome) throws LogicaException {
 		try {
 			return farmacia.getInfoMedicamento(requisicao, nome);
@@ -155,21 +151,22 @@ public class HospitalController implements Serializable {
 		}
 	}
 
-//	public Medicamento getMedicamentoPeloNome(String nome) throws LogicaException {
-//		try {
-//			return farmacia.getMedicamentoPeloNome(nome);
-//		} catch (ObjetoInexistenteException e) {
-//			throw new LogicaException("Erro ao procurar o medicamento. " + e.getMessage());
-//		}
-//	}
+	// public Medicamento getMedicamentoPeloNome(String nome) throws
+	// LogicaException {
+	// try {
+	// return farmacia.getMedicamentoPeloNome(nome);
+	// } catch (ObjetoInexistenteException e) {
+	// throw new LogicaException("Erro ao procurar o medicamento. " +
+	// e.getMessage());
+	// }
+	// }
 
-//	public String getMedicamentosPelaCategoria(String categoria)
-//			throws LogicaException {
-//		return farmacia.getMedicamentosPelaCategoria(categoria);
-//	}
+	// public String getMedicamentosPelaCategoria(String categoria)
+	// throws LogicaException {
+	// return farmacia.getMedicamentosPelaCategoria(categoria);
+	// }
 
-	public void atualizaMedicamento(String nome, String atributo, String novoValor)
-			throws LogicaException {
+	public void atualizaMedicamento(String nome, String atributo, String novoValor) throws LogicaException {
 		try {
 			farmacia.atualizaMedicamento(nome, atributo, novoValor);
 		} catch (LogicaException e) {
@@ -204,7 +201,8 @@ public class HospitalController implements Serializable {
 	public String cadastraPaciente(String nome, String dataNascimento, double peso, String sexoBiologico, String genero,
 			String tipoSanguineo) throws LogicaException {
 		try {
-			return gerenciadorProntuarios.cadastraPaciente(nome, dataNascimento, peso, sexoBiologico, genero, tipoSanguineo);
+			return gerenciadorProntuarios.cadastraPaciente(nome, dataNascimento, peso, sexoBiologico, genero,
+					tipoSanguineo);
 		} catch (LogicaException | DadoInvalidoException e) {
 			throw new LogicaException("Nao foi possivel cadastrar o paciente. " + e.getMessage());
 		}
@@ -232,7 +230,7 @@ public class HospitalController implements Serializable {
 
 	public String buscaOrgPorSangue(String tipoSanguineo) throws LogicaException {
 		try {
-		return bancoDeOrgaos.buscaOrgPorSangue(tipoSanguineo);
+			return bancoDeOrgaos.buscaOrgPorSangue(tipoSanguineo);
 		} catch (DadoInvalidoException | LogicaException e) {
 			throw new LogicaException("O banco de orgaos apresentou um erro. " + e.getMessage());
 		}
@@ -246,8 +244,7 @@ public class HospitalController implements Serializable {
 		}
 	}
 
-	public boolean buscaOrgao(String nome, String tipoSanguineo)
-			throws LogicaException {
+	public boolean buscaOrgao(String nome, String tipoSanguineo) throws LogicaException {
 		try {
 			return bancoDeOrgaos.buscaOrgao(nome, tipoSanguineo);
 		} catch (DadoInvalidoException | LogicaException e) {
@@ -255,8 +252,7 @@ public class HospitalController implements Serializable {
 		}
 	}
 
-	public boolean retiraOrgao(String nome, String tipoSanguineo)
-			throws LogicaException {
+	public boolean retiraOrgao(String nome, String tipoSanguineo) throws LogicaException {
 		try {
 			return bancoDeOrgaos.retiraOrgao(nome, tipoSanguineo);
 		} catch (DadoInvalidoException | LogicaException e) {
@@ -279,38 +275,40 @@ public class HospitalController implements Serializable {
 	public String getPacienteID(String nome) {
 		return gerenciadorProntuarios.getInfoPaciente(nome, "nome");
 	}
-	
-	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String medicamentos) throws LogicaException {
+
+	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String medicamentos)
+			throws LogicaException {
 		try {
 			ValidaProcedimento.validaProcedimentoSolicitado(procedimentoSolicitado);
 			ValidacaoMedicamentos.validaNomeMedicamento(medicamentos);
 			ValidaProcedimento.validaNomePaciente(nomePaciente);
-			
+
 			existeMedicamento(medicamentos);
-			
+
 			HashMap<String, Object> params = new HashMap<>();
-			
+
 			params.put("nomeMedico", BancoDeDados.getInstance().getUsuarioLogado().getNome());
-			
+
 			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, medicamentos, params);
 		} catch (DadoInvalidoException | LogicaException e) {
 			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
 		}
 	}
-	
-	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String nomeOrgao, String medicamentos) throws LogicaException {
+
+	public void realizaProcedimento(String procedimentoSolicitado, String nomePaciente, String nomeOrgao,
+			String medicamentos) throws LogicaException {
 		try {
 			ValidaProcedimento.validaProcedimentoSolicitado(procedimentoSolicitado);
 			ValidaProcedimento.validaNomePaciente(nomePaciente);
 			ValidacaoMedicamentos.validaNomeMedicamento(medicamentos);
-			
+
 			String tipoSanguineoPaciente = gerenciadorProntuarios.getInfoPaciente(nomePaciente, "tiposanguineo");
-			
+
 			existeMedicamento(medicamentos);
 			existeOrgao(nomeOrgao, tipoSanguineoPaciente);
 
 			HashMap<String, Object> params = new HashMap<>();
-			
+
 			params.put("nomeMedico", BancoDeDados.getInstance().getUsuarioLogado().getNome());
 			params.put("orgao", nomeOrgao);
 
@@ -324,15 +322,15 @@ public class HospitalController implements Serializable {
 		try {
 			ValidaProcedimento.validaProcedimentoSolicitado(procedimentoSolicitado);
 			ValidaProcedimento.validaNomePaciente(nomePaciente);
-			
+
 			HashMap<String, Object> params = new HashMap<>();
-			
+
 			params.put("nomeMedico", BancoDeDados.getInstance().getUsuarioLogado().getNome());
-			
+
 			gerenciadorProntuarios.realizaProcedimento(procedimentoSolicitado, nomePaciente, params);
 		} catch (DadoInvalidoException | LogicaException e) {
 			throw new LogicaException("Erro na realizacao de procedimentos. " + e.getMessage());
-		}	
+		}
 	}
 
 	public double calculaPrecoMedicamentos(String medicamentos) throws LogicaException {
